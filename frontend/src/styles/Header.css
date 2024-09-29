@@ -1,0 +1,168 @@
+/* Fuente personalizada */
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@700&family=Playfair+Display:wght@400&display=swap');
+body.dark-mode {
+    background-color: #222;
+    color: #f8f8f8;
+}
+
+body {
+    background-color: #EBEBEB;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+header {
+    background-color: #EBEBEB;
+    padding: 10px 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dark-mode header {
+    background-color: #222;
+    color: #f8f8f8;
+}
+
+.nav-item a {
+    color: inherit;
+}
+
+.dark-mode .nav-item a {
+    color: #f8f8f8;
+}
+
+.navbar-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.hamburger {
+    display: none;
+    cursor: pointer;
+    background: none;
+    border: none;
+}
+
+.nav-menu {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-grow: 1;
+}
+
+.nav-item {
+    font-family: 'Nunito', serif;
+    margin: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    background: none;
+    border: none;
+    padding: 0;
+}
+
+.nav-item a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.logo-container {
+    text-align: center;
+}
+
+.company-link {
+    text-decoration: none;
+}
+
+.company-name {
+    font-family: 'Lora', serif;
+    /* Lora para el nombre de la empresa */
+    font-size: 32px;
+    /* Tamaño más grande */
+    font-weight: 700;
+    color: #333333;
+}
+.dark-mode .company-name {
+    color: #f8f8f8;
+}
+/* Estilo general para los iconos */
+.icon {
+    font-size: 24px;
+    color: #333;
+    /* Color por defecto */
+}
+
+/* Modo oscuro: Cambiar el color del icono */
+.dark-mode .icon {
+    color: #f8f8f8;
+    /* Cambia los iconos a blanco en modo oscuro */
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .hamburger {
+        display: block;
+    }
+
+    .nav-menu {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .nav-menu.open {
+        display: flex;
+    }
+
+    .nav-item {
+        margin: 15px 0;
+    }
+
+    .logo-container {
+        margin: 10px 0;
+    }
+
+    .company-name {
+        font-size: 20px;
+    }
+}
+
+/* From Uiverse.io by JaydipPrajapati1910 */
+/* From Uiverse.io by matinMMA */ 
+/* From Uiverse.io by JaydipPrajapati1910 */
+button {
+    font-size: 18px;
+    color: #222;
+    font-family: inherit;
+    font-weight: 800;
+    cursor: pointer;
+    position: relative;
+    border: none;
+    background: none;
+    transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+    transition-duration: 400ms;
+    transition-property: color;
+}
+
+button:focus,
+button:hover {
+    color: #222;
+}
+
+button:focus:after,
+button:hover:after {
+    width: 100%;
+    left: 0%;
+}
+
+button:after {
+    content: "";
+    pointer-events: none;
+    bottom: -2px;
+    left: 50%;
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    background-color: red;
+    transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+    transition-duration: 400ms;
+    transition-property: width, left;
+}
