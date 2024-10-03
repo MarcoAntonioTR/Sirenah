@@ -4,7 +4,9 @@ function Nosotros() {
   return (
     <>
       <Header />
-      Esta es la pagina de Nosotros
+      <main>
+        
+      </main>
       <Footer /> 
     </>
   )

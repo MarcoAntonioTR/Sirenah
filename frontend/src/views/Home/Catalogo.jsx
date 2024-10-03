@@ -5,7 +5,9 @@ function Catalogo() {
   return (
     <>
       <Header />
-      Esta es la pagina de catalogo
+      <main>
+        
+      </main>
       <Footer />
     </>
   )

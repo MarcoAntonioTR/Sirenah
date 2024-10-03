@@ -4,7 +4,9 @@ function Contacto() {
   return (
     <>
       <Header />
-      Esta es la pagina de contacto
+      <main>
+        
+      </main>
       <Footer />
     </>
   )

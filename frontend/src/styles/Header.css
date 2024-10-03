@@ -1,5 +1,6 @@
 /* Fuente personalizada */
 @import url('https://fonts.googleapis.com/css2?family=Lora:wght@700&family=Playfair+Display:wght@400&display=swap');
+
 body.dark-mode {
     background-color: #222;
     color: #f8f8f8;
@@ -9,21 +10,39 @@ body {
     background-color: #EBEBEB;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
+
 header {
-    background-color: #EBEBEB;
-    padding: 10px 20px;
+    background-color: #EBEBEB; 
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: background-color 0.3s ease, color 0.3s ease;
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    z-index: 1000; 
 }
 
+/* Estilos para el modo oscuro */
 .dark-mode header {
-    background-color: #222;
-    color: #f8f8f8;
+    background-color: #222; /* Fondo oscuro */
+    color: #f8f8f8; /* Color del texto en modo oscuro */
+}
+
+/* Estilos para los elementos activos */
+.nav-item.active {
+    background-color: rgba(255, 255, 255, 0.2); 
+    color: #222; 
+}
+
+.dark-mode .nav-item.active {
+    background-color: rgba(255, 255, 255, 0.1); 
+    color: #f8f8f8; 
 }
 
 .nav-item a {
     color: inherit;
 }
+
 
 .dark-mode .nav-item a {
     color: #f8f8f8;
@@ -40,6 +59,7 @@ header {
     cursor: pointer;
     background: none;
     border: none;
+    margin-top: 15px;
 }
 
 .nav-menu {
@@ -53,10 +73,10 @@ header {
     font-family: 'Nunito', serif;
     margin: 10px;
     cursor: pointer;
-    font-size: 16px;
     background: none;
     border: none;
     padding: 0;
+    color: #333;
 }
 
 .nav-item a {
@@ -74,30 +94,26 @@ header {
 
 .company-name {
     font-family: 'Lora', serif;
-    /* Lora para el nombre de la empresa */
     font-size: 32px;
-    /* Tamaño más grande */
     font-weight: 700;
     color: #333333;
 }
+
 .dark-mode .company-name {
     color: #f8f8f8;
 }
-/* Estilo general para los iconos */
+
 .icon {
     font-size: 24px;
-    color: #333;
-    /* Color por defecto */
+    color: #333; /* Color por defecto */
 }
 
-/* Modo oscuro: Cambiar el color del icono */
 .dark-mode .icon {
-    color: #f8f8f8;
-    /* Cambia los iconos a blanco en modo oscuro */
+    color: #f8f8f8; /* Cambia los iconos a blanco en modo oscuro */
 }
 
 /* Responsive Styles */
-@media (max-width: 768px) {
+@media (max-width: 900px) {
     .hamburger {
         display: block;
     }
@@ -125,44 +141,49 @@ header {
     }
 }
 
-/* From Uiverse.io by JaydipPrajapati1910 */
-/* From Uiverse.io by matinMMA */ 
-/* From Uiverse.io by JaydipPrajapati1910 */
-button {
-    font-size: 18px;
-    color: #222;
-    font-family: inherit;
-    font-weight: 800;
+/* Estilo general para nav-item */
+.nav-item {
+    font-family: 'Nunito', serif;
+    margin: 10px;
     cursor: pointer;
-    position: relative;
-    border: none;
+    font-size: 16px;
     background: none;
-    transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
-    transition-duration: 400ms;
-    transition-property: color;
+    border: none;
+    text-decoration: none;
+    font-weight: 900;
+    padding: 10px 15px; 
+    border-radius: 5px; 
+    transition: background-color 0.3s, color 0.3s; /* Transición suave */
 }
 
-button:focus,
-button:hover {
-    color: #222;
+/* Estilo para cuando el elemento está activo */
+.nav-item.active {
+    background-color: rgba(48, 11, 11, 0.2); 
+    color: blue; 
+
+}
+.dark-mode .nav-item.active {
+    background-color: rgba(255, 255, 255, 0.8);
+    color: #222; 
+}
+/* Estilo para los enlaces en modo claro */
+.nav-item a {
+    text-decoration: none;
+    color: inherit; /* Hereda el color del elemento padre */
 }
 
-button:focus:after,
-button:hover:after {
-    width: 100%;
-    left: 0%;
+/* Estilo para los enlaces en modo oscuro */
+.dark-mode .nav-item a {
+    color: #000; /* Color de texto en modo oscuro */
 }
 
-button:after {
-    content: "";
-    pointer-events: none;
-    bottom: -2px;
-    left: 50%;
-    position: absolute;
-    width: 0%;
-    height: 2px;
-    background-color: red;
-    transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
-    transition-duration: 400ms;
-    transition-property: width, left;
+/* Estilo al pasar el mouse */
+.nav-item:hover {
+    background-color: rgba(0, 0, 0, 0.1); /* Fondo al pasar el mouse */
+    color: #222; /* Color de texto al pasar el mouse */
+}
+
+.dark-mode .nav-item:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Fondo al pasar el mouse en modo oscuro */
+    color: #f8f8f8; /* Color de texto al pasar el mouse en modo oscuro */
 }
