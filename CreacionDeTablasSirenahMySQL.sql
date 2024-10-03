@@ -1,10 +1,10 @@
 -- Estructura de tabla para la tabla `Admin`
 CREATE TABLE Administrador (
-  idAdmin INT AUTO_INCREMENT PRIMARY KEY,
+  idAdmin INT AUTO_INCREMENT PRIMARY KEY,  -- AsegÃºrate de que sea la clave primaria
   nombre VARCHAR(50) NOT NULL,
   apellido VARCHAR(50) NOT NULL,
   email VARCHAR(50) NOT NULL,
-  contraseña VARCHAR(50) NOT NULL,
+  contrasena VARCHAR(50) NOT NULL,
   telefono CHAR(9) NOT NULL,
   bestado BIT NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -27,7 +27,7 @@ CREATE TABLE cliente (
   idDireccion INT NULL,
   dni VARCHAR(8) NOT NULL,
   usuario VARCHAR(50) NOT NULL,
-  contraseña VARCHAR(255) NOT NULL,
+  contraseï¿½a VARCHAR(255) NOT NULL,
   FOREIGN KEY (idDireccion) REFERENCES direccion(idDireccion)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

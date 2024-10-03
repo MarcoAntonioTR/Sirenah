@@ -9,21 +9,20 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "Administrador")
+@Table(name = "direccion")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-
-public class Administrador {
+public class Direccion {
     @Id
-    private int idAdmin;
-    @Column(name = "nombre", length = 50)
-    private String nombre;
-    private String apellido;
-    private String email;
-    private String contrasena;
-    private String telefono;
-    private boolean bestado;
+    private int idDireccion;
 
+    @Column(name = "Departamento", length = 50)
+    private String departamento;
+
+    @Column(name = "Provincia", length = 50)
+    private String provincia;
+
+    @Column(name = "Distrito", length = 50)
+    private String distrito;
 }
-
