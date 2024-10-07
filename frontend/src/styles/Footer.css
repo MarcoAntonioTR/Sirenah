@@ -1,0 +1,126 @@
+/* Asegúrate de que el footer cubra todo el ancho de la página */
+body {
+    background-color: #EBEBEB;
+}
+.footer {
+    background-color: #EBEBEB;
+    color: #213635;
+    padding: 40px;
+    border-top: 1px solid #ccc;
+    width: 100%;
+    /* Asegura que el footer ocupe todo el ancho de la página */
+    box-sizing: border-box;
+    /* Incluye el padding y el border en el ancho total */
+    position: relative;
+    /* Asegura que el footer no se vea afectado por otros elementos */
+    margin: 0;
+    /* Elimina márgenes que puedan causar espacios alrededor */
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dark-mode .footer {
+    background-color: #222;
+    color: #f2f2f2;
+    border-top: 1px solid #444;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-top {
+    display: flex;
+    align-items: center;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.footer-logo {
+    flex: 1;
+}
+
+.footer-logo .company-name {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.footer-logo .company-description {
+    font-size: 16px;
+    color: #666;
+}
+
+.footer-columns {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.footer-column {
+    flex: 1;
+    max-width: 300px;
+}
+
+.footer-column h4 {
+    font-size: 20px;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.footer-column ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-column li {
+    margin-bottom: 10px;
+}
+
+.footer-column a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.footer-column a:hover {
+    text-decoration: underline;
+}
+
+.footer-column p {
+    font-size: 14px;
+    color: #666;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.contact-item .icon {
+    font-size: 18px;
+    margin-right: 8px;
+}
+
+.footer-social {
+    display: flex;
+    gap: 15px;
+}
+
+.footer-social .icon {
+    font-size: 24px;
+    color: inherit;
+}
+
+.footer-column a[href*="maps.google.com"] {
+    display: flex;
+    align-items: center;
+    color: inherit;
+    text-decoration: none;
+}
+
+.footer-column a[href*="maps.google.com"] .icon {
+    font-size: 16px;
+    margin-left: 5px;
+}
