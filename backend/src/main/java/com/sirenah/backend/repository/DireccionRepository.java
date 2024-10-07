@@ -1,10 +1,11 @@
 package com.sirenah.backend.repository;
 
-import com.sirenah.backend.model.Administrador;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import com.sirenah.backend.model.Direccion;
+
 @Repository
-public interface AdministradorRepository extends JpaRepository<Administrador, Integer> {
+public interface DireccionRepository extends JpaRepository<Direccion, Integer> {
     
 }

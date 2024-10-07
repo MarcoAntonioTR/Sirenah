@@ -16,7 +16,8 @@ import lombok.NoArgsConstructor;
 public class Categoria {
     @Id
     private int idCategoria;
-
-    @Column(name = "Nombre", length = 50)
-    private String nombre;
+    @Column(name = "nombre" , length = 100)
+    private String Nombre;
+    @Column(name = "descripcion" , length = 100)
+    private String Descripcion;
 }

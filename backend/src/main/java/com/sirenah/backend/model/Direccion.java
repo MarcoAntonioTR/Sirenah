@@ -13,16 +13,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+
 public class Direccion {
     @Id
     private int idDireccion;
+    @Column(name = "descripcion", length = 100)
+    private String Descripcion;
+    @Column(name = "departamento", length = 50)
+    private String Departamento;
+    @Column(name = "provincia", length = 50)
+    private String Provincia;
+    @Column(name = "distrito", length = 50)
+    private String Distrito;
 
-    @Column(name = "Departamento", length = 50)
-    private String departamento;
-
-    @Column(name = "Provincia", length = 50)
-    private String provincia;
-
-    @Column(name = "Distrito", length = 50)
-    private String distrito;
 }

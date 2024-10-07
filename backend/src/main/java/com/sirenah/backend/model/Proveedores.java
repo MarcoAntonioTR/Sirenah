@@ -15,22 +15,17 @@ import lombok.NoArgsConstructor;
 @Data
 public class Proveedores {
     @Id
-    private int idProveedores;
-
+    private int idProveedor;
     @Column(name = "nombre", length = 100)
-    private String nombre;
-
+    private String Nombre;
     @Column(name = "ruc", length = 15)
-    private String ruc;
-
-    @Column(name = "correo", length = 100)
-    private String correo;
-
+    private String Ruc;
+    @Column(name = "email", length = 100)
+    private String Email;
     @Column(name = "telefono", length = 15)
-    private String telefono;
-
+    private String Telefono;
     @Column(name = "direccion", length = 255)
-    private String direccion;
-
-    private boolean bestado;
+    private String Direccion;
+    @Column(name = "estado")
+    private boolean Estado=true;
 }
