@@ -1,0 +1,221 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap');
+
+:root {
+    --primary-color: #4a90e2;
+    --secondary-color: #f5f7fa;
+    --text-color: #333;
+    --error-color: #e74c3c;
+    --success-color: #2ecc71;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Nunito', sans-serif;
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+.contenedor-login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.formulario-login {
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 15px;
+    /* Aumenté el radio de los bordes */
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    /* Sombra más pronunciada */
+    width: 100%;
+    max-width: 400px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    /* Transiciones suaves */
+}
+
+.formulario-login:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.2);
+    /* Cambio de sombra al pasar el mouse */
+}
+
+.titulo-login {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.subtitulo-login {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.grupo-input {
+    margin-bottom: 20px;
+}
+
+.etiqueta {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.input-con-icono {
+    position: relative;
+}
+
+.icono {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+}
+
+.input-login {
+    width: 100%;
+    padding: 12px 10px 10px 40px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    /* Aumenté el radio de los bordes */
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+.input-login:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.btn-mostrar-password {
+    background: none;
+    border: none;
+    color: var(--primary-color);
+    cursor: pointer;
+    font-size: 14px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    transition: color 0.3s ease;
+}
+
+.btn-mostrar-password:hover {
+    color: #2c3e50;
+}
+
+.btn-mostrar-password svg {
+    margin-right: 5px;
+}
+
+.boton-login {
+    width: 100%;
+    padding: 10px;
+    background-color: var(--primary-color);
+    color: #ffffff;
+    border: none;
+    border-radius: 15px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.boton-login:hover {
+    background-color: #3a7bd5;
+    transform: translateY(-2px);
+}
+
+/* Responsive design */
+@media (max-width: 480px) {
+    .formulario-login {
+        padding: 30px;
+    }
+
+    .titulo-login {
+        font-size: 24px;
+    }
+
+    .subtitulo-login {
+        font-size: 14px;
+    }
+
+    .input-login {
+        font-size: 14px;
+    }
+
+    .boton-login {
+        font-size: 16px;
+    }
+}
+
+/* Additional features */
+.error-message {
+    color: var(--error-color);
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.success-message {
+    color: var(--success-color);
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.forgot-password {
+    text-align: right;
+    margin-bottom: 20px;
+}
+
+.forgot-password a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s ease;
+}
+
+.forgot-password a:hover {
+    color: #2c3e50;
+}
+
+.social-login {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.social-login p {
+    margin-bottom: 15px;
+    font-size: 14px;
+    color: #666;
+}
+
+.social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.social-icons button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    color: #333;
+    transition: color 0.3s ease;
+}
+
+.social-icons button:hover {
+    color: var(--primary-color);
+}
