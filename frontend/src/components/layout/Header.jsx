@@ -32,11 +32,11 @@ const Header = () => {
                                 <FaMoon className="icon" title="Cambiar a Tema Oscuro" />
                             )}
                         </button>
-                        <NavLink style={{fontSize:'20px'}} to="/" className="nav-item" activeClassName="active">
+                        <NavLink style={{ fontSize: '20px' }} to="/Home" className="nav-item" activeClassName="active">
                             Inicio
                         </NavLink>
                         <NavLink
-                            style={{fontSize:'20px'}}
+                            style={{ fontSize: '20px' }}
                             to="/Catalogo"
                             className="nav-item"
                             activeClassName="active"
@@ -44,12 +44,12 @@ const Header = () => {
                             Catálogo
                         </NavLink>
                         <div className="nav-item logo-container">
-                            <Link  to="/" className="company-link">
+                            <Link to="/Home" className="company-link">
                                 <span className="company-name">SIRENAH</span>
                             </Link>
                         </div>
                         <NavLink
-                        style={{fontSize:'20px'}}
+                            style={{ fontSize: '20px' }}
                             to="/Nosotros"
                             className="nav-item"
                             activeClassName="active"
@@ -57,7 +57,7 @@ const Header = () => {
                             Nosotros
                         </NavLink>
                         <NavLink
-                            style={{fontSize:'20px'}}
+                            style={{ fontSize: '20px' }}
                             to="/Contacto"
                             className="nav-item"
                             activeClassName="active"
@@ -69,9 +69,9 @@ const Header = () => {
                                 <FaShoppingCart className="icon" title="Carrito de Compras" />
                             </a>
                         </button>
-                        <button className="nav-item">
-                            <FaUser className="icon" title="Cuenta" />
-                        </button>
+                        <Link to="/Login" className="nav-item" title="Cuenta">
+                            <FaUser className="icon" />
+                        </Link>
                     </div>
                 </div>
             </nav>

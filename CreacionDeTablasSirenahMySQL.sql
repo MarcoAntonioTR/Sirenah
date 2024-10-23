@@ -1,10 +1,24 @@
+-- Estructura de tabla para la tabla `Ourusers`
+CREATE TABLE ourusers (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    role VARCHAR(50) DEFAULT "ADMIN",
+    nombre VARCHAR(100) NOT NULL,
+    apellido VARCHAR(100) NOT NULL,
+    dni VARCHAR(20) NOT NULL UNIQUE,
+    telefono VARCHAR(20) NOT NULL,
+    estado BOOLEAN NOT NULL DEFAULT TRUE,
+    fecha_nacimiento DATE 
+);
+
 -- Estructura de tabla para la tabla `Admin`
 CREATE TABLE Administrador (
   idAdmin INT AUTO_INCREMENT PRIMARY KEY,  -- Asegúrate de que sea la clave primaria
   nombre VARCHAR(50) NOT NULL,
   apellido VARCHAR(50) NOT NULL,
   email VARCHAR(50) NOT NULL,
-  contrasena VARCHAR(50) NOT NULL,
+  contrasena VARCHAR(60) NOT NULL,
   telefono VARCHAR(9) NOT NULL,
   estado BIT DEFAULT 1 NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -31,7 +45,7 @@ CREATE TABLE cliente (
   estado BIT DEFAULT 1 NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Estructura tabla `lciente_direccion`
+-- Estructura tabla `ciente_direccion`
 CREATE TABLE cliente_direccion (
   idClienteDireccion INT AUTO_INCREMENT PRIMARY KEY,
   idCliente INT NOT NULL,
