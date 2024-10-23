@@ -18,6 +18,7 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<ReqRes> signup (@RequestBody ReqRes signUpRequest) {
         return ResponseEntity.ok(authService.signUp(signUpRequest));
+
     }
 
     @PostMapping("/signin")

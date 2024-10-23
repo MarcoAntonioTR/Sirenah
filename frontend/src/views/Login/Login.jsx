@@ -1,7 +1,9 @@
 import { useState } from 'react';
-import { FaEnvelope, FaLock, FaFacebookF, FaGoogle, FaTwitter } from 'react-icons/fa';
+import { FaEnvelope, FaLock, FaFacebookF, FaGoogle, FaTwitter, FaTimes } from 'react-icons/fa';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
-import '../../styles/Login.css'
+import '../../styles/Login.css';
+import { Link } from 'react-router-dom';
+
 export default function Component() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -11,86 +13,92 @@ export default function Component() {
 
     const manejarEnvio = async (e) => {
         e.preventDefault();
-
-        // Expresión regular para validar el formato de email
+    
         const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-        // Validación del formato de correo electrónico
+    
         if (!regexEmail.test(email)) {
             setError('Por favor, ingresa un correo electrónico válido.');
             setSuccess('');
             return;
         }
-
-        // Validación de longitud mínima de la contraseña
-        if (password.length < 3) {
+    
+        if (password.length < 5) {
             setError('La contraseña debe tener al menos 5 caracteres.');
             setSuccess('');
             return;
         }
-
+    
         try {
-            
             const response = await fetch('http://localhost:9090/auth/signin', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, password })
             });
-
-            const data = await response.json();
-
-            if (response.ok) {
+            const data = await response.json(); 
+            
+            if (data.statuscode === 200) {
                 setSuccess('¡Inicio de sesión exitoso!');
                 setError('');
+            } else if (data.statuscode === 401) {
+                setError('Credenciales incorrectas. Por favor, verifica tu email y contraseña.');
+                setSuccess('');
+            } else if (data.statuscode === 404) {
+                setError('Usuario no encontrado. Verifica tu correo electrónico o regístrate.');
+                setSuccess('');
+            } else if (data.statuscode === 500) {
+                setError('Hubo un problema con el servidor. Intenta nuevamente.');
+                setSuccess('');
             } else {
-                setError(data.message || 'Error en el inicio de sesión.');
+                setError('Error en el inicio de sesión. Intenta nuevamente.');
                 setSuccess('');
             }
-        } catch (setError) {
-            setError('Hubo un problema con el servidor. Intenta nuevamente.');
+        } catch (error) {
+            setError('Error en la conexión con el servidor. Intenta nuevamente.');
             setSuccess('');
         }
     };
-
 
     const alternarVisibilidadPassword = () => {
         setMostrarPassword(!mostrarPassword);
     };
 
     return (
-        <div className="contenedor-login">
-            <form onSubmit={manejarEnvio} className="formulario-login">
-                <h2 className="titulo-login">¡Bienvenido de nuevo!</h2>
-                <p className="subtitulo-login">Por favor, inicia sesión en tu cuenta</p>
+        <div className="contenedor-login1">
+            <button className="btn-close" onClick={() => window.location.href = '/'}>
+                <FaTimes className="icon-close" />
+            </button>
+            <form onSubmit={manejarEnvio} className="formulario-login1">
+                <h2 className="titulo-login1">¡Bienvenido de nuevo!</h2>
+                <p className="subtitulo-login1">Por favor, inicia sesión en tu cuenta</p>
 
                 {/* Campo de Email */}
-                <div className="grupo-input">
-                    <label className="etiqueta">Correo Electrónico:</label>
-                    <div className="input-con-icono">
-                        <FaEnvelope className="icono" />
+                <div className="grupo-input1">
+                    <label className="etiqueta1">Correo Electrónico:</label>
+                    <div className="input-con-icono1">
+                        <FaEnvelope className="icono1" />
                         <input
                             type="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             placeholder="Ingresa tu correo"
                             required
-                            className="input-login"
+                            className="input-login1"
                         />
                     </div>
                 </div>
 
                 {/* Campo de Contraseña */}
-                <div className="grupo-input">
-                    <label className="etiqueta">Contraseña:</label>
-                    <div className="input-con-icono">
-                        <FaLock className="icono" />
+                <div className="grupo-input1">
+                    <label className="etiqueta1">Contraseña:</label>
+                    <div className="input-con-icono1">
+                        <FaLock className="icono1" />
                         <input
                             type={mostrarPassword ? 'text' : 'password'}
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             placeholder="Ingresa tu contraseña"
                             required
-                            className="input-login"
+                            className="input-login1"
                         />
                     </div>
                 </div>
@@ -99,30 +107,32 @@ export default function Component() {
                 <button
                     type="button"
                     onClick={alternarVisibilidadPassword}
-                    className="btn-mostrar-password"
+                    className="btn-mostrar-password1"
                 >
                     {mostrarPassword ? <AiFillEyeInvisible /> : <AiFillEye />}
                     {mostrarPassword ? ' Ocultar contraseña' : ' Mostrar contraseña'}
                 </button>
 
                 {/* Enlace de contraseña olvidada */}
-                <div className="forgot-password">
+                <div className="forgot-password1">
                     <a href="#">¿Olvidaste tu contraseña?</a>
                 </div>
 
                 {/* Botón de Login */}
-                <button type="submit" className="boton-login">
+                <button type="submit" className="boton-login1">
                     Iniciar sesión
                 </button>
 
                 {/* Mensajes de error y éxito */}
-                {error && <p className="error-message">{error}</p>}
-                {success && <p className="success-message">{success}</p>}
-
+                {error && <p className="error-message1">{error}</p>}
+                {success && <p className="success-message1">{success}</p>}
+                <p className="parrafo-login1">
+                    ¿No tienes una cuenta? <Link to="/Registro">Regístrate aquí</Link>
+                </p>
                 {/* Login con redes sociales */}
-                <div className="social-login">
+                <div className="social-login1">
                     <p>O inicia sesión con:</p>
-                    <div className="social-icons">
+                    <div className="social-icons1">
                         <button type="button"><FaFacebookF /></button>
                         <button type="button"><FaGoogle /></button>
                         <button type="button"><FaTwitter /></button>

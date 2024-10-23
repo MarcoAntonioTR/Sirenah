@@ -6,7 +6,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDate;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -20,7 +22,12 @@ public class OurUsers implements UserDetails {
     private String email;
     private String password;
     private String role;
-
+    private String nombre;
+    private String apellido;
+    private String dni;
+    private String telefono;
+    private LocalDate fecha_nacimiento;
+    private boolean estado = true;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
