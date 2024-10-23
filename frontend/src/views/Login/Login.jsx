@@ -9,14 +9,49 @@ export default function Component() {
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
 
-    const manejarEnvio = (e) => {
+    const manejarEnvio = async (e) => {
         e.preventDefault();
-        // Lógica para manejar el login
-        console.log('Email:', email, 'Password:', password);
-        // Simulación de login exitoso
-        setSuccess('¡Inicio de sesión exitoso!');
-        setError('');
+
+        // Expresión regular para validar el formato de email
+        const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        // Validación del formato de correo electrónico
+        if (!regexEmail.test(email)) {
+            setError('Por favor, ingresa un correo electrónico válido.');
+            setSuccess('');
+            return;
+        }
+
+        // Validación de longitud mínima de la contraseña
+        if (password.length < 3) {
+            setError('La contraseña debe tener al menos 5 caracteres.');
+            setSuccess('');
+            return;
+        }
+
+        try {
+            
+            const response = await fetch('http://localhost:9090/auth/signin', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                setSuccess('¡Inicio de sesión exitoso!');
+                setError('');
+            } else {
+                setError(data.message || 'Error en el inicio de sesión.');
+                setSuccess('');
+            }
+        } catch (setError) {
+            setError('Hubo un problema con el servidor. Intenta nuevamente.');
+            setSuccess('');
+        }
     };
+
 
     const alternarVisibilidadPassword = () => {
         setMostrarPassword(!mostrarPassword);
