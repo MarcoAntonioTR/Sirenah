@@ -16,14 +16,13 @@
 }
 
 .sidebar.collapsed {
-    width: 70px;
+    width: 75px;
 }
 
 .toggle-btn {
     width: 100%;
     background: transparent;
     border: none;
-    padding: 10px;
     cursor: pointer;
     z-index: 10;
     color: #fff;
@@ -32,9 +31,8 @@
 }
 
 .logo {
-    padding: 20px;
     text-align: center;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 600;
     letter-spacing: 2px;
     border-bottom: 1px solid #ffffff22;
@@ -43,7 +41,6 @@
     transition: font-size 0.3s ease;
 }
 
-/* Cambiar el tamaño del título cuando está colapsado */
 .sidebar.collapsed .logo {
     font-size: 18px;
 }
@@ -62,7 +59,7 @@ nav ul li a {
     text-decoration: none;
     transition: background 0.3s ease;
     white-space: nowrap;
-    margin: 15px 0;
+    margin: 10px 0;
 }
 
 nav ul li a:hover {
@@ -71,7 +68,7 @@ nav ul li a:hover {
 
 nav ul li a span {
     margin-left: 15px;
-    font-size: 16px;
+    font-size: 14px;
     opacity: 1;
     transition: opacity 0.3s ease;
 }
@@ -83,12 +80,17 @@ nav ul li a span {
     overflow: hidden;
     transition: none;
 }
-
-nav ul li a svg {
-    font-size: 22px;
-    transition: font-size 0.3s ease;
+.sidebar.collapsed nav ul li a{
+    margin-top: 0;
 }
 
+nav ul li a svg {
+    font-size: 20px;
+    transition: font-size 0.3s ease;
+}
+.sidebar.collapsed nav ul li a svg {
+    font-size: 22px;
+}
 
 .separator {
     height: 1px;
@@ -113,7 +115,7 @@ nav ul li a svg {
     }
 
     nav ul li a span {
-        font-size: 16px;
+        font-size: 14px;
     }
 
     .sidebar.collapsed .toggle-btn {
