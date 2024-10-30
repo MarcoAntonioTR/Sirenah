@@ -3,8 +3,8 @@ import { FaEnvelope, FaLock, FaFacebookF, FaGoogle, FaTwitter, FaTimes } from 'r
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import '../../styles/Login.css';
 import { Link } from 'react-router-dom';
-
-export default function Component() {
+import {jwtDecode} from 'jwt-decode'
+export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [mostrarPassword, setMostrarPassword] = useState(false);
@@ -37,8 +37,17 @@ export default function Component() {
             const data = await response.json(); 
             
             if (data.statuscode === 200) {
+                localStorage.setItem('token',data.token);
+                const role = jwtDecode(data.token).role;
+
                 setSuccess('¡Inicio de sesión exitoso!');
                 setError('');
+                if (role === 'ADMIN') {
+                    window.location.href = '/MenuAdmin/Perfil';
+                } else if (role === 'USER') {
+                    window.location.href = '/MenuUser/Perfil';
+                }
+                
             } else if (data.statuscode === 401) {
                 setError('Credenciales incorrectas. Por favor, verifica tu email y contraseña.');
                 setSuccess('');
@@ -52,6 +61,7 @@ export default function Component() {
                 setError('Error en el inicio de sesión. Intenta nuevamente.');
                 setSuccess('');
             }
+        // eslint-disable-next-line no-unused-vars
         } catch (error) {
             setError('Error en la conexión con el servidor. Intenta nuevamente.');
             setSuccess('');
