@@ -1,11 +1,14 @@
 import { FaShoppingCart, FaUser, FaMoon, FaSun, FaBars } from "react-icons/fa";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import "../../styles/Header.css";
 import { useState } from "react";
+import useAutenticacion from '../hooks/Autenticacion'
 
 const Header = () => {
     const [isDarkMode, setIsDarkMode] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
+    const { isAuthenticated, userRole } = useAutenticacion();
+    const navigate = useNavigate();
 
     const toggleMenu = () => {
         setIsOpen(!isOpen);
@@ -14,6 +17,18 @@ const Header = () => {
     const toggleTheme = () => {
         setIsDarkMode(!isDarkMode);
         document.body.classList.toggle("dark-mode", !isDarkMode);
+    };
+
+    const PerfilClick = () => {
+        if (isAuthenticated) {
+            if (userRole === "ADMIN") {
+                navigate("/MenuAdmin/Perfil");
+            } else if (userRole === "USER") {
+                navigate("/MenuCliente/Perfil");
+            }
+        } else {
+            navigate("/Login");
+        }
     };
 
     return (
@@ -69,9 +84,9 @@ const Header = () => {
                                 <FaShoppingCart className="icon" title="Carrito de Compras" />
                             </a>
                         </button>
-                        <Link to="/Login" className="nav-item" title="Cuenta">
+                        <button onClick={PerfilClick} className="nav-item" title="Cuenta">
                             <FaUser className="icon" />
-                        </Link>
+                        </button>
                     </div>
                 </div>
             </nav>
