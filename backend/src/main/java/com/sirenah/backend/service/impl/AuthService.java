@@ -78,22 +78,23 @@ public class AuthService {
             // Verificar si el usuario existe antes de autenticar
             var user = ourUserRepository.findByEmail(signInRequest.getEmail())
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado con el email: " + signInRequest.getEmail()));
-    
+
             // Si el usuario existe, proceder con la autenticación
             authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(signInRequest.getEmail(), signInRequest.getPassword())
             );
     
             // Generar tokens JWT
-            var jwt = jwtUtils.generateToken(user);
+            var jwt = jwtUtils.generateToken(user, user.getRole());
             var refreshToken = jwtUtils.generateRefreashToken(new HashMap<>(), user);
-    
+
             // Respuesta exitosa
             response.setStatuscode(200);
             response.setToken(jwt);
             response.setRefreshToken(refreshToken);
             response.setEspirationTime("24hrs");
             response.setMessage("Inicio de sesión exitoso");
+
         } catch (BadCredentialsException e) {
             // Manejo de error de credenciales incorrectas
             response.setStatuscode(401);
@@ -117,7 +118,7 @@ public class AuthService {
         String ourEmail = jwtUtils.extractUsername(refreshTokenRequest.getToken());
         OurUsers users = ourUserRepository.findByEmail(ourEmail).orElseThrow();
         if (jwtUtils.isTokenValid(refreshTokenRequest.getToken(), users)) {
-            var jwt = jwtUtils.generateToken(users);
+            var jwt = jwtUtils.generateToken(users, users.getRole());
             response.setStatuscode(200);
             response.setToken(jwt);
             response.setRefreshToken(refreshTokenRequest.getToken());
