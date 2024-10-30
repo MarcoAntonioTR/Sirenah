@@ -45,7 +45,7 @@ export default function Login() {
                 if (role === 'ADMIN') {
                     window.location.href = '/MenuAdmin/Perfil';
                 } else if (role === 'USER') {
-                    window.location.href = '/MenuUser/Perfil';
+                    window.location.href = '/MenuCliente/Perfil';
                 }
                 
             } else if (data.statuscode === 401) {
