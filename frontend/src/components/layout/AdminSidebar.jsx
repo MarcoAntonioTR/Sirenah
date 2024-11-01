@@ -15,13 +15,22 @@ import "../../styles/Sidebar.css";
 import Modal from 'react-modal'
 import { useNavigate } from "react-router-dom";
 
-function AdminSidebar() {
+
+function AdminSidebar({ onCollapseChange }) {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false); // Estado para el modal
   const [loading, setLoading] = useState(false);
   const [buttonsVisible, setButtonsVisible] = useState(true);
 
-  const toggleSidebar = () => setIsCollapsed(!isCollapsed);
+  const toggleSidebar = () => {
+    setIsCollapsed((prev) => {
+      const newState = !prev;
+      if (onCollapseChange) {
+        onCollapseChange(newState);
+      }
+      return newState;
+    });
+  };
   const openModal = () => setModalIsOpen(true);
   const closeModal = () => {
     setModalIsOpen(false);
