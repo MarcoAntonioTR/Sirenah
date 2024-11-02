@@ -84,9 +84,9 @@ const Header = () => {
                                 <FaShoppingCart className="icon" title="Carrito de Compras" />
                             </a>
                         </button>
-                        <button onClick={PerfilClick} className="nav-item" title="Cuenta">
+                        <Link to="/login" onClick={PerfilClick} className="nav-item" title="Cuenta">
                             <FaUser className="icon" />
-                        </button>
+                        </Link>
                     </div>
                 </div>
             </nav>
