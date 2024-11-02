@@ -1,0 +1,252 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+.admin-layout {
+    display: flex;
+    height: 100vh;
+    font-family: 'Poppins', sans-serif;
+    background-color: #f5f7fb;
+}
+
+.category-content {
+    flex: 1;
+    padding: 20px;
+    background-color: #f4f4f4;
+    transition: all 0.3s;
+    margin-left: 250px;
+}
+
+.category-content.collapsed {
+    margin-left: 80px;
+}
+
+.header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.add-category-btn,
+.go-to-products-btn {
+    padding: 0.75rem 1rem;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    color: #1a1c1e;
+    font-family: inherit;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin: 0 5px;
+}
+
+.add-category-btn:hover,
+.go-to-products-btn:hover {
+    background: #e0e7ff;
+    border-color: #4f46e5;
+    color: #4f46e5;
+}
+
+.category-table {
+    background: white;
+    border-radius: 5px;
+    overflow-x: auto;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+}
+
+table {
+    width: 100%;
+    max-width: 100%;
+    border-collapse: collapse;
+}
+
+.category-table::-webkit-scrollbar {
+    height: 8px;
+}
+
+.category-table::-webkit-scrollbar-track {
+    background: #f4f4f4;
+    border-radius: 5px;
+}
+
+.category-table::-webkit-scrollbar-thumb {
+    background-color: #4f46e5;
+    border-radius: 5px;
+    border: 2px solid #f4f4f4;
+}
+
+.category-table::-webkit-scrollbar-thumb:hover {
+    background-color: #3740a3;
+}
+
+th,
+td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #007bff;
+    color: white;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+.edit-btn,
+.delete-btn {
+    font-family: 'Poppins', sans-serif;
+    padding: 0.5rem 1rem;
+    margin: 10px 5px 0px 0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.5s;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    color: #1a1c1e;
+    font-weight: 500;
+}
+
+.edit-btn:hover,
+.delete-btn:hover {
+    background: #e0e7ff;
+    border-color: #4f46e5;
+    font-weight: 900;
+    color: #000;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal {
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    width: 400px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.3s;
+}
+
+.modal h2 {
+    margin-bottom: 20px;
+}
+
+.modal label {
+    margin-top: 10px;
+    display: block;
+}
+
+.modal input,
+.modal textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.save-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.save-btn:hover {
+    background-color: #0056b3;
+}
+
+.cancel-btn {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.cancel-btn:hover {
+    background-color: #5a6268;
+}
+
+.error-message {
+    color: red;
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* Responsive Styles */
+@media (max-width: 850px) {
+    .category-content {
+        margin-left: 250;
+        padding: 10px;
+    }
+
+    .header-section {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .add-category-btn,
+    .go-to-products-btn {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .modal {
+        width: 90%;
+        max-width: 400px;
+    }
+
+    th,
+    td {
+        padding: 8px;
+    }
+}
+
+@media (max-width: 600px) {
+    .category-content {
+        margin-left: 0;
+        padding: 10px;
+    }
+
+    .header-section {
+        align-items: center;
+    }
+
+    .modal h2 {
+        font-size: 1.5rem;
+    }
+}
