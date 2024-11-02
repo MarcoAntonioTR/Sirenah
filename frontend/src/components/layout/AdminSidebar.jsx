@@ -1,4 +1,5 @@
-import { useState } from "react";
+import PropTypes from "prop-types";
+import { useState, useEffect } from "react";
 import {
   FaBars,
   FaTimes,
@@ -12,15 +13,15 @@ import {
   FaSignOutAlt,
 } from "react-icons/fa";
 import "../../styles/Sidebar.css";
-import Modal from 'react-modal'
+import Modal from 'react-modal';
 import { useNavigate } from "react-router-dom";
-
 
 function AdminSidebar({ onCollapseChange }) {
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [modalIsOpen, setModalIsOpen] = useState(false); // Estado para el modal
+  const [modalIsOpen, setModalIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [buttonsVisible, setButtonsVisible] = useState(true);
+  const navigate = useNavigate();
 
   const toggleSidebar = () => {
     setIsCollapsed((prev) => {
@@ -31,20 +32,28 @@ function AdminSidebar({ onCollapseChange }) {
       return newState;
     });
   };
+
   const openModal = () => setModalIsOpen(true);
   const closeModal = () => {
     setModalIsOpen(false);
     setButtonsVisible(true);
   };
-  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (loading) {
+      localStorage.removeItem('token');
+      const timer = setTimeout(() => {
+        navigate('/');
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [loading, navigate]);
+
   const Logout = () => {
     setLoading(true);
-    setButtonsVisible(false); 
-    localStorage.removeItem('token');
-    setTimeout(() => {
-      navigate('/');
-    }, 2000);
+    setButtonsVisible(false);
   };
+
   return (
     <div className={`sidebar ${isCollapsed ? "collapsed" : ""}`}>
       <button className="toggle-btn" onClick={toggleSidebar}>
@@ -92,7 +101,7 @@ function AdminSidebar({ onCollapseChange }) {
             </a>
           </li>
           <li>
-            <a style={{cursor : "pointer"}} onClick={openModal}>
+            <a style={{ cursor: "pointer" }} onClick={openModal}>
               <FaSignOutAlt /> <span>Cerrar Sesión</span>
             </a>
           </li>
@@ -108,7 +117,7 @@ function AdminSidebar({ onCollapseChange }) {
         <h2>Confirmar Cierre de Sesión</h2>
         <p>¿Estás seguro de que deseas cerrar sesión?</p>
         <div className="modal-actions">
-          {buttonsVisible && ( // Renderiza los botones solo si son visibles
+          {buttonsVisible && (
             <>
               <button onClick={closeModal} className="cancel-button">
                 Cancelar
@@ -121,15 +130,15 @@ function AdminSidebar({ onCollapseChange }) {
         </div>
         {loading && (
           <div className="loading">
-            <div className="loader"></div> {/* Círculo de carga */}
+            <div className="loader"></div>
             Cerrando sesión...
           </div>
         )}
       </Modal>
-
-
     </div>
   );
 }
-
+AdminSidebar.propTypes = {
+  onCollapseChange: PropTypes.func.isRequired,
+};
 export default AdminSidebar;

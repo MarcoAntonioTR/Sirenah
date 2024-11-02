@@ -18,6 +18,7 @@ import Analiticas from "../views/MenuAdm/Analiticas";
 import Configuracion from "../views/MenuAdm/Configuration";
 import Ayuda from "../views/MenuAdm/Ayuda";
 import Perfil from "../views/MenuAdm/Perfil";
+import Categorias from "../views/MenuAdm/Categorias";
 
 import ProtegerRutas from "./ProtegerRutas";
 
@@ -96,6 +97,15 @@ function Rutas() {
             </ProtegerRutas>
           }
         />
+        <Route
+          path="/MenuAdmin/Categorias"
+          element={
+            <ProtegerRutas allowedRoles={["ADMIN"]}>
+              <Categorias />
+            </ProtegerRutas>
+          }
+        />
+
         <Route
           path="/MenuCliente/Inicio"
           element={
