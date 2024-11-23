@@ -7,7 +7,7 @@
     background-color: #f5f7fb;
 }
 
-.category-content {
+.content {
     flex: 1;
     padding: 20px;
     background-color: #f4f4f4;
@@ -15,7 +15,7 @@
     margin-left: 250px;
 }
 
-.category-content.collapsed {
+.content.collapsed {
     margin-left: 80px;
 }
 
@@ -27,28 +27,28 @@
     margin-bottom: 20px;
 }
 
-.add-category-btn,
-.go-to-products-btn {
+.add-btn1,
+.add-btn2 {
     padding: 0.75rem 1rem;
     background: #f8fafc;
     border: 1px solid #e2e8f0;
     border-radius: 8px;
     color: #1a1c1e;
     font-family: inherit;
-    font-weight: 500;
+    font-weight: 800;
     cursor: pointer;
     transition: all 0.2s ease;
     margin: 0 5px;
 }
 
-.add-category-btn:hover,
-.go-to-products-btn:hover {
+.add-btn1:hover,
+.add-btn2:hover {
     background: #e0e7ff;
     border-color: #4f46e5;
     color: #4f46e5;
 }
 
-.category-table {
+.div-table {
     background: white;
     border-radius: 5px;
     overflow-x: auto;
@@ -62,23 +62,30 @@ table {
     border-collapse: collapse;
 }
 
-.category-table::-webkit-scrollbar {
+.div-table::-webkit-scrollbar {
     height: 8px;
 }
 
-.category-table::-webkit-scrollbar-track {
+.div-table::-webkit-scrollbar-track {
     background: #f4f4f4;
     border-radius: 5px;
 }
 
-.category-table::-webkit-scrollbar-thumb {
+.div-table::-webkit-scrollbar-thumb {
     background-color: #4f46e5;
     border-radius: 5px;
     border: 2px solid #f4f4f4;
 }
 
-.category-table::-webkit-scrollbar-thumb:hover {
+.div-table::-webkit-scrollbar-thumb:hover {
     background-color: #3740a3;
+}
+
+
+@media (max-width: 600px) {
+    .select-style {
+        padding: 8px;
+    }
 }
 
 th,
@@ -97,8 +104,7 @@ tr:hover {
     background-color: #f1f1f1;
 }
 
-.edit-btn,
-.delete-btn {
+.edit-btn {
     font-family: 'Poppins', sans-serif;
     padding: 0.5rem 1rem;
     margin: 10px 5px 0px 0;
@@ -106,14 +112,19 @@ tr:hover {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.5s;
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
-    color: #1a1c1e;
-    font-weight: 500;
 }
 
-.edit-btn:hover,
-.delete-btn:hover {
+.edit-btn {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    color: #1a1c1e;
+    font-family: inherit;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.edit-btn:hover{
     background: #e0e7ff;
     border-color: #4f46e5;
     font-weight: 900;
@@ -151,7 +162,9 @@ tr:hover {
 }
 
 .modal input,
-.modal textarea {
+.modal textarea,
+.select-style {
+    font-family: 'Poppins', sans-serif;
     width: 100%;
     padding: 8px;
     margin-top: 5px;
@@ -174,8 +187,19 @@ tr:hover {
     cursor: pointer;
 }
 
+.delete-btn {
+    background-color: #ec2727;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
 .save-btn:hover {
     background-color: #0056b3;
+}
+.delete-btn:hover {
+    background-color: #aa0808;
 }
 
 .cancel-btn {
@@ -191,10 +215,18 @@ tr:hover {
     background-color: #5a6268;
 }
 
-.error-message {
-    color: red;
-    margin-top: 20px;
-    font-weight: bold;
+form .error-message {
+    color: #e74c3c;
+    font-size: 14px;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+form .success-message {
+    color: #2ecc71;
+    font-size: 14px;
+    margin-bottom: 15px;
+    width: 100%;
 }
 
 @keyframes fadeIn {
@@ -207,9 +239,8 @@ tr:hover {
     }
 }
 
-/* Responsive Styles */
 @media (max-width: 850px) {
-    .category-content {
+    .content {
         margin-left: 250;
         padding: 10px;
     }
@@ -219,8 +250,8 @@ tr:hover {
         align-items: flex-start;
     }
 
-    .add-category-btn,
-    .go-to-products-btn {
+    .add-btn1,
+    .add-btn2 {
         width: 100%;
         margin-top: 10px;
     }
@@ -237,7 +268,7 @@ tr:hover {
 }
 
 @media (max-width: 600px) {
-    .category-content {
+    .content {
         margin-left: 0;
         padding: 10px;
     }

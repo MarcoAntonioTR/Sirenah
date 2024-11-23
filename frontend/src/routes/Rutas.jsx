@@ -13,12 +13,14 @@ import Registro from "../views/Login/Registro";
 
 import Dashboard from "../views/MenuAdm/Dashboard";
 import Productos from "../views/MenuAdm/Productos";
-import Clientes from "../views/MenuAdm/Clientes";
+import Usuarios from "../views/MenuAdm/Usuarios";
 import Analiticas from "../views/MenuAdm/Analiticas";
 import Configuracion from "../views/MenuAdm/Configuration";
 import Ayuda from "../views/MenuAdm/Ayuda";
 import Perfil from "../views/MenuAdm/Perfil";
 import Categorias from "../views/MenuAdm/Categorias";
+import Administradores from "../views/MenuAdm/Administradores";
+import Empleados from "../views/MenuAdm/Empleados";
 
 import ProtegerRutas from "./ProtegerRutas";
 
@@ -52,16 +54,16 @@ function Rutas() {
         <Route
           path="/MenuAdmin/Productos"
           element={
-            <ProtegerRutas allowedRoles={["ADMIN"]}>
+            <ProtegerRutas allowedRoles={["ADMIN","EMPLEADO"]}>
               <Productos />
             </ProtegerRutas>
           }
         />
         <Route
-          path="/MenuAdmin/Clientes"
+          path="/MenuAdmin/Usuarios"
           element={
-            <ProtegerRutas allowedRoles={["ADMIN"]}>
-              <Clientes />
+            <ProtegerRutas allowedRoles={["ADMIN", "EMPLEADO"]}>
+              <Usuarios />
             </ProtegerRutas>
           }
         />
@@ -76,7 +78,7 @@ function Rutas() {
         <Route
           path="/MenuAdmin/Configuracion"
           element={
-            <ProtegerRutas allowedRoles={["ADMIN"]}>
+            <ProtegerRutas allowedRoles={["ADMIN","EMPLEADO"]}>
               <Configuracion />
             </ProtegerRutas>
           }
@@ -84,7 +86,7 @@ function Rutas() {
         <Route
           path="/MenuAdmin/Ayuda"
           element={
-            <ProtegerRutas allowedRoles={["ADMIN"]}>
+            <ProtegerRutas allowedRoles={["ADMIN","EMPLEADO"]}>
               <Ayuda />
             </ProtegerRutas>
           }
@@ -92,7 +94,7 @@ function Rutas() {
         <Route
           path="/MenuAdmin/Perfil"
           element={
-            <ProtegerRutas allowedRoles={["ADMIN"]}>
+            <ProtegerRutas allowedRoles={["ADMIN","EMPLEADO"]}>
               <Perfil />
             </ProtegerRutas>
           }
@@ -100,8 +102,24 @@ function Rutas() {
         <Route
           path="/MenuAdmin/Categorias"
           element={
-            <ProtegerRutas allowedRoles={["ADMIN"]}>
+            <ProtegerRutas allowedRoles={["ADMIN","EMPLEADO"]}>
               <Categorias />
+            </ProtegerRutas>
+          }
+        />
+        <Route
+          path="/MenuAdmin/Administradores"
+          element={
+            <ProtegerRutas allowedRoles={["ADMIN"]}>
+              <Administradores />
+            </ProtegerRutas>
+          }
+        />
+        <Route
+          path="/MenuAdmin/Empleados"
+          element={
+            <ProtegerRutas allowedRoles={["ADMIN"]}>
+              <Empleados />
             </ProtegerRutas>
           }
         />

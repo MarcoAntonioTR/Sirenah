@@ -19,7 +19,7 @@ import com.sirenah.backend.service.ProductoService;
 
 
 @RestController
-@RequestMapping("/admin/Productos")
+@RequestMapping("/adminempleado/Productos")
 public class ProductoController {
 
     @Autowired

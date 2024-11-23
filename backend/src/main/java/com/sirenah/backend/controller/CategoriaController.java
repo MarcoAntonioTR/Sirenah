@@ -11,7 +11,7 @@ import com.sirenah.backend.model.Categoria;
 import com.sirenah.backend.service.CategoriaService;
 
 @RestController
-@RequestMapping("/admin/Categorias")
+@RequestMapping("/adminempleado/Categorias")
 public class CategoriaController {
 
     @Autowired

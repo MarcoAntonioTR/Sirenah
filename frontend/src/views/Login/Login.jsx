@@ -4,12 +4,15 @@ import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import '../../styles/Login.css';
 import { Link } from 'react-router-dom';
 import {jwtDecode} from 'jwt-decode'
+import { AlertaDeExito } from '../../utils/Alertas';
+import {useNavigate} from 'react-router-dom'
 export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [mostrarPassword, setMostrarPassword] = useState(false);
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
+    const navigate = useNavigate();
 
     const manejarEnvio = async (e) => {
         e.preventDefault();
@@ -40,12 +43,20 @@ export default function Login() {
                 localStorage.setItem('token',data.token);
                 const role = jwtDecode(data.token).role;
 
-                setSuccess('¡Inicio de sesión exitoso!');
+                AlertaDeExito('!Bienvenido!', 'Has iniciado sesión correctamente.');
                 setError('');
                 if (role === 'ADMIN') {
-                    window.location.href = '/MenuAdmin/Perfil';
+                    setTimeout(() => {
+                        navigate('/MenuAdmin/Perfil');
+                    }, 2000);
+                } else if (role === 'EMPLEADO') {
+                    setTimeout(() => {
+                        navigate('/MenuAdmin/Perfil');
+                    }, 2000);
                 } else if (role === 'USER') {
-                    window.location.href = '/MenuCliente/Perfil';
+                    setTimeout(() => {
+                        navigate('/MenuCliente/Perfil');
+                    }, 2000);
                 }
                 
             } else if (data.statuscode === 401) {

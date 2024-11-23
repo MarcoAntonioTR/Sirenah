@@ -7,14 +7,14 @@ import {
     eliminarProducto
 } from '../../services/productosApi';
 import { ListarCategorias } from '../../services/categoriasApi';
-import '../../styles/stylesAdm/AProductos.css';
+import '../../styles/stylesAdm/ATablas.css';
 import { useNavigate } from "react-router-dom";
+import { AlertaDeEliminacion, AlertaDeError, AlertaDeExito } from '../../utils/Alertas.js'
 
 function Productos() {
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [productos, setProductos] = useState([]);
-    const [categorias, setCategorias] = useState([]);  
-    const [error, setError] = useState('');
+    const [categorias, setCategorias] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
     const navigate = useNavigate();
     const [productForm, setProductForm] = useState({
@@ -49,7 +49,7 @@ function Productos() {
             setProductos(data);
         } catch (error) {
             console.error(error);
-            setError('Error al listar productos');
+            AlertaDeError('Error', 'Error al listar productos');
         }
     };
 
@@ -59,13 +59,13 @@ function Productos() {
             setCategorias(data);
         } catch (error) {
             console.error(error);
-            setError('Error al listar categorías');
+            AlertaDeError('Error', 'Error al listar categorías');
         }
     };
 
     useEffect(() => {
         fetchProductos();
-        fetchCategorias(); 
+        fetchCategorias();
     }, []);
 
     const handleEditProduct = (producto) => {
@@ -84,9 +84,10 @@ function Productos() {
                 });
                 fetchProductos();
                 closeModal();
+                AlertaDeExito('Producto Actualizado', 'El producto ha sido actualizado exitosamente.');
             } catch (error) {
                 console.error(error);
-                setError('Error al editar producto');
+                AlertaDeError('Error', 'Error al editar producto');
             }
         }
     };
@@ -102,29 +103,33 @@ function Productos() {
                 });
                 fetchProductos();
                 closeModal();
+                AlertaDeExito('Producto Añadido', 'El producto ha sido añadido exitosamente.');
             } catch (error) {
                 console.error(error);
-                setError('Error al agregar producto');
+                AlertaDeError('Error', 'Error al agregar producto');
             }
         }
     };
 
     const handleDeleteProduct = async (id) => {
-        try {
-            await eliminarProducto(id);
-            fetchProductos();
-        } catch (error) {
-            console.error(error);
-            setError('Error al eliminar producto');
+        const result = await AlertaDeEliminacion('¿Está seguro de que desea eliminar este producto?', 'Esta acción no se puede deshacer.');
+        if (result.isConfirmed) {
+            try {
+                await eliminarProducto(id);
+                fetchProductos();
+                AlertaDeExito('Producto Eliminado', 'El producto ha sido eliminado exitosamente.');
+            } catch (error) {
+                console.error(error);
+                AlertaDeError('Error', 'Error al eliminar producto');
+            }
         }
     };
 
     const validateForm = () => {
         if (!productForm.nombre || !productForm.idCategoria || productForm.stock === '' || productForm.precio === '' || productForm.stockMinimo === '' || !productForm.descripcion) {
-            setError('Todos los campos son obligatorios.');
+            AlertaDeError('Error', 'Todos los campos son obligatorios.');
             return false;
         }
-        setError('');
         return true;
     };
 
@@ -134,24 +139,26 @@ function Productos() {
     };
 
     return (
-        <div className="admin-layout">
+        <div className="Admin-layout">
             <AdminSidebar onCollapseChange={handleCollapseChange} />
-            <main className={`product-content ${isCollapsed ? 'collapsed' : ''}`}>
+            <main className={`content ${isCollapsed ? 'collapsed' : ''}`}>
                 <div className="header-section">
                     <h1>Gestión de Productos</h1>
-                    <button onClick={() => { resetProductForm(); setModalVisible(true); }} className="add-product-btn">+ Añadir Producto</button>
-                    <button onClick={() => navigate('/MenuAdmin/Categorias')} className="add-category-btn">Ir a Categorías</button>
+                    <button onClick={() => { resetProductForm(); setModalVisible(true); }} className="add-btn1">+ Añadir Producto</button>
+                    <button onClick={() => navigate('/MenuAdmin/Categorias')} className="add-btn2">Ir a Categorías</button>
                 </div>
 
-                <div className="product-table">
+                <div className="div-table">
                     {productos.length > 0 ? (
                         <table>
                             <thead>
                                 <tr>
                                     <th>Nombre</th>
                                     <th>Categoría</th>
+                                    <th>Descripcion</th>
                                     <th>Precio</th>
                                     <th>Stock</th>
+                                    <th>Stock Mínimo</th>
                                     <th>Estado</th>
                                     <th>Acciones</th>
                                 </tr>
@@ -161,8 +168,10 @@ function Productos() {
                                     <tr key={producto.idProducto}>
                                         <td>{producto.nombre}</td>
                                         <td>{producto.idCategoria}</td>
-                                        <td>S/ {producto.precio.toFixed(2)}</td>
+                                        <td>{producto.descripcion}</td>
+                                        <td>S/{producto.precio.toFixed(2)}</td>
                                         <td>{producto.stock}</td>
+                                        <td>{producto.stockMinimo}</td>
                                         <td>{producto.estado ? 'Activo' : 'Inactivo'}</td>
                                         <td>
                                             <button onClick={() => handleEditProduct(producto)} className="edit-btn">Editar</button>
@@ -211,8 +220,6 @@ function Productos() {
                         </div>
                     </div>
                 )}
-
-                {error && <div className="error-message">{error}</div>}
             </main>
         </div>
     );

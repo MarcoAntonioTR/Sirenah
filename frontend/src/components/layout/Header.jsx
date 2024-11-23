@@ -21,7 +21,7 @@ const Header = () => {
 
     const PerfilClick = () => {
         if (isAuthenticated) {
-            if (userRole === "ADMIN") {
+            if (userRole === "ADMIN" || userRole === "EMPLEADO") {
                 navigate("/MenuAdmin/Perfil");
             } else if (userRole === "USER") {
                 navigate("/MenuCliente/Perfil");
@@ -84,9 +84,9 @@ const Header = () => {
                                 <FaShoppingCart className="icon" title="Carrito de Compras" />
                             </a>
                         </button>
-                        <Link to="/login" onClick={PerfilClick} className="nav-item" title="Cuenta">
+                        <button  onClick={PerfilClick} className="nav-item" title="Cuenta">
                             <FaUser className="icon" />
-                        </Link>
+                        </button>
                     </div>
                 </div>
             </nav>

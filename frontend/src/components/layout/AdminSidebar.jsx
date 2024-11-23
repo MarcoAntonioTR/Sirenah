@@ -75,8 +75,8 @@ function AdminSidebar({ onCollapseChange }) {
             </a>
           </li>
           <li>
-            <a href="/MenuAdmin/Clientes">
-              <FaUsers /> <span>Clientes</span>
+            <a href="/MenuAdmin/Usuarios">
+              <FaUsers /> <span>Registros</span>
             </a>
           </li>
           <li>

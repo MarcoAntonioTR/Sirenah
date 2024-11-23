@@ -15,28 +15,4 @@ public class AdministradorServiceImpl implements AdministradorService {
     @Autowired
     private AdministradorRepository administradorRepository;
 
-    @Override
-    public List<Administrador> Listar() {
-        return administradorRepository.findAll();
-    }
-
-    @Override
-    public Administrador agregar(Administrador administrador) {
-        return administradorRepository.save(administrador);
-    }
-
-    @Override
-    public Administrador actualizar(Administrador administrador) {
-        return administradorRepository.save(administrador);
-    }
-
-    @Override
-    public Optional<Administrador> buscarPorId(int id) {
-        return administradorRepository.findById(id);
-    }
-
-    @Override
-    public void eliminar(int id) {
-        administradorRepository.deleteById(id);
-    }
 }

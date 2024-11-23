@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = 'http://localhost:9090/admin/Productos';
+const BASE_URL = 'http://localhost:9090/adminempleado/Productos';
 const token = localStorage.getItem('token'); 
 
 
@@ -14,7 +14,6 @@ axios.interceptors.request.use((config) => {
 export const listarProductos = async () => {
     try {
         const response = await axios.get(`${BASE_URL}/Listar`);
-        console.log(response.data)
         return response.data;
     } catch (error) {
         console.error("Error al listar productos:", error);

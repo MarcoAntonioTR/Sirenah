@@ -6,8 +6,9 @@ import {
   actualizarCategoria,
   eliminarCategoria
 } from '../../services/categoriasApi';
-import '../../styles/stylesAdm/ACategorias.css';
+import '../../styles/stylesAdm/ATablas.css';
 import { useNavigate } from "react-router-dom";
+import { AlertaDeEliminacion, AlertaDeExito, AlertaDeError } from '../../utils/Alertas';
 
 function Categorias() {
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -38,6 +39,7 @@ function Categorias() {
     } catch (error) {
       console.error(error);
       setError('Error al listar categorías');
+      AlertaDeError('Error', 'No se pudo obtener la lista de categorías');
     }
   };
 
@@ -56,9 +58,11 @@ function Categorias() {
         await actualizarCategoria(categoryForm.idCategoria, categoryForm);
         fetchCategorias();
         closeModal();
+        AlertaDeExito('Categoría actualizada', 'La categoría ha sido actualizada exitosamente');
       } catch (error) {
         console.error(error);
         setError('Error al editar categoría');
+        AlertaDeError('Error', 'No se pudo actualizar la categoría');
       }
     }
   };
@@ -69,26 +73,34 @@ function Categorias() {
         await agregarCategoria(categoryForm);
         fetchCategorias();
         closeModal();
+        AlertaDeExito('Categoría añadida', 'La categoría ha sido añadida exitosamente');
       } catch (error) {
         console.error(error);
         setError('Error al agregar categoría');
+        AlertaDeError('Error', 'No se pudo agregar la categoría');
       }
     }
   };
 
   const handleDeleteCategory = async (id) => {
-    try {
-      await eliminarCategoria(id);
-      fetchCategorias();
-    } catch (error) {
-      console.error(error);
-      setError('Error al eliminar categoría');
+    const result = await AlertaDeEliminacion('¿Está seguro?', 'Esta acción no se puede deshacer.');
+    if (result.isConfirmed) {
+      try {
+        await eliminarCategoria(id);
+        fetchCategorias();
+        AlertaDeExito('Categoría eliminada', 'La categoría ha sido eliminada exitosamente');
+      } catch (error) {
+        console.error(error);
+        setError('Error al eliminar categoría');
+        AlertaDeError('Error', 'No se pudo eliminar la categoría');
+      }
     }
   };
 
   const validateForm = () => {
     if (!categoryForm.nombre || !categoryForm.descripcion) {
       setError('Todos los campos son obligatorios.');
+      AlertaDeError('Error', 'Todos los campos son obligatorios.');
       return false;
     }
     setError('');
@@ -101,16 +113,16 @@ function Categorias() {
   };
 
   return (
-    <div className="admin-layout">
+    <div className="Admin-layout">
       <AdminSidebar onCollapseChange={handleCollapseChange} />
-      <main className={`category-content ${isCollapsed ? 'collapsed' : ''}`}>
+      <main className={`content ${isCollapsed ? 'collapsed' : ''}`}>
         <div className="header-section">
           <h1>Gestión de Categorías</h1>
-          <button onClick={() => { resetCategoryForm(); setModalVisible(true); }} className="add-category-btn">+ Añadir Categoría</button>
-          <button onClick={() => navigate('/MenuAdmin/Productos')} className="go-to-products-btn">Ir a Productos</button>
+          <button onClick={() => { resetCategoryForm(); setModalVisible(true); }} className="add-btn1">+ Añadir Categoría</button>
+          <button onClick={() => navigate('/MenuAdmin/Productos')} className="add-btn2">Ir a Productos</button>
         </div>
 
-        <div className="category-table">
+        <div className="div-table">
           {categorias.length > 0 ? (
             <table>
               <thead>
