@@ -4,7 +4,6 @@ import { actualizarUsuario, eliminarUsuario } from '../../services/usuariosApi.j
 import { listarAdministradores } from '../../services/administradoresApi.js';
 import '../../styles/stylesAdm/ATablas.css';
 import { AlertaDeEliminacion, AlertaDeError, AlertaDeExito } from '../../utils/Alertas.js';
-import { TOKEN_API_RECIEC } from '../../constants/tokens';
 import {
     validarNombre,
     validarApellido,
@@ -84,7 +83,7 @@ function Administradores() {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${TOKEN_API_RECIEC}`,
+                    'Authorization': `Bearer ${import.meta.env.VITE_TOKEN_API_RENIEC}`,
                 },
                 body: JSON.stringify({ dni: userForm.ourUsers.dni }),
             });
