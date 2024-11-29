@@ -29,7 +29,7 @@ function Carrito() {
       const decodedToken = jwtDecode(localStorage.getItem("token"));
       const email = decodedToken.sub;
       const response = await axios.get(
-        `http://localhost:9090/todosroles/datos/${email}`
+        `${import.meta.env.VITE_API}/todosroles/datos/${email}`
       );
       setUsuarioId(response.data.id);
     } catch (error) {
@@ -40,7 +40,7 @@ function Carrito() {
   const fetchCartItems = async (idUsuario) => {
     try {
       const response = await fetch(
-        `http://localhost:9090/todosroles/carrito/obtener/${idUsuario}`,
+        `${import.meta.env.VITE_API}/todosroles/carrito/obtener/${idUsuario}`,
         {
           method: "GET",
           headers: {
@@ -59,7 +59,7 @@ function Carrito() {
         detallesCarrito.map(async (item) => {
           try {
             const productoResponse = await fetch(
-              `http://localhost:9090/todosroles/Productos/Buscar/${item.idProducto}`,
+              `${import.meta.env.VITE_API}/todosroles/Productos/Buscar/${item.idProducto}`,
               {
                 method: "GET",
                 headers: {

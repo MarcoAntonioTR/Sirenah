@@ -80,7 +80,7 @@ function Registro() {
         };
 
         try {
-            const response = await fetch('http://localhost:9090/auth/signup', {
+            const response = await fetch(`${import.meta.env.VITE_API}/auth/signup`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(body),

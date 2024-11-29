@@ -1,5 +1,5 @@
 import axios from "axios";
-const BASE_URL = 'http://localhost:9090/user/Clientes';
+const BASE_URL = `${import.meta.env.VITE_API}/user/Clientes`;
 const token = localStorage.getItem('token');
 
 axios.interceptors.request.use(

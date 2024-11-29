@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = 'http://localhost:9090/auth';
+const BASE_URL = `${import.meta.env.VITE_API}/auth`;
 
 axios.interceptors.request.use(
     (config) => {
