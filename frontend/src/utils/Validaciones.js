@@ -61,7 +61,7 @@ export const validarEmail = async (email,id, setErrores) => {
 
 
 // Validación de DNI
-export const validarDni = async (dni,id, setErrores) => {
+export const validarDni = async (dni, setErrores) => {
     if (dni.trim() === '') {
         setErrores((prev) => ({ ...prev, dni: 'El DNI es obligatorio.' }));
     } else if (!/^\d{8}$/.test(dni)) {
@@ -73,7 +73,7 @@ export const validarDni = async (dni,id, setErrores) => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ dni, id}),
+                body: JSON.stringify({ dni}),
             });
 
             if (response.status === 410) {

@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import '../../styles/stylesAdm/APerfil.css';
 import { obtenerDatos } from "../../services/perfil";
 import { AlertaDeError,AlertaDeExito } from "../../utils/Alertas";
-import { TOKEN_API_RECIEC } from '../../constants/tokens';
 import { actualizarUsuario } from "../../services/usuariosApi";
 import {
     validarTelefono,
@@ -58,7 +57,7 @@ function Perfil() {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${TOKEN_API_RECIEC}`,
+                    'Authorization': `Bearer ${import.meta.env.VITE_TOKEN_API_RENIEC}`,
                 },
                 body: JSON.stringify({ dni: userForm.ourUsers.dni }),
             });
