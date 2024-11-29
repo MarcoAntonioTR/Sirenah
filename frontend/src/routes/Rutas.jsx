@@ -127,7 +127,7 @@ function Rutas() {
         <Route
           path="/MenuCliente/Inicio"
           element={
-            <ProtegerRutas allowedRoles={['USER']}>
+            <ProtegerRutas allowedRoles={["USER", "ADMIN", "EMPLEADO"]}>
               <UInicio />
             </ProtegerRutas>
           }
@@ -135,7 +135,7 @@ function Rutas() {
         <Route
           path="/MenuCliente/MisCompras"
           element={
-            <ProtegerRutas allowedRoles={['USER']}>
+            <ProtegerRutas allowedRoles={["USER", "ADMIN", "EMPLEADO"]}>
               <UMisCompras />
             </ProtegerRutas>
           }
@@ -143,7 +143,7 @@ function Rutas() {
         <Route
           path="/MenuCliente/Carrito"
           element={
-            <ProtegerRutas allowedRoles={['USER']}>
+            <ProtegerRutas allowedRoles={["USER", "ADMIN", "EMPLEADO"]}>
               <UCarrito />
             </ProtegerRutas>
           }
@@ -151,7 +151,7 @@ function Rutas() {
         <Route
           path="/MenuCliente/ListaDeseos"
           element={
-            <ProtegerRutas allowedRoles={['USER']}>
+            <ProtegerRutas allowedRoles={["USER", "ADMIN", "EMPLEADO"]}>
               <UListaDeseos />
             </ProtegerRutas>
           }
@@ -159,7 +159,7 @@ function Rutas() {
         <Route
           path="/MenuCliente/Direcciones"
           element={
-            <ProtegerRutas allowedRoles={['USER']}>
+            <ProtegerRutas allowedRoles={["USER", "ADMIN", "EMPLEADO"]}>
               <UDirecciones />
             </ProtegerRutas>
           }
@@ -167,7 +167,7 @@ function Rutas() {
         <Route
           path="/MenuCliente/Perfil"
           element={
-            <ProtegerRutas allowedRoles={['USER']}>
+            <ProtegerRutas allowedRoles={["USER", "ADMIN", "EMPLEADO"]}>
               <UPerfil />
             </ProtegerRutas>
           }
@@ -175,7 +175,7 @@ function Rutas() {
         <Route
           path="/MenuCliente/Ayuda"
           element={
-            <ProtegerRutas allowedRoles={['USER']}>
+            <ProtegerRutas allowedRoles={["USER", "ADMIN", "EMPLEADO"]}>
               <UAyuda />
             </ProtegerRutas>
           }

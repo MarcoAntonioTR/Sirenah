@@ -148,10 +148,30 @@ tr:hover {
     padding: 20px;
     border-radius: 5px;
     width: 400px;
+    max-height: 80vh;
+    overflow-y: auto;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     animation: fadeIn 0.3s;
 }
+.modal::-webkit-scrollbar {
+    width: 8px;
+    /* Barra de desplazamiento vertical */
+}
 
+.modal::-webkit-scrollbar-track {
+    background: #f4f4f4;
+    border-radius: 5px;
+}
+
+.modal::-webkit-scrollbar-thumb {
+    background-color: #4f46e5;
+    border-radius: 5px;
+    border: 2px solid #f4f4f4;
+}
+
+.modal::-webkit-scrollbar-thumb:hover {
+    background-color: #3740a3;
+}
 .modal h2 {
     margin-bottom: 20px;
 }
@@ -227,6 +247,12 @@ form .success-message {
     font-size: 14px;
     margin-bottom: 15px;
     width: 100%;
+}
+.product-image {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 4px;
 }
 
 @keyframes fadeIn {

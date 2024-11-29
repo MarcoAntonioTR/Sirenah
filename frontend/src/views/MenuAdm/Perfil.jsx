@@ -110,7 +110,6 @@ function Perfil() {
 
     };
     const handleCollapseChange = (collapsed) => {
-        console.log("El sidebar está colapsado:", collapsed);
         setIsCollapsed(collapsed);
     };
 
@@ -118,7 +117,6 @@ function Perfil() {
         try {
             const data = await obtenerDatos();
             setUser(data);
-            console.log(data)
         } catch (error) {
             console.error(error);
             AlertaDeError('Error', 'Error al listar usuarios');

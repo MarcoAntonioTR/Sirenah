@@ -45,7 +45,6 @@ function Registro() {
             });
             
             const data = await response.json();
-            console.log(data)
             if (nombre.toUpperCase() !== data.data.nombres && apellido.toUpperCase() !== (data.data.apellido_paterno + " " + data.data.apellido_materno)) {
                 setErrores(prev => ({ ...prev, nombre: 'Verificar que el nombre sea correcto.' }));
                 setErrores(prev => ({ ...prev, apellido: 'Verificar que el apellido sea correcto.' }));
@@ -57,7 +56,6 @@ function Registro() {
                 setErrores(prev => ({ ...prev, apellido: 'Verificar que el apellido sea correcto.' }));
                 return;
             } else if ("No se encontraron registros" == data.message) {
-                console.log(data.message)
                 setErrores(prev => ({ ...prev, dni: 'No se encontraron registros.' }));
                 return;
             }
@@ -105,18 +103,20 @@ function Registro() {
                     "Error",
                     "Ya hay un usuario con el email registrado"
                 );
-                setSuccess('');
+                return;
             } else if (data.statuscode === 410) {
                 AlertaDeError(
                     "Error",
                     "Ya hay un usuario con el DNI registrado"
                 );
+                return;
             }
             else if (data.statuscode === 500) {
                 AlertaDeError(
                     "Error",
                     "Hubo un problema con el servidor. Intenta nuevamente.'"
                 );
+                return;
             }
             setTimeout(() => {
                 navigate('/login');

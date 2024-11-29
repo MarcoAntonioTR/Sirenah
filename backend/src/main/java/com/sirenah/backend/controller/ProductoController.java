@@ -47,6 +47,7 @@ public class ProductoController {
     @PutMapping("/Actualizar/{id}")
     public ResponseEntity<Producto> actualizar(@PathVariable int id, @RequestBody Producto productoDetalles) {
         return productoService.buscarPorId(id).map(productoExistente -> {
+            productoExistente.setImgUrl(productoDetalles.getImgUrl());
             productoExistente.setNombre(productoDetalles.getNombre());
             productoExistente.setDescripcion(productoDetalles.getDescripcion());
             productoExistente.setPrecio(productoDetalles.getPrecio());

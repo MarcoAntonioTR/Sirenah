@@ -27,7 +27,6 @@ export const listarUsuarios = async () => {
 export const agregarUsuario = async (usuario) => {
     try {
         const response = await axios.post(`${BASE_URL}/Agregar`, usuario);
-        console.log("Usuario agregado:", response.data);
         return response.data;
     } catch (error) {
         console.error("Error al agregar usuario:", error);
@@ -38,7 +37,6 @@ export const agregarUsuario = async (usuario) => {
 export const actualizarUsuario = async (userData) => {
     try {
         const response = await axios.put(`${BASE_URL}/Actualizar`, userData);
-        console.log("Usuario actualizado:", response.data);
         return response.data;
     } catch (error) {
         console.error("Error al actualizar usuario:", error);

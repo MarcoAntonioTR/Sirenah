@@ -16,7 +16,6 @@ axios.interceptors.request.use(
 export const signup = async (userData) => {
     try {
         const response = await axios.post(`${BASE_URL}/signup`, userData);
-        console.log("Usuario registrado:", response.data);
         return response.data;
     } catch (error) {
         console.error("Error al registrar usuario:", error);
@@ -29,7 +28,6 @@ export const signin = async (loginData) => {
         const response = await axios.post(`${BASE_URL}/signin`, loginData);
         // Guardar token en localStorage al iniciar sesión
         localStorage.setItem('token', response.data.token);
-        console.log("Usuario autenticado:", response.data);
         return response.data;
     } catch (error) {
         console.error("Error al iniciar sesión:", error);
@@ -42,7 +40,6 @@ export const refreshToken = async (refreshData) => {
         const response = await axios.post(`${BASE_URL}/refresh`, refreshData);
         // Actualizar token en localStorage
         localStorage.setItem('token', response.data.token);
-        console.log("Token actualizado:", response.data);
         return response.data;
     } catch (error) {
         console.error("Error al refrescar token:", error);
@@ -53,7 +50,6 @@ export const refreshToken = async (refreshData) => {
 
 export const signout = () => {
     localStorage.removeItem('token');
-    console.log("Usuario desconectado");
 };
 
 

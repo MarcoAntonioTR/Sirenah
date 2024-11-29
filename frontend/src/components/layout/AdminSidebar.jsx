@@ -50,6 +50,7 @@ function AdminSidebar({ onCollapseChange }) {
   }, [loading, navigate]);
 
   const Logout = () => {
+    localStorage.clear()
     setLoading(true);
     setButtonsVisible(false);
   };

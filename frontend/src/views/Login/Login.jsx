@@ -48,14 +48,17 @@ export default function Login() {
                 if (role === 'ADMIN') {
                     setTimeout(() => {
                         navigate('/MenuAdmin/Perfil');
+                        window.location.reload();
                     }, 2000);
                 } else if (role === 'EMPLEADO') {
                     setTimeout(() => {
                         navigate('/MenuAdmin/Perfil');
+                        window.location.reload();
                     }, 2000);
                 } else if (role === 'USER') {
                     setTimeout(() => {
                         navigate('/MenuCliente/Perfil');
+                        window.location.reload();
                     }, 2000);
                 }
                 

@@ -14,14 +14,22 @@ import {
 import "../../styles/Sidebar.css";
 import Modal from 'react-modal'
 import { useNavigate } from "react-router-dom";
-
-function AdminSidebar() {
+import PropTypes from "prop-types";
+function UserSidebar({onCollapseChange}) {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false); // Estado para el modal
   const [loading, setLoading] = useState(false);
   const [buttonsVisible, setButtonsVisible] = useState(true);
+  const toggleSidebar = () => {
+    setIsCollapsed((prev) => {
+      const newState = !prev;
+      if (onCollapseChange) {
+        onCollapseChange(newState);
+      }
+      return newState;
+    });
+  };
 
-  const toggleSidebar = () => setIsCollapsed(!isCollapsed);
   const openModal = () => setModalIsOpen(true);
   const closeModal = () => {
     setModalIsOpen(false);
@@ -31,10 +39,10 @@ function AdminSidebar() {
   const Logout = () => {
     setLoading(true);
     setButtonsVisible(false);
-    localStorage.removeItem('token');
+    localStorage.clear()
     setTimeout(() => {
       navigate('/');
-    }, 2000);
+    }, 1000);
   };
   return (
     <div className={`sidebar ${isCollapsed ? "collapsed" : ""}`}>
@@ -121,5 +129,7 @@ function AdminSidebar() {
     </div>
   );
 }
-
-export default AdminSidebar;
+UserSidebar.propTypes = {
+  onCollapseChange: PropTypes.func.isRequired,
+};
+export default UserSidebar;
