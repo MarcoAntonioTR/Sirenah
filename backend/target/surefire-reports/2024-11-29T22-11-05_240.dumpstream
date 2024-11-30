@@ -1,4 +1,4 @@
-# Created at 2024-11-29T18:23:30.459
+# Created at 2024-11-29T22:11:05.848
 Boot Manifest-JAR contains absolute paths in classpath 'D:\Sirenah\backend\target\test-classes'
 Hint: <argLine>-Djdk.net.URLClassPath.disableClassPathURLCheck=true</argLine>
 'other' has different root
