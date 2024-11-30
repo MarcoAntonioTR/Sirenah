@@ -87,12 +87,12 @@ body {
 /* Tarjetas */
 .tarjetas-catalogo {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
     gap: 1.5rem;
 }
 
 .tarjetas-catalogo .tarjeta {
-    border: 1px solid #ccc;
+    border: 2px solid #ccc;
     border-radius: 10px;
     overflow: hidden;
     background-color: #fff;
