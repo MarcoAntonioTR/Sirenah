@@ -2,6 +2,15 @@ import { useState } from 'react';
 import Footer from "../../components/layout/Footer";
 import Header from "../../components/layout/Header";
 import "../../styles/Inicio.css";
+import Frontis1 from '../../../src/assets/InicioImgs/Frontis1.jpg';
+import Frontis2 from '../../assets/InicioImgs/Frontis2.jpg';
+import Frontis3 from '../../assets/InicioImgs/Frontis3.jpg';
+import Collection1 from '../../assets/InicioImgs/Collection1.jpg';
+import Collection2 from '../../assets/InicioImgs/Collection2.jpg';
+import Collection3 from '../../assets/InicioImgs/Collection3.jpg';
+import Producto1 from '../../assets/InicioImgs/Product1.jpg';
+import Producto2 from '../../assets/InicioImgs/Product2.jpg';
+import Producto3 from '../../assets/InicioImgs/Product3.jpg';
 
 const Inicio = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -10,17 +19,17 @@ const Inicio = () => {
   // Array de imágenes para el carrusel
   const images = [
     {
-      src: "../../../src/assets/InicioImgs/Frontis1.jpg",
+      src: Frontis1,
       title: "Tienda de ropa alternativa",
       description: "Prendas en tendencia"
     },
     {
-      src: "../../../src/assets/InicioImgs/Frontis2.jpg",
+      src: Frontis2,
       title: "Título 2",
       description: "Descripción del segundo slide."
     },
     {
-      src: "../../../src/assets/InicioImgs/Frontis3.jpg",
+      src: Frontis3,
       title: "Título 3",
       description: "Descripción del tercer slide."
     }
@@ -61,15 +70,15 @@ const Inicio = () => {
           <h2>Nuevas Colecciones</h2>
           <div className="collection-grid">
             <div className="collection-item">
-              <img src="../../../src/assets/InicioImgs/Collection1.jpg" alt="Colección 1" />
+              <img src={Collection1} alt="Colección 1" />
               <h3>Colección Otoño</h3>
             </div>
             <div className="collection-item">
-              <img src="../../../src/assets/InicioImgs/Collection2.jpg" alt="Colección 2" />
+              <img src={Collection2} alt="Colección 2" />
               <h3>Colección Invierno</h3>
             </div>
             <div className="collection-item">
-              <img src="../../../src/assets/InicioImgs/Collection3.jpg" alt="Colección 3" />
+              <img src={Collection3} alt="Colección 3" />
               <h3>Colección Verano</h3>
             </div>
           </div>
@@ -80,17 +89,17 @@ const Inicio = () => {
           <h2>Productos Destacados</h2>
           <div className="products-grid">
             <div className="product-item">
-              <img src="../../../src/assets/InicioImgs/Product1.jpg" alt="Producto 1" />
+              <img src={Producto1} alt="Producto 1" />
               <h3>Vestido Floral</h3>
               <p>$45.99</p>
             </div>
             <div className="product-item">
-              <img src="../../../src/assets/InicioImgs/Product2.jpg" alt="Producto 2" />
+              <img src={Producto2} alt="Producto 2" />
               <h3>Chaqueta Denim</h3>
               <p>$65.99</p>
             </div>
             <div className="product-item">
-              <img src="../../../src/assets/InicioImgs/Product3.jpg" alt="Producto 3" />
+              <img src={Producto3} alt="Producto 3" />
               <h3>Pantalón Culotte</h3>
               <p>$39.99</p>
             </div>
