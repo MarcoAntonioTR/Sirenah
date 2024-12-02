@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -41,7 +42,8 @@ import com.sirenah.backend.service.ProductoService;
 
 public class PagoController {
 
-    private String mercadoPagoToken = System.getenv("MERCADOPAGO_TOKEN");
+    Dotenv dotenv = Dotenv.load();
+    private String mercadoPagoToken = dotenv.get("MERCADOPAGO_TOKEN");
     @Autowired
     private ProductoService productoService;
     @Autowired
