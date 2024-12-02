@@ -1,0 +1,122 @@
+/* General */
+.pending-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    background: radial-gradient(circle, #ffc107, #ff9800);
+    /* Gradiente amarillo-naranja */
+    background-size: cover;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+}
+
+/* Tarjeta */
+.pending-card {
+    background: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    padding: 30px;
+    width: 100%;
+    max-width: 500px;
+    animation: slideDown 0.6s ease-in-out;
+    border: 1px solid #e0e0e0;
+}
+
+/* Icono */
+.pending-icon {
+    font-size: 3rem;
+    color: #ffc107;
+    margin-bottom: 20px;
+    animation: spin 1.5s linear infinite;
+}
+
+/* Título */
+.pending-title {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+/* Mensaje */
+.pending-message {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+/* Acciones */
+.pending-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Botón */
+.pending-button {
+    display: inline-block;
+    background-color: #ffc107;
+    color: #ffffff;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.pending-button:hover {
+    background-color: #ff9800;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3);
+    transform: translateY(-2px);
+}
+
+/* Animaciones */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .pending-card {
+        padding: 20px;
+    }
+
+    .pending-title {
+        font-size: 1.5rem;
+    }
+
+    .pending-message {
+        font-size: 0.9rem;
+    }
+
+    .pending-button {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+    }
+}

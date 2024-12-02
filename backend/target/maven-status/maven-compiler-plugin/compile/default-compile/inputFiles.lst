@@ -10,6 +10,7 @@ D:\Sirenah\backend\src\main\java\com\sirenah\backend\controller\CarritoDetalleCo
 D:\Sirenah\backend\src\main\java\com\sirenah\backend\controller\CategoriaController.java
 D:\Sirenah\backend\src\main\java\com\sirenah\backend\controller\ClienteController.java
 D:\Sirenah\backend\src\main\java\com\sirenah\backend\controller\DireccionController.java
+D:\Sirenah\backend\src\main\java\com\sirenah\backend\controller\PagoController.java
 D:\Sirenah\backend\src\main\java\com\sirenah\backend\controller\ProductoController.java
 D:\Sirenah\backend\src\main\java\com\sirenah\backend\controller\ProveedoresController.java
 D:\Sirenah\backend\src\main\java\com\sirenah\backend\controller\PublicController.java
@@ -42,8 +43,10 @@ D:\Sirenah\backend\src\main\java\com\sirenah\backend\service\impl\DireccionServi
 D:\Sirenah\backend\src\main\java\com\sirenah\backend\service\impl\JWTUtils.java
 D:\Sirenah\backend\src\main\java\com\sirenah\backend\service\impl\OurUserDetailsService.java
 D:\Sirenah\backend\src\main\java\com\sirenah\backend\service\impl\OurUserServiceImpl.java
+D:\Sirenah\backend\src\main\java\com\sirenah\backend\service\impl\PagoServiceImpl.java
 D:\Sirenah\backend\src\main\java\com\sirenah\backend\service\impl\ProductoServiceImpl.java
 D:\Sirenah\backend\src\main\java\com\sirenah\backend\service\impl\ProveedoresServiceImpl.java
 D:\Sirenah\backend\src\main\java\com\sirenah\backend\service\OurUserService.java
+D:\Sirenah\backend\src\main\java\com\sirenah\backend\service\PagoService.java
 D:\Sirenah\backend\src\main\java\com\sirenah\backend\service\ProductoService.java
 D:\Sirenah\backend\src\main\java\com\sirenah\backend\service\ProveedoresService.java

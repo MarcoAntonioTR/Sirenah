@@ -3,17 +3,20 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import "../../styles/Header.css";
 import { useState } from "react";
 import useAutenticacion from '../hooks/Autenticacion';
-import { jwtDecode } from "jwt-decode";
-import axios from "axios";
-import { AlertaDeEliminacion, AlertaDeExito } from "../../utils/Alertas";
 import { FaTrash } from 'react-icons/fa';
-
+import Loading from "../common/Loanding.jsx"
+import { obtenerUsuarioId } from "../../services/todosroles.js";
+import { eliminarProductoDelCarrito } from "../../services/CarritoService/DeleteProductoCarrito.js";
+import { aumentarProductoCarrito, disminuirProductoCarrito } from "../../services/CarritoService/AumDisProductoCarrito.js";
+import { vaciarCarrito } from "../../services/CarritoService/VaciarCarrito.js";
 const Header = () => {
     const [isDarkMode, setIsDarkMode] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const [cartItems, setCartItems] = useState([]);
     const [isCartOpen, setIsCartOpen] = useState(false);
-
+    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading1, setIsLoading1] = useState(false);
+    const [isLoading2, setIsLoading2] = useState(false);
     const { isAuthenticated, userRole } = useAutenticacion();
     const navigate = useNavigate();
 
@@ -37,290 +40,11 @@ const Header = () => {
             navigate("/Login");
         }
     };
-
-    const vaciarCarrito = async () => {
-        try {
-            const userId = await obtenerUsuarioId();
-            const token = localStorage.getItem("token");
-            if (!token) {
-                alert("Token de autenticación no disponible.");
-                return;
-            }
-            const confirmacion = await AlertaDeEliminacion("¿Estás seguro de eliminar todos los productos?", "");
-
-            if (!confirmacion.isConfirmed) {
-                return;
-            }
-            // Obtener el carrito
-            const idCarrito = await fetch(`${import.meta.env.VITE_API}/todosroles/carrito/obtener/${userId}`, {
-                method: "GET",
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    "Content-Type": "application/json",
-                },
-            });
-
-            if (!idCarrito.ok) {
-                throw new Error(`Error al obtener el carrito: ${idCarrito.status}`);
-            }
-
-            const carritoData = await idCarrito.json();
-
-            for (const item of carritoData.detalles) {
-                await eliminarProductosCarrito(item.idCarritoDetalle);
-            }
-            AlertaDeExito("¡Éxito!", "Productos eliminados correctamente.");
-            setCartItems([]);
-        } catch (error) {
-            console.error("Error al vaciar el carrito:", error);
-            alert("Hubo un problema al vaciar el carrito.");
-        }
-    };
-    const aumentarProducto = async (idProducto) => {
-        try {
-            const userId = await obtenerUsuarioId();
-            const token = localStorage.getItem("token");
-            if (!token) {
-                alert("Token de autenticación no disponible.");
-                return;
-            }
-
-            // Obtener carrito
-            const idCarrito = await fetch(
-                `${import.meta.env.VITE_API}/todosroles/carrito/obtener/${userId}`,
-                {
-                    method: "GET",
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        "Content-Type": "application/json",
-                    },
-                }
-            );
-
-            if (!idCarrito.ok) {
-                throw new Error(`Error ${response.status}: ${response.statusText}`);
-            }
-
-            const carritoData = await idCarrito.json();
-
-
-            const response = await fetch(`${import.meta.env.VITE_API}/todosroles/carrito/${carritoData.idCarrito}/detalle/aumentar?idProducto=${idProducto}`, {
-                method: "POST",
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    "Content-Type": "application/json",
-                },
-            });
-
-            if (!response.ok) {
-                throw new Error(`Error ${response.status}: ${response.statusText}`);
-            }
-
-            const updatedDetalle = await response.json();
-            setCartItems((prevCartItems) =>
-                prevCartItems.map((item) =>
-                    item.idProducto === idProducto ? { ...item, cantidad: updatedDetalle.cantidad, subtotal: updatedDetalle.subtotal } : item
-                )
-            );
-        } catch (error) {
-            console.error("Error al aumentar la cantidad del producto:", error);
-        }
-    };
-    const eliminarProductosCarrito = async (idCarritoDetalle) => {
-        try {
-            const userId = await obtenerUsuarioId();
-            const token = localStorage.getItem("token");
-            if (!token) {
-                alert("Token de autenticación no disponible.");
-                return;
-            }
-
-
-            // Obtener carrito
-            const idCarrito = await fetch(
-                `${import.meta.env.VITE_API}/todosroles/carrito/obtener/${userId}`,
-                {
-                    method: "GET",
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        "Content-Type": "application/json",
-                    },
-                }
-            );
-
-            if (!idCarrito.ok) {
-                throw new Error(`Error ${response.status}: ${response.statusText}`);
-            }
-
-            const carritoData = await idCarrito.json();
-
-
-            const response = await fetch(
-                `${import.meta.env.VITE_API}/todosroles/carrito/${carritoData.idCarrito}/detalle/${idCarritoDetalle}`,
-                {
-                    method: "DELETE",
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        "Content-Type": "application/json",
-                    },
-                }
-            );
-
-            if (!response.ok) {
-                throw new Error(`Error al eliminar el producto: ${response.statusText}`);
-            }
-            setCartItems(prevCartItems => prevCartItems.filter(item => item.idCarritoDetalle !== idCarritoDetalle));
-        } catch (error) {
-            console.error("Error al eliminar el producto:", error);
-        }
-    };
-
-    const eliminarProductoDelCarrito = async (idCarritoDetalle) => {
-        try {
-            const userId = await obtenerUsuarioId();
-            const token = localStorage.getItem("token");
-            if (!token) {
-                alert("Token de autenticación no disponible.");
-                return;
-            }
-            const confirmacion = await AlertaDeEliminacion("¿Estás seguro de eliminar este producto?", "");
-
-            if (!confirmacion.isConfirmed) {
-                return;
-            }
-
-            // Obtener carrito
-            const idCarrito = await fetch(
-                `${import.meta.env.VITE_API}/todosroles/carrito/obtener/${userId}`,
-                {
-                    method: "GET",
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        "Content-Type": "application/json",
-                    },
-                }
-            );
-
-            if (!idCarrito.ok) {
-                throw new Error(`Error ${response.status}: ${response.statusText}`);
-            }
-
-            const carritoData = await idCarrito.json();
-
-
-            const response = await fetch(
-                `${import.meta.env.VITE_API}/todosroles/carrito/${carritoData.idCarrito}/detalle/${idCarritoDetalle}`,
-                {
-                    method: "DELETE",
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        "Content-Type": "application/json",
-                    },
-                }
-            );
-
-            if (!response.ok) {
-                throw new Error(`Error al eliminar el producto: ${response.statusText}`);
-            }
-            AlertaDeExito("¡Éxito!", "Producto Eliminado Correctamente.");
-            setCartItems(prevCartItems => prevCartItems.filter(item => item.idCarritoDetalle !== idCarritoDetalle));
-        } catch (error) {
-            console.error("Error al eliminar el producto:", error);
-        }
-    };
-    const disminuirProducto = async (idProducto, idCarritoDetalle) => {
-        try {
-            const userId = await obtenerUsuarioId();
-            const token = localStorage.getItem("token");
-            if (!token) {
-                alert("Token de autenticación no disponible.");
-                return;
-            }
-
-            // Obtener carrito
-            const idCarrito = await fetch(
-                `${import.meta.env.VITE_API}/todosroles/carrito/obtener/${userId}`,
-                {
-                    method: "GET",
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        "Content-Type": "application/json",
-                    },
-                }
-            );
-
-            if (!idCarrito.ok) {
-                throw new Error(`Error ${idCarrito.status}: ${idCarrito.statusText}`);
-            }
-
-            const carritoData = await idCarrito.json();
-
-            // Buscar el producto en el carrito
-            const producto = carritoData.detalles.find(item => item.idProducto === idProducto);
-
-            if (!producto) {
-                alert("Producto no encontrado en el carrito.");
-                return;
-            }
-
-            if (producto.cantidad > 1) {
-
-                const response = await fetch(
-                    `${import.meta.env.VITE_API}/todosroles/carrito/${carritoData.idCarrito}/detalle/disminuir?idProducto=${idProducto}`,
-                    {
-                        method: "POST",
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                            "Content-Type": "application/json",
-                        },
-                    }
-                );
-
-                if (!response.ok) {
-                    throw new Error(`Error al disminuir producto: ${response.statusText}`);
-                }
-
-                const updatedDetalle = await response.json();
-                setCartItems(prevCartItems =>
-                    prevCartItems.map(item =>
-                        item.idProducto === idProducto ? { ...item, cantidad: updatedDetalle.cantidad, subtotal: updatedDetalle.subtotal } : item
-                    )
-                );
-            } else {
-                await eliminarProductoDelCarrito(idCarritoDetalle);
-            }
-
-        } catch (error) {
-            console.error("Error al disminuir la cantidad del producto:", error);
-        }
-    };
-
-    const obtenerUsuarioId = async () => {
-        try {
-            const token = localStorage.getItem("token");
-            if (!token) {
-                console.error("Token de autenticación no disponible.");
-                return;
-            }
-            const decodedToken = jwtDecode(token);
-            const email = decodedToken.sub;
-
-            const response = await axios.get(
-                `${import.meta.env.VITE_API}/todosroles/datos/${email}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            );
-            return response.data.id;
-        } catch (error) {
-            console.error("Error al obtener el usuario:", error);
-        }
-    };
+    
 
     const toggleCartModal = async () => {
         try {
+            setIsLoading(true);
             const userId = await obtenerUsuarioId();
             if (!userId) {
                 console.error("No se pudo obtener el usuarioId.");
@@ -352,7 +76,7 @@ const Header = () => {
 
                 const carritoData = await response.json();
 
-                
+
                 const detallesCarrito = carritoData.detalles || [];
                 const productosConDetalles = await Promise.all(
                     detallesCarrito.map(async (item) => {
@@ -391,12 +115,17 @@ const Header = () => {
             setIsCartOpen(!isCartOpen);
         } catch (error) {
             console.error("Error al obtener el carrito:", error);
+        } finally {
+            setIsLoading(false);
         }
     };
 
 
     return (
         <header className={isDarkMode ? "dark-mode" : ""}>
+            {isLoading && <Loading message="Cargando carrito, por favor espera..." />}
+            {isLoading1 && <Loading message="Eliminando Productos, por favor espera..." />}
+            {isLoading2 && <Loading message="Eliminando Producto, por favor espera..." />}
             <nav className="navbar">
                 <div className="navbar-container">
                     <button className="hamburger" onClick={toggleMenu}>
@@ -467,14 +196,14 @@ const Header = () => {
                                             <p>Subtotal: ${item.subtotal.toFixed(2)}</p>
                                         </div>
                                         <div className="quantity-controls">
-                                            <button onClick={() => disminuirProducto(item.idProducto, item.idCarritoDetalle)}>-</button>
+                                            <button onClick={() => disminuirProductoCarrito(item.idProducto, item.idCarritoDetalle, setIsLoading2, setCartItems)}>-</button>
                                             <span>{item.cantidad}</span>
-                                            <button onClick={() => aumentarProducto(item.idProducto)}>+</button>
+                                            <button onClick={() => aumentarProductoCarrito(item.idProducto,setCartItems)}>+</button>
 
                                         </div>
                                         <button
                                             className="remove-product-btn"
-                                            onClick={() => eliminarProductoDelCarrito(item.idCarritoDetalle)}
+                                            onClick={() => eliminarProductoDelCarrito(item.idCarritoDetalle, setIsLoading2, setCartItems)}
                                             title="Eliminar producto"
                                         >
                                             <FaTrash className="icon" />
@@ -491,10 +220,11 @@ const Header = () => {
                             </p>
                         </div>
                         <div className="cart-actions">
-                            <button onClick={() => vaciarCarrito()}
+                            <button onClick={() => vaciarCarrito(setIsLoading1,setCartItems)}
                                 className="clear-cart">Vaciar Carrito</button>
-                            <button >Finalizar Compra</button>
+                            <button onClick={() => navigate("/MenuCliente/Carrito")}>Realizar Compra</button>
                         </div>
+                        
                     </div>
                 </div>
             )}

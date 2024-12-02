@@ -4,6 +4,9 @@ import "../../styles/stylesUser/CarritoPanel.css";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 const token = localStorage.getItem("token");
+import { initMercadoPago, Wallet } from '@mercadopago/sdk-react';
+import Loading from "../../components/common/Loanding.jsx"
+import { vaciarCarrito } from "../../services/CarritoService/VaciarCarrito.js";
 
 axios.interceptors.request.use(
   (config) => {
@@ -16,13 +19,46 @@ axios.interceptors.request.use(
 );
 
 function Carrito() {
+  initMercadoPago(import.meta.env.VITE_TOKEN_MP , {
+    locale: "es-PE"
+  });
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [cartItems, setCartItems] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [usuarioId, setUsuarioId] = useState(null);
+  const [prefId, setPrefId] = useState(null);
   const handleCollapseChange = (collapsed) => {
     setIsCollapsed(collapsed);
   };
+  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading1, setIsLoading1] = useState(false);
+
+  const crearPreferencia = async (usuarioId) => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API}/todosroles/mp`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          'Accept' : 'Application/json'
+        },
+        body: JSON.stringify(usuarioId),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error al crear preferencia: ${response.statusText}`);
+      }
+      const data = await response.text();
+      setPrefId(data)
+      return data;
+    } catch (error) {
+      return error;
+    }
+  };
+
+  const handleBuy = async () => {
+    const id = crearPreferencia(usuarioId)
+    console.log(id);
+  }
 
   const obtenerUsuarioId = async () => {
     try {
@@ -38,6 +74,7 @@ function Carrito() {
   };
 
   const fetchCartItems = async (idUsuario) => {
+    setIsLoading(true);
     try {
       const response = await fetch(
         `${import.meta.env.VITE_API}/todosroles/carrito/obtener/${idUsuario}`,
@@ -93,10 +130,9 @@ function Carrito() {
     } catch (error) {
       console.error("Error al obtener el carrito:", error);
     } finally {
-      setLoading(false);
+      setIsLoading(false); // Ocultar el modal de carga
     }
   };
-
   useEffect(() => {
     obtenerUsuarioId();
   }, []);
@@ -111,12 +147,11 @@ function Carrito() {
     return cartItems.reduce((total, item) => total + item.subtotal, 0).toFixed(2);
   };
 
-  if (loading) {
-    return <p className="loading">Cargando carrito...</p>;
-  }
 
   return (
     <div className="user-layout">
+      {isLoading && <Loading message="Cargando datos, por favor espera..." />}
+      {isLoading1 && <Loading message="Eliminando productos del carrito." />}
       <UserSidebar onCollapseChange={handleCollapseChange} />
       <main className={`content ${isCollapsed ? "collapsed" : ""}`}>
         <div className="cart-content">
@@ -145,8 +180,12 @@ function Carrito() {
               <div className="cart-summary">
                 <h3>Total: ${calculateTotal()}</h3>
                 <div className="cart-actions">
-                  <button className="btn-clear">Vaciar Carrito</button>
-                  <button className="btn-checkout">Finalizar Compra</button>
+                  <button className="btn-clear" onClick={()=> vaciarCarrito(setIsLoading1,setCartItems)}>Vaciar Carrito</button>
+                  <button className="btn-checkout" onClick={handleBuy}>Realizar Compra</button>
+                  {
+                    prefId && <Wallet initialization={{ preferenceId: prefId }} customization={{ texts: { valueProp: 'ompra rápida y segura' } }} />
+                  }
+                  
                 </div>
               </div>
             </>

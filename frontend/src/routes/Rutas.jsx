@@ -31,6 +31,9 @@ import UListaDeseos from "../views/MenuUser/ListaDeseos";
 import UDirecciones from "../views/MenuUser/Direcciones";
 import UPerfil from "../views/MenuUser/Perfil";
 import UAyuda from "../views/MenuUser/Ayuda";
+import Success from "../views/StatusPagos/Success";
+import Failure from "../views/StatusPagos/Failure";
+import Pending from "../views/StatusPagos/Pending";
 
 function Rutas() {
   return (
@@ -177,6 +180,30 @@ function Rutas() {
           element={
             <ProtegerRutas allowedRoles={["USER", "ADMIN", "EMPLEADO"]}>
               <UAyuda />
+            </ProtegerRutas>
+          }
+        />
+        <Route
+          path="/PagoExitoso"
+          element={
+            <ProtegerRutas allowedRoles={["USER", "ADMIN", "EMPLEADO"]}>
+              <Success />
+            </ProtegerRutas>
+          }
+        />
+        <Route
+          path="/PagoFallido"
+          element={
+            <ProtegerRutas allowedRoles={["USER", "ADMIN", "EMPLEADO"]}>
+              <Failure />
+            </ProtegerRutas>
+          }
+        />
+        <Route
+          path="/PagoPendiente"
+          element={
+            <ProtegerRutas allowedRoles={["USER", "ADMIN", "EMPLEADO"]}>
+              <Pending />
             </ProtegerRutas>
           }
         />

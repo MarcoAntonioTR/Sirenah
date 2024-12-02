@@ -1,0 +1,128 @@
+/* General */
+.failure-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    background: radial-gradient(circle, #f44336, #d32f2f);
+    /* Gradiente de error */
+    background-size: cover;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+}
+
+/* Tarjeta */
+.failure-card {
+    background: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    padding: 30px;
+    width: 100%;
+    max-width: 500px;
+    animation: slideDown 0.6s ease-in-out;
+    border: 1px solid #e0e0e0;
+}
+
+/* Icono */
+.failure-icon {
+    font-size: 3rem;
+    color: #f44336;
+    margin-bottom: 20px;
+    animation: popUp 0.5s ease-in-out;
+}
+
+/* Título */
+.failure-title {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+/* Mensaje */
+.failure-message {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+/* Acciones */
+.failure-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Botón */
+.failure-button {
+    display: inline-block;
+    background-color: #f44336;
+    color: #ffffff;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.failure-button:hover {
+    background-color: #d32f2f;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3);
+    transform: translateY(-2px);
+}
+
+/* Animaciones */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes popUp {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    60% {
+        transform: scale(1.2);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .failure-card {
+        padding: 20px;
+    }
+
+    .failure-title {
+        font-size: 1.5rem;
+    }
+
+    .failure-message {
+        font-size: 0.9rem;
+    }
+
+    .failure-button {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+    }
+}

@@ -35,8 +35,8 @@ public class OurUserServiceImpl implements OurUserService {
         return ourUserRepository.save(ourUsers);
     }
     @Override
-    public Optional<OurUsers> buscarPorId(int id) {
-        return Optional.empty();
+    public Optional<OurUsers> buscarPorId(Integer id) {
+        return ourUserRepository.findById(id);
     }
     @Override
     public void eliminar(int id) {

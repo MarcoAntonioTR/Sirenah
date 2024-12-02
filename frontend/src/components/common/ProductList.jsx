@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 import { AlertaDeError, AlertaDeExito } from "../../utils/Alertas";
-
+import Loading from "../common/Loanding.jsx"
 const token = localStorage.getItem("token");
 axios.interceptors.request.use(
   (config) => {
@@ -21,6 +21,7 @@ function ProductList() {
   const [productos, setProductos] = useState([]);
   const [productosFiltrados, setProductosFiltrados] = useState([]);
   const [categorias, setCategorias] = useState([]);
+  const [isLoading, setIsLoanding ] = useState(false);
   const [filtro, setFiltro] = useState({
     nombre: "",
     categoria: "",
@@ -47,6 +48,7 @@ function ProductList() {
   };
 
   useEffect(() => {
+    setIsLoanding(true);
     obtenerUsuarioId();
     const obtenerProductos = async () => {
       try {
@@ -58,6 +60,8 @@ function ProductList() {
         setProductosFiltrados(datos);
       } catch (error) {
         console.error("Error al obtener los productos:", error);
+      }finally {
+        setIsLoanding(false);
       }
     };
 
@@ -207,6 +211,7 @@ function ProductList() {
 
   return (
     <main className={`catalogo ${isDarkMode ? "dark-mode" : ""}`}>
+      {isLoading && <Loading message="Obteniendo productos, por favor espera..." />}
       <div className="filtros-catalogo">
         <div className="filtro-item">
           <label htmlFor="nombre">Buscar por nombre:</label>

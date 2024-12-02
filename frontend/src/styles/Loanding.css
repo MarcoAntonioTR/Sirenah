@@ -1,0 +1,130 @@
+/* Estilos generales */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.7), rgba(50, 50, 50, 0.5));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100000;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.loading-modal {
+    background: linear-gradient(145deg, #ffffff, #f3f3f3);
+    padding: 30px 40px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    transform: scale(0.8);
+    animation: popIn 0.4s ease-in-out forwards;
+}
+
+@keyframes popIn {
+    to {
+        transform: scale(1);
+    }
+}
+
+/* Spinner mejorado */
+.spinner {
+    width: 60px;
+    height: 60px;
+    border: 6px solid transparent;
+    /* Borde vacío */
+    border-top: 6px solid #3498db;
+    /* Azul en la parte superior */
+    border-right: 6px solid #2ecc71;
+    /* Verde en la parte derecha */
+    border-radius: 50%;
+    /* Hace que sea un círculo */
+    animation: spinAndPulse 1.5s linear infinite;
+    /* Animación combinada */
+    margin: 0 auto 15px;
+}
+
+/* Animación combinada para el giro y el pulso */
+@keyframes spinAndPulse {
+    0% {
+        transform: rotate(0deg) scale(1);
+        /* Inicio: sin giro, tamaño normal */
+    }
+
+    50% {
+        transform: rotate(180deg) scale(1.2);
+        /* Mitad: 180° y tamaño agrandado */
+    }
+
+    100% {
+        transform: rotate(360deg) scale(1);
+        /* Final: giro completo, tamaño normal */
+    }
+}
+
+/* Texto del loading */
+.loading-modal p {
+    margin: 10px 0 0;
+    font-size: 18px;
+    font-weight: 500;
+    color: #555;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    animation: textGlow 1.5s ease-in-out infinite;
+}
+
+@keyframes textGlow {
+
+    0%,
+    100% {
+        color: #555;
+    }
+
+    50% {
+        color: #3498db;
+    }
+}
+
+/* Diseño responsivo */
+@media (max-width: 768px) {
+    .loading-modal {
+        padding: 20px 30px;
+    }
+
+    .spinner {
+        width: 50px;
+        height: 50px;
+        border-width: 5px;
+    }
+
+    .loading-modal p {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .loading-modal {
+        padding: 15px 20px;
+    }
+
+    .spinner {
+        width: 40px;
+        height: 40px;
+        border-width: 4px;
+    }
+
+    .loading-modal p {
+        font-size: 14px;
+    }
+}

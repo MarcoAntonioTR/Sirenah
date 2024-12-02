@@ -12,7 +12,7 @@ public interface OurUserService {
     Optional<OurUsers> ListarPorEmail(String email);
     OurUsers agregar(OurUsers ourUsers);
     OurUsers actualizar(OurUsers ourUsers);
-    Optional<OurUsers> buscarPorId(int id);
+    Optional<OurUsers> buscarPorId(Integer id);
     void eliminar(int id);
 
 }

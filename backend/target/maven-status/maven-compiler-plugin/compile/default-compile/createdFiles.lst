@@ -7,7 +7,6 @@ com\sirenah\backend\controller\AuthController.class
 com\sirenah\backend\model\Carrito.class
 com\sirenah\backend\repository\DireccionRepository.class
 com\sirenah\backend\service\impl\CarritoServiceImpl.class
-com\sirenah\backend\service\impl\ProductoServiceImpl.class
 com\sirenah\backend\controller\AdministradorController.class
 com\sirenah\backend\service\impl\AuthService.class
 com\sirenah\backend\service\impl\OurUserServiceImpl.class
@@ -46,5 +45,4 @@ com\sirenah\backend\controller\ProveedoresController.class
 com\sirenah\backend\model\Producto.class
 com\sirenah\backend\service\impl\CategoriaServiceImpl.class
 com\sirenah\backend\controller\DireccionController.class
-com\sirenah\backend\service\impl\ProveedoresServiceImpl.class
 com\sirenah\backend\model\Direccion.class
