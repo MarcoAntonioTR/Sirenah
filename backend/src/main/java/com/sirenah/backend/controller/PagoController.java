@@ -17,6 +17,7 @@ import com.sirenah.backend.model.Producto;
 import com.sirenah.backend.service.CarritoService;
 import com.sirenah.backend.service.OurUserService;
 import com.sirenah.backend.service.ProductoService;
+import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,8 +32,8 @@ import java.util.Optional;
 @RequestMapping("/todosroles")
 
 public class PagoController {
-
-    private String mercadoPagoToken = System.getenv("MERCADOPAGO_TOKEN");
+    Dotenv dotenv = Dotenv.load();
+    private String mercadoPagoToken = dotenv.get("MERCADOPAGO_TOKEN");
     @Autowired
     private ProductoService productoService;
     @Autowired
