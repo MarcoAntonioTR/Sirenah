@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -40,8 +41,8 @@ import com.sirenah.backend.service.ProductoService;
 @RequestMapping("/todosroles")
 
 public class PagoController {
-
-    private String mercadoPagoToken = "APP_USR-5243950537436063-120112-da4d8ee126cf8679f723ec0d2aea7b5a-2131261284";
+    Dotenv dotenv = Dotenv.load();
+    private String mercadoPagoToken = dotenv.get("MERCADOPAGO_TOKEN");
     @Autowired
     private ProductoService productoService;
     @Autowired
