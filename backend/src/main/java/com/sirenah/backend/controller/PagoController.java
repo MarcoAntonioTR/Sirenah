@@ -32,7 +32,7 @@ import java.util.Optional;
 
 public class PagoController {
 
-    private String mercadoPagoToken = "APP_USR-5243950537436063-120112-da4d8ee126cf8679f723ec0d2aea7b5a-2131261284";
+    private String mercadoPagoToken = System.getenv("MERCADOPAGO_TOKEN");
     @Autowired
     private ProductoService productoService;
     @Autowired

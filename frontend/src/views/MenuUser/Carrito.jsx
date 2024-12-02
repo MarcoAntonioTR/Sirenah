@@ -31,9 +31,11 @@ function Carrito() {
   };
   const [isLoading, setIsLoading] = useState(false);
   const [isLoading1, setIsLoading1] = useState(false);
+  const [isLoading2, setIsLoading2] = useState(false);
 
   const crearPreferencia = async (usuarioId) => {
     try {
+      setIsLoading2(true);
       const response = await fetch(`${import.meta.env.VITE_API}/todosroles/mp`, {
         method: 'POST',
         headers: {
@@ -52,6 +54,8 @@ function Carrito() {
       return data;
     } catch (error) {
       return error;
+    } finally {
+      setIsLoading2(false);
     }
   };
 
@@ -152,6 +156,7 @@ function Carrito() {
     <div className="user-layout">
       {isLoading && <Loading message="Cargando datos, por favor espera..." />}
       {isLoading1 && <Loading message="Eliminando productos del carrito." />}
+      {isLoading2 && <Loading message="Procesando orden." />}
       <UserSidebar onCollapseChange={handleCollapseChange} />
       <main className={`content ${isCollapsed ? "collapsed" : ""}`}>
         <div className="cart-content">
