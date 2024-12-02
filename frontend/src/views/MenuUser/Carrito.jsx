@@ -156,7 +156,6 @@ function Carrito() {
     <div className="user-layout">
       {isLoading && <Loading message="Cargando datos, por favor espera..." />}
       {isLoading1 && <Loading message="Eliminando productos del carrito." />}
-      {isLoading2 && <Loading message="Procesando pago." />}
       <UserSidebar onCollapseChange={handleCollapseChange} />
       <main className={`content ${isCollapsed ? "collapsed" : ""}`}>
         <div className="cart-content">
