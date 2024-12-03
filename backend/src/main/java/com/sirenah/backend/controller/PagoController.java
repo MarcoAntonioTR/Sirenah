@@ -120,7 +120,7 @@ public class PagoController {
                     .backUrls(backUrlsRequest)
                     .autoReturn("approved")
                     .paymentMethods(paymentMethodsRequest)
-                    .notificationUrl("https://sirenah-nl2m.onrender.com/todosroles/notificacion")
+                    .notificationUrl("https://sirenah.onrender.com/todosroles/notificacion")
                     .statementDescriptor("Sirenah")
                     .externalReference("Reference_1234")
                     .expires(true)
