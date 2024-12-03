@@ -1,5 +1,6 @@
 package com.sirenah.backend.controller;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -7,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,7 +42,7 @@ import com.sirenah.backend.service.ProductoService;
 import io.github.cdimascio.dotenv.Dotenv;
 
 @RestController
-@RequestMapping("/public")
+@RequestMapping("/todosroles")
 
 public class PagoController {
     Dotenv dotenv = Dotenv.load();
@@ -80,9 +83,9 @@ public class PagoController {
 
             //Preferencia de Control de Sucesos
             PreferenceBackUrlsRequest backUrlsRequest = PreferenceBackUrlsRequest.builder()
-                    .success("https://sirenah-production.up.railway.app/PagoExitoso")
-                    .failure("https://sirenah-production.up.railway.app/PagoFallido")
-                    .pending("https://sirenah-production.up.railway.app/PagoPendiente")
+                    .success("https://sirenah.onrender.com/todosroles/success")
+                    .failure("https://sirenah.onrender.com/todosroles/failure")
+                    .pending("https://sirenah.onrender.com/todosroles/pending")
                     .build();
             //Preferencia del Comprador
             Optional<OurUsers> datos =  ourUserService.buscarPorId(usuarioId);
@@ -121,7 +124,7 @@ public class PagoController {
                     .backUrls(backUrlsRequest)
                     .autoReturn("approved")
                     .paymentMethods(paymentMethodsRequest)
-                    .notificationUrl("https://sirenah.onrender.com/public/notificacion")
+                    .notificationUrl("https://sirenah.onrender.com/todosroles/notificacion")
                     .statementDescriptor("Sirenah")
                     .externalReference("Reference_1234")
                     .expires(true)
@@ -135,6 +138,32 @@ public class PagoController {
             return e.toString();
         }
 
+    }
+    @PostMapping("/success")
+    public void handleSuccess(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        // Procesar los datos recibidos de Mercado Pago
+        String collectionId = request.getParameter("collection_id");
+        String status = request.getParameter("collection_status");
+        String paymentId = request.getParameter("payment_id");
+        String preferenceId = request.getParameter("preference_id");
+
+        // Aquí podrías guardar estos datos en tu base de datos, si es necesario
+
+        // Redirigir al front-end con la información necesaria
+        response.sendRedirect("https://sirenah-production.up.railway.app/PagoExitoso?collection_id=" + collectionId +
+                "&status=" + status + "&payment_id=" + paymentId + "&preference_id=" + preferenceId);
+    }
+
+    @PostMapping("/failure")
+    public void handleFailure(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        // Procesar datos y redirigir al front-end para mostrar fallo
+        response.sendRedirect("https://sirenah-production.up.railway.app/PagoFallido");
+    }
+
+    @PostMapping("/pending")
+    public void handlePending(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        // Procesar datos y redirigir al front-end para estado pendiente
+        response.sendRedirect("https://sirenah-production.up.railway.app/PagoPendiente");
     }
 
     @PostMapping("/notificacion")
