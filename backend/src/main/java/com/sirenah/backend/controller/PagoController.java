@@ -39,7 +39,7 @@ import com.sirenah.backend.service.ProductoService;
 import io.github.cdimascio.dotenv.Dotenv;
 
 @RestController
-@RequestMapping("/todosroles")
+@RequestMapping("/public")
 
 public class PagoController {
     Dotenv dotenv = Dotenv.load();
@@ -121,7 +121,7 @@ public class PagoController {
                     .backUrls(backUrlsRequest)
                     .autoReturn("approved")
                     .paymentMethods(paymentMethodsRequest)
-                    .notificationUrl("https://sirenah.onrender.com/todosroles/notificacion")
+                    .notificationUrl("https://sirenah.onrender.com/public/notificacion")
                     .statementDescriptor("Sirenah")
                     .externalReference("Reference_1234")
                     .expires(true)
