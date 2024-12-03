@@ -36,7 +36,7 @@ function Carrito() {
   const crearPreferencia = async (usuarioId) => {
     try {
       setIsLoading2(true);
-      const response = await fetch(`${import.meta.env.VITE_API}/todosroles/mp`, {
+      const response = await fetch(`${import.meta.env.VITE_API}/public/mp`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
