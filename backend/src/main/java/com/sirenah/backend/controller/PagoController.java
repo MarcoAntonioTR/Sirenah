@@ -11,10 +11,7 @@ import java.util.Optional;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -140,12 +137,12 @@ public class PagoController {
 
     }
     @PostMapping("/success")
-    public void handleSuccess(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        // Procesar los datos recibidos de Mercado Pago
-        String collectionId = request.getParameter("collection_id");
-        String status = request.getParameter("collection_status");
-        String paymentId = request.getParameter("payment_id");
-        String preferenceId = request.getParameter("preference_id");
+    public void handleSuccess(
+            @RequestParam("collection_id") String collectionId,
+            @RequestParam("collection_status") String status,
+            @RequestParam("payment_id") String paymentId,
+            @RequestParam("preference_id") String preferenceId,
+            HttpServletResponse response) throws IOException {
 
         // Aquí podrías guardar estos datos en tu base de datos, si es necesario
 
