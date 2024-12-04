@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/webhook")
+@RequestMapping("/public/webhook")
 public class WebhookController {
     Dotenv dotenv = Dotenv.load();
     private String mercadoPagoToken = dotenv.get("MERCADOPAGO_TOKEN");
