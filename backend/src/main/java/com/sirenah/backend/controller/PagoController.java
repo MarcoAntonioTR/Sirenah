@@ -49,7 +49,7 @@ import com.sirenah.backend.service.ProductoService;
 import io.github.cdimascio.dotenv.Dotenv;
 
 @RestController
-@RequestMapping("/todosroles")
+@RequestMapping("/public")
 
 public class PagoController {
 

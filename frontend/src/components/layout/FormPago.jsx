@@ -92,11 +92,11 @@ function FormPago() {
 
               try {
                 const response = await fetch(
-                  `${import.meta.env.VITE_API}/todosroles/PagarConTarjeta/11`,
+                  `${import.meta.env.VITE_API}/public/PagarConTarjeta/11`,
                   {
                     method: "POST",
                     headers: {
-                      "Content-Type": "application/json",
+                      "Content-Type": "application/json"
                     },
                     body: JSON.stringify({
                       token,
@@ -104,7 +104,6 @@ function FormPago() {
                       payment_method_id,
                       transaction_amount: Number(amount),
                       installments: Number(installments),
-                      description: "Descripción del producto",
                       payer: {
                         email,
                         identification: {

@@ -51,7 +51,7 @@ public class WebhookController {
     }
 
     static class WebhookNotification {
-        private String type; // Ejemplo: "payment", "plan", etc.
+        private String type;
         private WebhookData data;
 
         public String getType() {
