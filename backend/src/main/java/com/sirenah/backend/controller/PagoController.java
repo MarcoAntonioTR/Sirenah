@@ -11,6 +11,8 @@ import java.util.Optional;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.google.gson.Gson;
@@ -121,7 +123,7 @@ public class PagoController {
                     .backUrls(backUrlsRequest)
                     .autoReturn("approved")
                     .paymentMethods(paymentMethodsRequest)
-                    .notificationUrl("https://sirenah.onrender.com/public/notificacion")
+                    .notificationUrl("https://sirenah.onrender.com/public/webhook")
                     .statementDescriptor("Sirenah")
                     .externalReference("Reference_1234")
                     .expires(true)
@@ -138,46 +140,18 @@ public class PagoController {
     }
     @PostMapping("/success")
     public void handleSuccess(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        // Obtener todos los parámetros de la URL
-        String collectionId = request.getParameter("collection_id");
-        String collectionStatus = request.getParameter("collection_status");
-        String paymentId = request.getParameter("payment_id");
-        String status = request.getParameter("status");
-        String externalReference = request.getParameter("external_reference");
-        String paymentType = request.getParameter("payment_type");
-        String merchantOrderId = request.getParameter("merchant_order_id");
-        String preferenceId = request.getParameter("preference_id");
-        String siteId = request.getParameter("site_id");
-        String processingMode = request.getParameter("processing_mode");
-        String merchantAccountId = request.getParameter("merchant_account_id");
+        // Imprime todos los parámetros recibidos en la solicitud
+        request.getParameterMap().forEach((key, value) -> {
+            System.out.println("Parámetro: " + key + " = " + String.join(", ", value));
+        });
 
-        // Puedes guardar estos datos en tu base de datos o realizar otras acciones necesarias
-        System.out.println("Collection ID: " + collectionId);
-        System.out.println("Collection Status: " + collectionStatus);
-        System.out.println("Payment ID: " + paymentId);
-        System.out.println("Status: " + status);
-        System.out.println("External Reference: " + externalReference);
-        System.out.println("Payment Type: " + paymentType);
-        System.out.println("Merchant Order ID: " + merchantOrderId);
-        System.out.println("Preference ID: " + preferenceId);
-        System.out.println("Site ID: " + siteId);
-        System.out.println("Processing Mode: " + processingMode);
-        System.out.println("Merchant Account ID: " + merchantAccountId);
+        // También puedes inspeccionar el cuerpo de la solicitud si es necesario
+        System.out.println("Cuerpo completo de la solicitud: " + request.getReader().lines().reduce("", (accumulator, actual) -> accumulator + actual));
 
-        // Redirigir al front-end con la información necesaria
-        response.sendRedirect("https://sirenah-production.up.railway.app/PagoExitoso"
-                + "?collection_id=" + collectionId
-                + "&collection_status=" + collectionStatus
-                + "&payment_id=" + paymentId
-                + "&status=" + status
-                + "&external_reference=" + externalReference
-                + "&payment_type=" + paymentType
-                + "&merchant_order_id=" + merchantOrderId
-                + "&preference_id=" + preferenceId
-                + "&site_id=" + siteId
-                + "&processing_mode=" + processingMode
-                + "&merchant_account_id=" + merchantAccountId);
+        // Redirigir al front-end con información adicional (opcional)
+        response.sendRedirect("https://sirenah-production.up.railway.app/PagoExitoso");
     }
+
 
 
     @PostMapping("/failure")
@@ -192,53 +166,37 @@ public class PagoController {
         response.sendRedirect("https://sirenah-production.up.railway.app/PagoPendiente");
     }
 
-    @PostMapping("/notificacion")
-    public String recibirNotificacion(@RequestBody String body) {
-        String preferenceId = extractPreferenceIdFromBody(body);
+    @PostMapping("/webhook")
+    public ResponseEntity<String> recibirNotificacion(@RequestBody String body) {
+        try {
+            // Registrar la recepción del webhook
+            System.out.println("Webhook recibido: " + body);
 
-        System.out.println(preferenceId);
-       try {
-            MercadoPagoConfig.setAccessToken(mercadoPagoToken);
+            // Parsear el cuerpo del webhook si es necesario
+            // Por ejemplo, puedes usar Gson para convertir el JSON en un objeto:
+            Gson gson = new Gson();
+            JsonObject jsonObject = gson.fromJson(body, JsonObject.class);
 
-            PreferenceClient preferenceClient = new PreferenceClient();
-            Preference preference = preferenceClient.get(preferenceId);
+            // Extraer datos del webhook según lo que envía Mercado Pago
+            String action = jsonObject.has("action") ? jsonObject.get("action").getAsString() : null;
+            String dataId = jsonObject.has("data") ? jsonObject.get("data").getAsJsonObject().get("id").getAsString() : null;
 
-            // Variables para generar la boleta
-            StringBuilder boleta = new StringBuilder();
-            boleta.append("**** BOLETA DE PAGO ****\n");
-            boleta.append("Fecha: ").append(LocalDate.now()).append("\n");
-            boleta.append("Número de Pedido: ").append(preference.getId()).append("\n");
-            boleta.append("Estado del Pago: Pagado");
-            // Procesamos los ítems de la preferencia
-            BigDecimal total = BigDecimal.ZERO;
-            for (PreferenceItem item : preference.getItems()) {
-                boleta.append("Producto: ").append(item.getTitle()).append("\n");
-                boleta.append("Cantidad: ").append(item.getQuantity()).append("\n");
-                boleta.append("Precio Unitario: $").append(item.getUnitPrice()).append("\n");
-                boleta.append("-------------------------\n");
-                BigDecimal itemTotal = item.getUnitPrice().multiply(BigDecimal.valueOf(item.getQuantity()));
-                total = total.add(itemTotal);
-            }
+            // Log para depuración
+            System.out.println("Acción: " + action);
+            System.out.println("ID del recurso: " + dataId);
 
-            boleta.append("Total a Pagar: $").append(total).append("\n");
-            boleta.append("*********************************\n");
+            // Realiza acciones con los datos recibidos, por ejemplo:
+            // - Consultar el recurso en la API de Mercado Pago usando el ID recibido
+            // - Actualizar el estado de un pedido en tu base de datos
 
-            // Aquí podrías guardar el estado del pedido o realizar otras acciones
-
-            // Si el pago fue exitoso, puedes realizar las acciones necesarias como actualizar el carrito, el estado del pedido, etc.
-            return boleta.toString();
-
-        } catch (MPException | MPApiException e) {
+            // Responder a Mercado Pago que el webhook fue recibido correctamente
+            return ResponseEntity.ok("Webhook recibido correctamente");
+        } catch (Exception e) {
             e.printStackTrace();
-            return "Error al obtener los detalles de la preferencia";
+            // Enviar una respuesta de error en caso de fallo
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al procesar el webhook");
         }
     }
 
-    // Método auxiliar para extraer el preferenceId del cuerpo del JSON
-    private String extractPreferenceIdFromBody(String body) {
-        Gson gson = new Gson();
-        JsonObject jsonObject = gson.fromJson(body, JsonObject.class);
-        return jsonObject.get("preference_id").getAsString();
-    }
 
 }
