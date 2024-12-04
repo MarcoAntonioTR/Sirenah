@@ -12,14 +12,31 @@ import {
   FaSignOutAlt,
 } from "react-icons/fa";
 import "../../styles/Sidebar.css";
-import Modal from 'react-modal'
+import Modal from "react-modal";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
-function UserSidebar({onCollapseChange}) {
+import { obtenerDatos } from "../../services/perfil";
+import { useEffect } from "react";
+
+function UserSidebar({ onCollapseChange }) {
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [modalIsOpen, setModalIsOpen] = useState(false); // Estado para el modal
+  const [modalIsOpen, setModalIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [buttonsVisible, setButtonsVisible] = useState(true);
+  const [userRole, setUserRole] = useState(null);
+
+  useEffect(() => {
+    const fetchDatos = async () => {
+      try {
+        const response = await obtenerDatos();
+        setUserRole(response.role);
+      } catch (error) {
+        console.error("Error al obtener los datos:", error);
+      }
+    };
+
+    fetchDatos();
+  }, []);
   const toggleSidebar = () => {
     setIsCollapsed((prev) => {
       const newState = !prev;
@@ -39,9 +56,9 @@ function UserSidebar({onCollapseChange}) {
   const Logout = () => {
     setLoading(true);
     setButtonsVisible(false);
-    localStorage.clear()
+    localStorage.clear();
     setTimeout(() => {
-      navigate('/');
+      navigate("/");
     }, 1000);
   };
   return (
@@ -54,11 +71,13 @@ function UserSidebar({onCollapseChange}) {
       </div>
       <nav>
         <ul>
-          <li>
-            <a href="/MenuCliente/Inicio">
-              <FaHome /> <span>Inicio</span>
-            </a>
-          </li>
+          {userRole === "ADMIN" && (
+            <li>
+              <a href="/MenuAdmin/Perfil">
+                <FaUser /> <span>Perfil Admin</span>
+              </a>
+            </li>
+          )}
           <li>
             <a href="/MenuCliente/MisCompras">
               <FaShoppingBag /> <span>Mis Compras</span>
@@ -84,15 +103,20 @@ function UserSidebar({onCollapseChange}) {
               <FaHeadset /> <span>Soporte y Ayuda</span>
             </a>
           </li>
-
           <li className="separator"></li>
+          <li>
+            <a href="/">
+              <FaHome /> <span>Inicio</span>
+            </a>
+          </li>
           <li>
             <a href="/MenuCliente/Perfil">
               <FaUser /> <span>Perfil</span>
             </a>
           </li>
+
           <li>
-            <a style={{cursor : "pointer"}} onClick={openModal}>
+            <a style={{ cursor: "pointer" }} onClick={openModal}>
               <FaSignOutAlt /> <span>Cerrar Sesión</span>
             </a>
           </li>
@@ -108,7 +132,7 @@ function UserSidebar({onCollapseChange}) {
         <h2>Confirmar Cierre de Sesión</h2>
         <p>¿Estás seguro de que deseas cerrar sesión?</p>
         <div className="modal-actions">
-          {buttonsVisible && ( // Renderiza los botones solo si son visibles
+          {buttonsVisible && (
             <>
               <button onClick={closeModal} className="cancel-button">
                 Cancelar
@@ -121,7 +145,7 @@ function UserSidebar({onCollapseChange}) {
         </div>
         {loading && (
           <div className="loading">
-            <div className="loader"></div> {/* Círculo de carga */}
+            <div className="loader"></div>
             Cerrando sesión...
           </div>
         )}

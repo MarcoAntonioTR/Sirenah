@@ -17,7 +17,6 @@ function Tarjeta({ producto, alAgregarCarrito, alAgregarListaDeseos, alVerDetall
             </div>
             <div className="tarjeta__contenido">
                 <h5 className="tarjeta__titulo">{producto.nombre}</h5>
-                <p className="tarjeta__descripcion">{producto.descripcion}</p>
                 <p className="tarjeta__precio">S/{producto.precio}</p>
                 <p className="tarjeta__stock">Stock: {producto.stock}</p>
                 <div className="tarjeta__botones">

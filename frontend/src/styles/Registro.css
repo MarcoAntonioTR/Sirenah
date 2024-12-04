@@ -28,7 +28,10 @@ body {
     min-height: 100vh;
     padding: 20px;
 }
-
+.dark-mode .contenedor-registro {
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+}
 .formulario-registro {
     display: flex;
     flex-wrap: wrap; /* Permite que los elementos se ajusten en múltiples filas */
@@ -81,7 +84,10 @@ body {
     margin-bottom: 5px;
     font-weight: 900;
 }
-
+.dark-mode .etiqueta {
+    background-color: #ffffff;
+    color: var(--text-color);
+}
 .input-registro {
     width: 100%;
     padding: 12px 10px 10px 40px;
@@ -90,7 +96,11 @@ body {
     font-size: 16px;
     transition: border-color 0.3s ease;
 }
-
+.dark-mode .input-registro {
+    background-color: #ffffff;
+    border: 2px solid #aaa;
+    color: var(--text-color);
+}
 .input-con-icono {
     position: relative;
 }

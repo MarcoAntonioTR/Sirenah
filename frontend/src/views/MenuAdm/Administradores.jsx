@@ -4,6 +4,8 @@ import { actualizarUsuario, eliminarUsuario } from '../../services/usuariosApi.j
 import { listarAdministradores } from '../../services/administradoresApi.js';
 import '../../styles/stylesAdm/ATablas.css';
 import { AlertaDeEliminacion, AlertaDeError, AlertaDeExito } from '../../utils/Alertas.js';
+import MiniProfile from "../../components/common/MiniProfile.jsx";
+
 import {
     validarNombre,
     validarApellido,
@@ -166,7 +168,7 @@ function Administradores() {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${TOKEN_API_RECIEC}`,
+                    'Authorization': `Bearer ${import.meta.env.VITE_TOKEN_API_RENIEC}`,
                 },
                 body: JSON.stringify({ dni: userForm.ourUsers.dni}),
             });
@@ -276,8 +278,11 @@ function Administradores() {
 
     return (
         <div className="Admin-layout">
+            <div style={{ display: "flex", justifyContent: "flex-end", padding: "10px 20px" }}>
+                <MiniProfile />
+            </div>
             <AdminSidebar onCollapseChange={handleCollapseChange} />
-            <main className={`content ${isCollapsed ? 'collapsed' : ''}`}>
+            <main style={{marginTop:"0px"}} className={`content ${isCollapsed ? 'collapsed' : ''}`}>
                 <div className="header-section">
                     <h1>Gestión de Administradores</h1>
                     <input

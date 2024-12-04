@@ -6,11 +6,12 @@ import {
   FaHome,
   FaShoppingBag,
   FaUsers,
-  FaChartBar,
   FaCog,
   FaQuestionCircle,
   FaUser,
   FaSignOutAlt,
+  FaIdBadge,
+  FaTachometerAlt,
 } from "react-icons/fa";
 import "../../styles/Sidebar.css";
 import Modal from 'react-modal';
@@ -65,9 +66,14 @@ function AdminSidebar({ onCollapseChange }) {
       </div>
       <nav>
         <ul>
+        <li>
+            <a href="/MenuCliente/Perfil">
+              <FaIdBadge /> <span>Perfil Cliente</span>
+            </a>
+          </li>
           <li>
             <a href="/MenuAdmin/Dashboard">
-              <FaHome /> <span>Dashboard</span>
+              <FaTachometerAlt /> <span>Dashboard</span>
             </a>
           </li>
           <li>
@@ -81,11 +87,6 @@ function AdminSidebar({ onCollapseChange }) {
             </a>
           </li>
           <li>
-            <a href="/MenuAdmin/Analiticas">
-              <FaChartBar /> <span>Analíticas</span>
-            </a>
-          </li>
-          <li>
             <a href="/MenuAdmin/Configuracion">
               <FaCog /> <span>Configuración</span>
             </a>
@@ -96,6 +97,11 @@ function AdminSidebar({ onCollapseChange }) {
             </a>
           </li>
           <li className="separator"></li>
+          <li>
+            <a href="/">
+              <FaHome /> <span>Inicio</span>
+            </a>
+          </li>
           <li>
             <a href="/MenuAdmin/Perfil">
               <FaUser /> <span>Perfil</span>

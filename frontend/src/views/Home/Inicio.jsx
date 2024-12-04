@@ -11,11 +11,15 @@ import Collection3 from '../../assets/InicioImgs/Collection3.jpg';
 import Producto1 from '../../assets/InicioImgs/Product1.jpg';
 import Producto2 from '../../assets/InicioImgs/Product2.jpg';
 import Producto3 from '../../assets/InicioImgs/Product3.jpg';
+import { useNavigate } from 'react-router-dom';
 
 const Inicio = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isDarkMode, setIsDarkMode] = useState(false);
-
+  const navigate = useNavigate();
+  const handleNavigate = (path) => {
+    navigate(path); // Redirige a la ruta especificada
+  };
   // Array de imágenes para el carrusel
   const images = [
     {
@@ -45,7 +49,7 @@ const Inicio = () => {
   };
 
   return (
-    <div className={isDarkMode ? 'dark-mode' : ''}> {/* Aplica la clase para el dark mode */}
+    <div className={isDarkMode ? 'dark-mode' : ''}>
       <Header isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
       <main>
         {/* Sección del Carrusel */}
@@ -68,18 +72,18 @@ const Inicio = () => {
         {/* Nuevas Colecciones */}
         <section className="new-collection">
           <h2>Nuevas Colecciones</h2>
-          <div className="collection-grid">
+          <div style={{cursor:"pointer"}} className="collection-grid" onClick={() => handleNavigate("/Catalogo")}>
             <div className="collection-item">
               <img src={Collection1} alt="Colección 1" />
               <h3>Colección Otoño</h3>
             </div>
-            <div className="collection-item">
+            <div style={{cursor:"pointer"}} className="collection-item" onClick={() => handleNavigate("/Catalogo")}>
               <img src={Collection2} alt="Colección 2" />
-              <h3>Colección Invierno</h3>
+              <h3>Colección De Verano</h3>
             </div>
-            <div className="collection-item">
+            <div style={{cursor:"pointer"}} className="collection-item" onClick={() => handleNavigate("/Catalogo")}>
               <img src={Collection3} alt="Colección 3" />
-              <h3>Colección Verano</h3>
+              <h3>Colección Invierno</h3>
             </div>
           </div>
         </section>
@@ -91,17 +95,17 @@ const Inicio = () => {
             <div className="product-item">
               <img src={Producto1} alt="Producto 1" />
               <h3>Vestido Floral</h3>
-              <p>$45.99</p>
+              <p>S/. 45.99</p>
             </div>
             <div className="product-item">
               <img src={Producto2} alt="Producto 2" />
               <h3>Chaqueta Denim</h3>
-              <p>$65.99</p>
+              <p>S/. 65.99</p>
             </div>
             <div className="product-item">
               <img src={Producto3} alt="Producto 3" />
               <h3>Pantalón Culotte</h3>
-              <p>$39.99</p>
+              <p>S/. 39.99</p>
             </div>
           </div>
         </section>

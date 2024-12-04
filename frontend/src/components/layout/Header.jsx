@@ -9,6 +9,7 @@ import { obtenerUsuarioId } from "../../services/todosroles.js";
 import { eliminarProductoDelCarrito } from "../../services/CarritoService/DeleteProductoCarrito.js";
 import { aumentarProductoCarrito, disminuirProductoCarrito } from "../../services/CarritoService/AumDisProductoCarrito.js";
 import { vaciarCarrito } from "../../services/CarritoService/VaciarCarrito.js";
+import { AlertaDeError } from "../../utils/Alertas.js";
 const Header = () => {
     const [isDarkMode, setIsDarkMode] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
@@ -46,8 +47,13 @@ const Header = () => {
         try {
             setIsLoading(true);
             const userId = await obtenerUsuarioId();
+            const token = localStorage.getItem("token");
+            if (!token) {
+                AlertaDeError("¡Error!","Debe iniciar session.");
+                return;
+            }
             if (!userId) {
-                console.error("No se pudo obtener el usuarioId.");
+                AlertaDeError("¡Error!","Error al obtener el usuarioId.");
                 return;
             }
 

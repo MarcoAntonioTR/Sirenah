@@ -10,8 +10,6 @@ import java.util.Optional;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,7 +39,6 @@ import com.sirenah.backend.service.OurUserService;
 import com.sirenah.backend.service.ProductoService;
 
 import io.github.cdimascio.dotenv.Dotenv;
-import org.springframework.web.client.RestTemplate;
 
 @RestController
 @RequestMapping("/public")
@@ -126,7 +123,7 @@ public class PagoController {
                     .backUrls(backUrlsRequest)
                     .autoReturn("approved")
                     .paymentMethods(paymentMethodsRequest)
-                    .notificationUrl("https://sirenah.onrender.com/public/webhook?source_news=webhooks")
+                    .notificationUrl("https://sirenah.onrender.com/public/webhook")
                     .statementDescriptor("Sirenah")
                     .externalReference("Reference_1234")
                     .expires(true)
@@ -168,38 +165,35 @@ public class PagoController {
         // Procesar datos y redirigir al front-end para estado pendiente
         response.sendRedirect("https://sirenah-production.up.railway.app/PagoPendiente");
     }
-    private static final Logger logger = LoggerFactory.getLogger(PagoController.class);
 
     @PostMapping("/webhook")
     public ResponseEntity<String> recibirNotificacion(@RequestBody String body) {
         try {
-            // Log de recepción
-            logger.info("Webhook recibido: {}", body);
+            // Registrar la recepción del webhook
+            System.out.println("Webhook recibido: " + body);
 
-            // Parsear el JSON recibido
+            // Parsear el cuerpo del webhook si es necesario
+            // Por ejemplo, puedes usar Gson para convertir el JSON en un objeto:
             Gson gson = new Gson();
             JsonObject jsonObject = gson.fromJson(body, JsonObject.class);
 
-            String type = jsonObject.has("type") ? jsonObject.get("type").getAsString() : null;
+            // Extraer datos del webhook según lo que envía Mercado Pago
+            String action = jsonObject.has("action") ? jsonObject.get("action").getAsString() : null;
             String dataId = jsonObject.has("data") ? jsonObject.get("data").getAsJsonObject().get("id").getAsString() : null;
 
-            // Log de datos procesados
-            logger.info("Tipo: {}", type);
-            logger.info("ID del recurso: {}", dataId);
+            // Log para depuración
+            System.out.println("Acción: " + action);
+            System.out.println("ID del recurso: " + dataId);
 
-            // Consultar el recurso en Mercado Pago
-            if (dataId != null) {
-                RestTemplate restTemplate = new RestTemplate();
-                String url = "https://api.mercadopago.com/v1/payments/" + dataId + "?access_token=YOUR_ACCESS_TOKEN";
-                ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+            // Realiza acciones con los datos recibidos, por ejemplo:
+            // - Consultar el recurso en la API de Mercado Pago usando el ID recibido
+            // - Actualizar el estado de un pedido en tu base de datos
 
-                // Procesar la respuesta
-                logger.info("Detalles del recurso: {}", response.getBody());
-            }
-
+            // Responder a Mercado Pago que el webhook fue recibido correctamente
             return ResponseEntity.ok("Webhook recibido correctamente");
         } catch (Exception e) {
-            logger.error("Error procesando el webhook: ", e);
+            e.printStackTrace();
+            // Enviar una respuesta de error en caso de fallo
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al procesar el webhook");
         }
     }

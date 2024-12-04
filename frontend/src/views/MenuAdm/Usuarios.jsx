@@ -4,6 +4,7 @@ import { listarUsuarios, eliminarUsuario } from '../../services/usuariosApi.js';
 import '../../styles/stylesAdm/ATablas.css';
 import { AlertaDeEliminacion, AlertaDeError, AlertaDeExito } from '../../utils/Alertas.js';
 import { useNavigate } from "react-router-dom";
+import MiniProfile from "../../components/common/MiniProfile.jsx"
 
 function Usuarios() {
     const [isCollapsed, setIsCollapsed] = useState(false);
@@ -115,8 +116,11 @@ function Usuarios() {
 
     return (
         <div className="Admin-layout">
+            <div style={{ display: "flex", justifyContent: "flex-end", padding: "10px 20px" }}>
+                <MiniProfile />
+            </div>
             <AdminSidebar onCollapseChange={handleCollapseChange} />
-            <main className={`content ${isCollapsed ? 'collapsed' : ''}`}>
+            <main style={{marginTop:"0px"}} className={`content ${isCollapsed ? 'collapsed' : ''}`}>
                 <div className="header-section">
                     <h1>Gestión de Clientes</h1>
                     <input

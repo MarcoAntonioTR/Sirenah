@@ -4,7 +4,7 @@ import {
   actualizarUsuario,
   eliminarUsuario,
 } from "../../services/usuariosApi.js";
-import { listarEmpleados } from "../../services/empleadosApi.js"; 
+import { listarEmpleados } from "../../services/empleadosApi.js";
 import "../../styles/stylesAdm/ATablas.css";
 import {
   AlertaDeEliminacion,
@@ -20,6 +20,7 @@ import {
   validarTelefono,
   validarFechaNacimiento,
 } from "../../utils/Validaciones";
+import MiniProfile from "../../components/common/MiniProfile.jsx";
 
 function Administradores() {
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -78,34 +79,52 @@ function Administradores() {
     fetchUsuarios();
   }, []);
 
-
   const handleAddUser = async (e) => {
     e.preventDefault();
 
-    if (Object.values(errores).some(error => error)) return;
+    if (Object.values(errores).some((error) => error)) return;
 
     try {
-      const response = await fetch('https://apiperu.dev/api/dni', {
-        method: 'POST',
+      const response = await fetch("https://apiperu.dev/api/dni", {
+        method: "POST",
         headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${TOKEN_API_RECIEC}`,
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${import.meta.env.VITE_TOKEN_API_RENIEC}`,
         },
         body: JSON.stringify({ dni: userForm.ourUsers.dni }),
       });
 
       const data = await response.json();
 
-      if (userForm.name.toUpperCase() !== data.data.nombres && userForm.ourUsers.apellido.toUpperCase() !== (data.data.apellido_paterno + " " + data.data.apellido_materno)) {
-        setErrores(prev => ({ ...prev, nombre: 'Verificar que el nombre sea correcto.' }));
-        setErrores(prev => ({ ...prev, apellido: 'Verificar que el apellido sea correcto.' }));
+      if (
+        userForm.name.toUpperCase() !== data.data.nombres &&
+        userForm.ourUsers.apellido.toUpperCase() !==
+          data.data.apellido_paterno + " " + data.data.apellido_materno
+      ) {
+        setErrores((prev) => ({
+          ...prev,
+          nombre: "Verificar que el nombre sea correcto.",
+        }));
+        setErrores((prev) => ({
+          ...prev,
+          apellido: "Verificar que el apellido sea correcto.",
+        }));
         return;
       } else if (userForm.name.toUpperCase() !== data.data.nombres) {
-        setErrores(prev => ({ ...prev, nombre: 'Verificar que el nombre sea correcto.' }));
+        setErrores((prev) => ({
+          ...prev,
+          nombre: "Verificar que el nombre sea correcto.",
+        }));
         return;
-      } else if (userForm.ourUsers.apellido.toUpperCase() !== (data.data.apellido_paterno + " " + data.data.apellido_materno)) {
-        setErrores(prev => ({ ...prev, apellido: 'Verificar que el apellido sea correcto.' }));
+      } else if (
+        userForm.ourUsers.apellido.toUpperCase() !==
+        data.data.apellido_paterno + " " + data.data.apellido_materno
+      ) {
+        setErrores((prev) => ({
+          ...prev,
+          apellido: "Verificar que el apellido sea correcto.",
+        }));
         return;
       }
 
@@ -123,27 +142,24 @@ function Administradores() {
       };
 
       try {
-        const signupResponse = await fetch(`${import.meta.env.VITE_API}/auth/signup`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(body),
-        });
+        const signupResponse = await fetch(
+          `${import.meta.env.VITE_API}/auth/signup`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body),
+          }
+        );
         const signupData = await signupResponse.json();
 
         if (signupData.statuscode === 200) {
-          AlertaDeExito('Éxito!', 'Empleado añadido Correctamente');
+          AlertaDeExito("Éxito!", "Empleado añadido Correctamente");
           resetUserForm();
           setErrores({});
         } else if (signupData.statuscode === 409) {
-          AlertaDeError(
-            "Error",
-            "El correo electrónico ya está en uso."
-          );
+          AlertaDeError("Error", "El correo electrónico ya está en uso.");
         } else if (data.statuscode === 410) {
-          AlertaDeError(
-            "Error",
-            "Ya hay un usuario con el DNI registrado"
-          );
+          AlertaDeError("Error", "Ya hay un usuario con el DNI registrado");
         } else if (data.statuscode === 500) {
           AlertaDeError(
             "Error",
@@ -156,42 +172,68 @@ function Administradores() {
         fetchUsuarios();
         // eslint-disable-next-line no-unused-vars
       } catch (error) {
-        setErrores({ global: 'Hubo un error al registrar. Intenta nuevamente.' });
+        setErrores({
+          global: "Hubo un error al registrar. Intenta nuevamente.",
+        });
       }
       // eslint-disable-next-line no-unused-vars
     } catch (error) {
-      setErrores(prev => ({ ...prev, dni: 'Error al conectar con la API de RENIEC. Intente nuevamente.' }));
+      setErrores((prev) => ({
+        ...prev,
+        dni: "Error al conectar con la API de RENIEC. Intente nuevamente.",
+      }));
     }
   };
 
-
   const handleSaveEdit = async () => {
-    if (Object.values(errores).some(error => error)) return;
+    if (Object.values(errores).some((error) => error)) return;
     try {
-      const response = await fetch('https://apiperu.dev/api/dni', {
-        method: 'POST',
+      const response = await fetch("https://apiperu.dev/api/dni", {
+        method: "POST",
         headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${import.meta.env.VITE_TOKEN_API_RENIEC}`,
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${import.meta.env.VITE_TOKEN_API_RENIEC}`,
         },
         body: JSON.stringify({ dni: userForm.ourUsers.dni }),
       });
 
       const data = await response.json();
 
-      if (userForm.name.toUpperCase() !== data.data.nombres && userForm.ourUsers.apellido.toUpperCase() !== (data.data.apellido_paterno + " " + data.data.apellido_materno)) {
-        setErrores(prev => ({ ...prev, nombre: 'Verificar que el nombre sea correcto.' }));
-        setErrores(prev => ({ ...prev, apellido: 'Verificar que el apellido sea correcto.' }));
+      if (
+        userForm.name.toUpperCase() !== data.data.nombres &&
+        userForm.ourUsers.apellido.toUpperCase() !==
+          data.data.apellido_paterno + " " + data.data.apellido_materno
+      ) {
+        setErrores((prev) => ({
+          ...prev,
+          nombre: "Verificar que el nombre sea correcto.",
+        }));
+        setErrores((prev) => ({
+          ...prev,
+          apellido: "Verificar que el apellido sea correcto.",
+        }));
         return;
       } else if (userForm.name.toUpperCase() !== data.data.nombres) {
-        setErrores(prev => ({ ...prev, nombre: 'Verificar que el nombre sea correcto.' }));
+        setErrores((prev) => ({
+          ...prev,
+          nombre: "Verificar que el nombre sea correcto.",
+        }));
         return;
-      } else if (userForm.ourUsers.apellido.toUpperCase() !== (data.data.apellido_paterno + " " + data.data.apellido_materno)) {
-        setErrores(prev => ({ ...prev, apellido: 'Verificar que el apellido sea correcto.' }));
+      } else if (
+        userForm.ourUsers.apellido.toUpperCase() !==
+        data.data.apellido_paterno + " " + data.data.apellido_materno
+      ) {
+        setErrores((prev) => ({
+          ...prev,
+          apellido: "Verificar que el apellido sea correcto.",
+        }));
         return;
       } else if (data.success == false) {
-        setErrores(prev => ({ ...prev, dni: 'No se encontraron registros.' }));
+        setErrores((prev) => ({
+          ...prev,
+          dni: "No se encontraron registros.",
+        }));
         return;
       }
       const { id } = userForm.ourUsers;
@@ -203,10 +245,7 @@ function Administradores() {
         } else if (response.statuscode === 409) {
           AlertaDeError("Error", "El correo electrónico ya está en uso.");
         } else if (response.statuscode === 410) {
-          AlertaDeError(
-            "Error",
-            "Ya hay un usuario con el DNI registrado"
-          );
+          AlertaDeError("Error", "Ya hay un usuario con el DNI registrado");
         } else {
           AlertaDeExito(
             "Usuario actualizado",
@@ -220,11 +259,10 @@ function Administradores() {
       } else {
         AlertaDeError("Error", "ID de usuario no encontrado.");
       }
-    // eslint-disable-next-line no-unused-vars
+      // eslint-disable-next-line no-unused-vars
     } catch (error) {
       AlertaDeError("Error", "Error al actualizar usuario");
     }
-
   };
 
   const handleDeleteUser = async () => {
@@ -242,11 +280,11 @@ function Administradores() {
           closeModal();
           fetchUsuarios();
         }
-      // eslint-disable-next-line no-unused-vars
+        // eslint-disable-next-line no-unused-vars
       } catch (error) {
         AlertaDeError("Error", "Error al eliminar usuario");
       }
-    } 
+    }
   };
 
   const closeModal = () => {
@@ -285,8 +323,20 @@ function Administradores() {
 
   return (
     <div className="Admin-layout">
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "flex-end",
+          padding: "10px 20px",
+        }}
+      >
+        <MiniProfile />
+      </div>
       <AdminSidebar onCollapseChange={handleCollapseChange} />
-      <main className={`content ${isCollapsed ? "collapsed" : ""}`}>
+      <main
+        style={{ marginTop: "0px" }}
+        className={`content ${isCollapsed ? "collapsed" : ""}`}
+      >
         <div className="header-section">
           <h1>Gestión de Empleados</h1>
           <input
@@ -374,7 +424,13 @@ function Administradores() {
                   onChange={(e) =>
                     setUserForm({ ...userForm, email: e.target.value })
                   }
-                  onBlur={() => validarEmail(userForm.email,userForm.ourUsers.id, setErrores)}
+                  onBlur={() =>
+                    validarEmail(
+                      userForm.email,
+                      userForm.ourUsers.id,
+                      setErrores
+                    )
+                  }
                 />
                 {errores.email && (
                   <p className="error-message">{errores.email}</p>
@@ -404,7 +460,9 @@ function Administradores() {
                       },
                     })
                   }
-                  onBlur={() => validarApellido(userForm.ourUsers.apellido, setErrores)}
+                  onBlur={() =>
+                    validarApellido(userForm.ourUsers.apellido, setErrores)
+                  }
                 />
                 {errores.apellido && (
                   <p className="error-message">{errores.apellido}</p>
@@ -419,11 +477,15 @@ function Administradores() {
                       ourUsers: { ...userForm.ourUsers, dni: e.target.value },
                     })
                   }
-                  onBlur={() => validarDni(userForm.ourUsers.dni, userForm.ourUsers.id,  setErrores)}
+                  onBlur={() =>
+                    validarDni(
+                      userForm.ourUsers.dni,
+                      userForm.ourUsers.id,
+                      setErrores
+                    )
+                  }
                 />
-                {errores.dni && (
-                  <p className="error-message">{errores.dni}</p>
-                )}
+                {errores.dni && <p className="error-message">{errores.dni}</p>}
                 <label>Teléfono</label>
                 <input
                   type="text"
@@ -437,7 +499,9 @@ function Administradores() {
                       },
                     })
                   }
-                  onBlur={() => validarTelefono(userForm.ourUsers.telefono, setErrores)}
+                  onBlur={() =>
+                    validarTelefono(userForm.ourUsers.telefono, setErrores)
+                  }
                 />
                 {errores.telefono && (
                   <p className="error-message">{errores.telefono}</p>
@@ -455,7 +519,12 @@ function Administradores() {
                       },
                     })
                   }
-                  onBlur={() => validarFechaNacimiento(userForm.ourUsers.fecha_nacimiento, setErrores)}
+                  onBlur={() =>
+                    validarFechaNacimiento(
+                      userForm.ourUsers.fecha_nacimiento,
+                      setErrores
+                    )
+                  }
                 />
                 {errores.fechaNacimiento && (
                   <p className="error-message">{errores.fechaNacimiento}</p>

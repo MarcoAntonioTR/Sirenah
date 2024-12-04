@@ -1,5 +1,6 @@
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
+import { AlertaDeError } from "../utils/Alertas";
 const BASE_URL = `${import.meta.env.VITE_API}/todosroles`;
 const token = localStorage.getItem('token');
 
@@ -16,7 +17,7 @@ export const obtenerUsuarioId = async () => {
     try {
         const token = localStorage.getItem("token");
         if (!token) {
-            console.error("Token de autenticación no disponible.");
+            AlertaDeError("¡Error!", "Debe iniciar session.");
             return;
         }
         const decodedToken = jwtDecode(token);

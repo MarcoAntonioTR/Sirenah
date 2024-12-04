@@ -1,10 +1,12 @@
 import Tarjeta from "./Tarjeta";
 import "../../styles/Catalogo.css";
 import { useEffect, useState } from "react";
-import { jwtDecode } from "jwt-decode";
 import axios from "axios";
-import { AlertaDeError, AlertaDeExito } from "../../utils/Alertas";
-import Loading from "../common/Loanding.jsx"
+import { AlertaDeExito } from "../../utils/Alertas";
+import Loading from "../common/Loanding.jsx";
+import { FaCartPlus, FaHeart } from 'react-icons/fa';
+import { obtenerUsuarioId } from "../../services/todosroles.js";
+
 const token = localStorage.getItem("token");
 axios.interceptors.request.use(
   (config) => {
@@ -21,7 +23,10 @@ function ProductList() {
   const [productos, setProductos] = useState([]);
   const [productosFiltrados, setProductosFiltrados] = useState([]);
   const [categorias, setCategorias] = useState([]);
-  const [isLoading, setIsLoanding ] = useState(false);
+  const [isLoading, setIsLoanding] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [seleccionado, setSeleccionado] = useState([]);
+
   const [filtro, setFiltro] = useState({
     nombre: "",
     categoria: "",
@@ -32,24 +37,9 @@ function ProductList() {
     descuento: false,
     ordenar: "nombreAsc",
   });
-  const [usuarioId, setUsuarioId] = useState(null);
-
-  const obtenerUsuarioId = async () => {
-    try {
-      const decodedToken = jwtDecode(token);
-      const email = decodedToken.sub;
-      const response = await axios.get(
-        `${import.meta.env.VITE_API}/todosroles/datos/${email}`
-      );
-      setUsuarioId(response.data.id);
-    } catch (error) {
-      console.error("Error al obtener el usuario:", error);
-    }
-  };
 
   useEffect(() => {
     setIsLoanding(true);
-    obtenerUsuarioId();
     const obtenerProductos = async () => {
       try {
         const respuesta = await fetch(
@@ -60,7 +50,7 @@ function ProductList() {
         setProductosFiltrados(datos);
       } catch (error) {
         console.error("Error al obtener los productos:", error);
-      }finally {
+      } finally {
         setIsLoanding(false);
       }
     };
@@ -84,18 +74,8 @@ function ProductList() {
 
   const manejarAgregarCarrito = async (producto) => {
     try {
-      /*
-      if (!usuarioId) {
-        alert("Usuario no identificado.");
-        return;
-      }
-      */
+      const usuarioId =await obtenerUsuarioId();
       const token = localStorage.getItem("token");
-
-      if (!token) {
-        AlertaDeError("¡Error!","Debe iniciar session.")
-        return;
-      }
 
       // 3. Obtener el carrito del usuario
       let carrito;
@@ -126,16 +106,19 @@ function ProductList() {
         } else {
           carrito = await carritoResponse.json();
         }
-      // eslint-disable-next-line no-unused-vars
+        // eslint-disable-next-line no-unused-vars
       } catch (error) {
         return;
       }
-      
 
       // 4. Agregar producto al carrito
       try {
         const agregarProductoResponse = await fetch(
-          `${import.meta.env.VITE_API}/todosroles/carrito/${carrito.idCarrito}/detalle?idProducto=${producto.idProducto}&cantidad=${1}&precioUnitario=${producto.precio}`,
+          `${import.meta.env.VITE_API}/todosroles/carrito/${
+            carrito.idCarrito
+          }/detalle?idProducto=${
+            producto.idProducto
+          }&cantidad=${1}&precioUnitario=${producto.precio}`,
           {
             method: "POST",
             headers: {
@@ -149,18 +132,21 @@ function ProductList() {
           throw new Error("Error al agregar el producto al carrito.");
         }
 
-        
-        AlertaDeExito("¡Exito!","Producto agregado al carrito con éxito.");
+        AlertaDeExito("¡Exito!", "Producto agregado al carrito con éxito.");
       } catch (error) {
         console.error("Error al agregar producto al carrito:", error);
         alert("Hubo un error al agregar el producto al carrito.");
       }
-
-
     } catch (error) {
       console.error("Error al manejar el carrito:", error);
       alert("Hubo un error al agregar el producto al carrito.");
     }
+  };
+
+  const manejarVerDetalles = (producto) => {
+    setSeleccionado(producto);
+    console.log(seleccionado)
+    setIsModalOpen(true);
   };
 
   const manejarAplicarFiltros = () => {
@@ -211,7 +197,9 @@ function ProductList() {
 
   return (
     <main className={`catalogo ${isDarkMode ? "dark-mode" : ""}`}>
-      {isLoading && <Loading message="Obteniendo productos, por favor espera..." />}
+      {isLoading && (
+        <Loading message="Obteniendo productos, por favor espera..." />
+      )}
       <div className="filtros-catalogo">
         <div className="filtro-item">
           <label htmlFor="nombre">Buscar por nombre:</label>
@@ -289,14 +277,60 @@ function ProductList() {
             alAgregarListaDeseos={(producto) =>
               console.log("Producto agregado a la lista de deseos:", producto)
             }
-            alVerDetalles={(producto) =>
-              alert(
-                `Detalles del producto:\nNombre: ${producto.nombre}\nDescripción: ${producto.descripcion}\nPrecio: S/${producto.precio}`
-              )
-            }
+            alVerDetalles={() => manejarVerDetalles(producto)}
           />
         ))}
       </div>
+      {isModalOpen && (
+        <div className={`modal-detalles ${isModalOpen ? "open" : ""}`}>
+          <div className="modal-detalles-content">
+            <button
+              className="close-modal"
+              onClick={() => setIsModalOpen(false)}
+            >
+              &times;
+            </button>
+            <div className="modal__contenido">
+              <div className="modal__encabezado">
+                <h2>{seleccionado.nombre}</h2>
+              </div>
+              <div className="modal__cuerpo">
+                <img src={seleccionado.imgUrl} alt={seleccionado.nombre} />
+                <p>{seleccionado.descripcion}</p>
+                <p>
+                  <strong>Precio:</strong> S/. {seleccionado.precio.toFixed(2)}
+                </p>
+                <p>
+                  <strong>Stock disponible:</strong> {seleccionado.stock}
+                </p>
+                <p>
+                  <strong>Categoría:</strong>{" "}
+                  {categorias.find(
+                    (categoria) =>
+                      categoria.idCategoria === seleccionado.idCategoria
+                  )?.nombre || "Sin categoría"}
+                </p>
+              </div>
+              <div className="tarjeta__botones">
+                    <div
+                        className="tarjeta__icono-contenedor"
+                        onClick={() => manejarAgregarCarrito(seleccionado)}
+                    >
+                        <FaCartPlus className="tarjeta__icono" />
+                        <span className="tarjeta__tooltip">Agregar al Carrito</span>
+                    </div>
+                    <div
+                        className="tarjeta__icono-contenedor"
+                        onClick={() => console.log("Producto añadido a la lista de deseos")}
+                    >
+                        <FaHeart className="tarjeta__icono" />
+                        <span className="tarjeta__tooltip">Lista de Deseos</span>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   );
 }
