@@ -41,17 +41,13 @@ const Header = () => {
             navigate("/Login");
         }
     };
-    
+
 
     const toggleCartModal = async () => {
         try {
             setIsLoading(true);
+            
             const userId = await obtenerUsuarioId();
-            const token = localStorage.getItem("token");
-            if (!token) {
-                AlertaDeError("¡Error!","Debe iniciar session.");
-                return;
-            }
             if (!userId) {
                 AlertaDeError("¡Error!","Error al obtener el usuarioId.");
                 return;

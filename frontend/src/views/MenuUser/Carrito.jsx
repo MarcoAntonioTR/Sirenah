@@ -4,10 +4,10 @@ import "../../styles/stylesUser/CarritoPanel.css";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 const token = localStorage.getItem("token");
-import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
 import Loading from "../../components/common/Loanding.jsx";
 import { vaciarCarrito } from "../../services/CarritoService/VaciarCarrito.js";
 import MiniProfileUser from "../../components/common/MiniProfileUser.jsx";
+import { useNavigate } from "react-router-dom";
 
 axios.interceptors.request.use(
   (config) => {
@@ -19,51 +19,18 @@ axios.interceptors.request.use(
   }
 );
 
+
 function Carrito() {
-  initMercadoPago(import.meta.env.VITE_TOKEN_MP, {
-    locale: "es-PE",
-  });
+  const navigate = useNavigate();
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [cartItems, setCartItems] = useState([]);
   const [usuarioId, setUsuarioId] = useState(null);
-  const [prefId, setPrefId] = useState(null);
   const handleCollapseChange = (collapsed) => {
     setIsCollapsed(collapsed);
   };
   const [isLoading, setIsLoading] = useState(false);
   const [isLoading1, setIsLoading1] = useState(false);
-  const [isLoading2, setIsLoading2] = useState(false);
 
-  const crearPreferencia = async (usuarioId) => {
-    try {
-      setIsLoading2(true);
-      const response = await fetch(`${import.meta.env.VITE_API}/public/mp`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-          Accept: "Application/json",
-        },
-        body: JSON.stringify(usuarioId),
-      });
-
-      if (!response.ok) {
-        throw new Error(`Error al crear preferencia: ${response.statusText}`);
-      }
-      const data = await response.text();
-      setPrefId(data);
-      return data;
-    } catch (error) {
-      return error;
-    } finally {
-      setIsLoading2(false);
-    }
-  };
-
-  const handleBuy = async () => {
-    const id = crearPreferencia(usuarioId);
-    console.log(id);
-  };
 
   const obtenerUsuarioId = async () => {
     try {
@@ -160,7 +127,6 @@ function Carrito() {
     <div className="user-layout">
       {isLoading && <Loading message="Cargando datos, por favor espera..." />}
       {isLoading1 && <Loading message="Eliminando productos del carrito." />}
-      {isLoading2 && <Loading message="Procesando orden." />}
 
       <UserSidebar onCollapseChange={handleCollapseChange} />
       <main
@@ -210,17 +176,10 @@ function Carrito() {
                   >
                     Vaciar Carrito
                   </button>
-                  <button className="btn-checkout" onClick={handleBuy}>
+                  <button className="btn-checkout" onClick={()=> navigate("/Pago")}>
                     Realizar Compra
                   </button>
-                  {prefId && (
-                    <Wallet
-                      initialization={{ preferenceId: prefId }}
-                      customization={{
-                        texts: { valueProp: "ompra rápida y segura" },
-                      }}
-                    />
-                  )}
+                  
                 </div>
               </div>
             </>

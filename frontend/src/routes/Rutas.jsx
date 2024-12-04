@@ -34,6 +34,7 @@ import UAyuda from "../views/MenuUser/Ayuda";
 import Success from "../views/StatusPagos/Success";
 import Failure from "../views/StatusPagos/Failure";
 import Pending from "../views/StatusPagos/Pending";
+import FormPago from "../components/layout/FormPago";
 
 function Rutas() {
   return (
@@ -204,6 +205,14 @@ function Rutas() {
           element={
             <ProtegerRutas allowedRoles={["USER", "ADMIN", "EMPLEADO"]}>
               <Pending />
+            </ProtegerRutas>
+          }
+        />
+        <Route
+          path="/Pago"
+          element={
+            <ProtegerRutas allowedRoles={["USER", "ADMIN", "EMPLEADO"]}>
+              <FormPago />
             </ProtegerRutas>
           }
         />
