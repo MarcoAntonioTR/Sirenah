@@ -137,19 +137,48 @@ public class PagoController {
 
     }
     @PostMapping("/success")
-    public void handleSuccess(
-            @RequestParam("collection_id") String collectionId,
-            @RequestParam("collection_status") String status,
-            @RequestParam("payment_id") String paymentId,
-            @RequestParam("preference_id") String preferenceId,
-            HttpServletResponse response) throws IOException {
+    public void handleSuccess(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        // Obtener todos los parámetros de la URL
+        String collectionId = request.getParameter("collection_id");
+        String collectionStatus = request.getParameter("collection_status");
+        String paymentId = request.getParameter("payment_id");
+        String status = request.getParameter("status");
+        String externalReference = request.getParameter("external_reference");
+        String paymentType = request.getParameter("payment_type");
+        String merchantOrderId = request.getParameter("merchant_order_id");
+        String preferenceId = request.getParameter("preference_id");
+        String siteId = request.getParameter("site_id");
+        String processingMode = request.getParameter("processing_mode");
+        String merchantAccountId = request.getParameter("merchant_account_id");
 
-        // Aquí podrías guardar estos datos en tu base de datos, si es necesario
+        // Puedes guardar estos datos en tu base de datos o realizar otras acciones necesarias
+        System.out.println("Collection ID: " + collectionId);
+        System.out.println("Collection Status: " + collectionStatus);
+        System.out.println("Payment ID: " + paymentId);
+        System.out.println("Status: " + status);
+        System.out.println("External Reference: " + externalReference);
+        System.out.println("Payment Type: " + paymentType);
+        System.out.println("Merchant Order ID: " + merchantOrderId);
+        System.out.println("Preference ID: " + preferenceId);
+        System.out.println("Site ID: " + siteId);
+        System.out.println("Processing Mode: " + processingMode);
+        System.out.println("Merchant Account ID: " + merchantAccountId);
 
         // Redirigir al front-end con la información necesaria
-        response.sendRedirect("https://sirenah-production.up.railway.app/PagoExitoso?collection_id=" + collectionId +
-                "&status=" + status + "&payment_id=" + paymentId + "&preference_id=" + preferenceId);
+        response.sendRedirect("https://sirenah-production.up.railway.app/PagoExitoso"
+                + "?collection_id=" + collectionId
+                + "&collection_status=" + collectionStatus
+                + "&payment_id=" + paymentId
+                + "&status=" + status
+                + "&external_reference=" + externalReference
+                + "&payment_type=" + paymentType
+                + "&merchant_order_id=" + merchantOrderId
+                + "&preference_id=" + preferenceId
+                + "&site_id=" + siteId
+                + "&processing_mode=" + processingMode
+                + "&merchant_account_id=" + merchantAccountId);
     }
+
 
     @PostMapping("/failure")
     public void handleFailure(HttpServletRequest request, HttpServletResponse response) throws IOException {
