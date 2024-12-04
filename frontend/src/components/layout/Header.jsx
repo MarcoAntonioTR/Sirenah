@@ -9,7 +9,6 @@ import { obtenerUsuarioId } from "../../services/todosroles.js";
 import { eliminarProductoDelCarrito } from "../../services/CarritoService/DeleteProductoCarrito.js";
 import { aumentarProductoCarrito, disminuirProductoCarrito } from "../../services/CarritoService/AumDisProductoCarrito.js";
 import { vaciarCarrito } from "../../services/CarritoService/VaciarCarrito.js";
-import { AlertaDeError } from "../../utils/Alertas.js";
 const Header = () => {
     const [isDarkMode, setIsDarkMode] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
@@ -48,10 +47,7 @@ const Header = () => {
             setIsLoading(true);
             
             const userId = await obtenerUsuarioId();
-            if (!userId) {
-                AlertaDeError("¡Error!","Error al obtener el usuarioId.");
-                return;
-            }
+
 
             if (!isCartOpen) {
                 const token = localStorage.getItem("token");

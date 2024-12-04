@@ -78,6 +78,7 @@ public class CardPaymentService {
                     .description(productDescriptions.toString())
                     .installments(cardPaymentDTO.getInstallments())
                     .paymentMethodId(cardPaymentDTO.getPaymentMethodId())
+                    .notificationUrl("https://sirenah.onrender.com/public/webhook")
                     .payer(
                             PaymentPayerRequest.builder()
                                     .email(cardPaymentDTO.getPayer().getEmail())
