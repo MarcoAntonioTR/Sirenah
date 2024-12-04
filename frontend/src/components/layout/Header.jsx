@@ -51,10 +51,6 @@ const Header = () => {
 
             if (!isCartOpen) {
                 const token = localStorage.getItem("token");
-                if (!token) {
-                    alert("Token de autenticación no disponible.");
-                    return;
-                }
 
                 // Obtener carrito
                 const response = await fetch(

@@ -7,7 +7,6 @@ function FormPago() {
   const [email, setEmail] = useState("");
   const [dni, setDni] = useState("");
   const [id, setId] = useState("");
-
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -15,20 +14,23 @@ function FormPago() {
         if (data) {
           setEmail(data.email);
           setDni(data.dni);
-          setId(data.id);
+          setId(data.id); // Esto actualizará el estado del ID
         }
       } catch (error) {
         console.error("Error al obtener los datos del usuario:", error);
       }
     };
+    fetchUserData();
+  }, []);
+  
+  useEffect(() => {
+    if (!id) return; // No ejecutar si el ID aún no está definido
 
     const initializeMercadoPago = async () => {
       try {
-        // Carga el SDK de MercadoPago
         await loadMercadoPago();
         const mp = new window.MercadoPago(import.meta.env.VITE_TOKEN_MP);
 
-        // Configura el formulario de tarjeta
         const cardForm = mp.cardForm({
           amount: "100.5",
           iframe: true,
@@ -92,11 +94,11 @@ function FormPago() {
 
               try {
                 const response = await fetch(
-                  `${import.meta.env.VITE_API}/public/PagarConTarjeta/11`,
+                  `${import.meta.env.VITE_API}/public/PagarConTarjeta/${id}`,
                   {
                     method: "POST",
                     headers: {
-                      "Content-Type": "application/json"
+                      "Content-Type": "application/json",
                     },
                     body: JSON.stringify({
                       token,
@@ -134,9 +136,10 @@ function FormPago() {
         console.error("Error al inicializar Mercado Pago:", error);
       }
     };
-    fetchUserData();
+
     initializeMercadoPago();
-  }, [email, dni, id]);
+  }, [id]);
+
 
   return (
     <div className="payment-form-container">
