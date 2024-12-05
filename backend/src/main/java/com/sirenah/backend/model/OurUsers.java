@@ -44,6 +44,7 @@ public class OurUsers implements UserDetails {
     @Column(name = "fecha_nacimiento")
     private LocalDate fecha_nacimiento;
 
+
     @Column(name = "estado")
     private boolean estado = true;
 

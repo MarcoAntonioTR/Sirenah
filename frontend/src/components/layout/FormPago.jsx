@@ -2,11 +2,16 @@ import { useEffect, useState } from "react";
 import "../../styles/FormPago.css";
 import { loadMercadoPago } from "@mercadopago/sdk-js";
 import { obtenerDatos } from "../../services/perfil";
-
+import { useNavigate } from "react-router-dom";
+import { AlertaDeError, AlertaDeExito } from "../../utils/Alertas";
+import Loading from "../common/Loanding.jsx";
 function FormPago() {
   const [email, setEmail] = useState("");
   const [dni, setDni] = useState("");
   const [id, setId] = useState("");
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -14,7 +19,7 @@ function FormPago() {
         if (data) {
           setEmail(data.email);
           setDni(data.dni);
-          setId(data.id); // Esto actualizará el estado del ID
+          setId(data.id);
         }
       } catch (error) {
         console.error("Error al obtener los datos del usuario:", error);
@@ -22,12 +27,13 @@ function FormPago() {
     };
     fetchUserData();
   }, []);
-  
+
   useEffect(() => {
-    if (!id) return; // No ejecutar si el ID aún no está definido
+    if (!id) return;
 
     const initializeMercadoPago = async () => {
       try {
+        setIsLoading(true);
         await loadMercadoPago();
         const mp = new window.MercadoPago(import.meta.env.VITE_TOKEN_MP);
 
@@ -118,10 +124,103 @@ function FormPago() {
                 );
 
                 if (!response.ok) throw new Error("Error al procesar el pago");
+                const data = await response.json();
+                setIsLoading(false);
 
-                console.log("Pago exitoso:", await response.json());
+                if (data.status === "approved") {
+                  const transaccion = await fetch(
+                    `https://api.mercadopago.com/v1/payments/${data.id}`,
+                    {
+                      method: "GET",
+                      headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${
+                          import.meta.env.VITE_TOKEN_MP_TR
+                        }`,
+                      },
+                    }
+                  );
+                  const dataT = await transaccion.json();
+                  console.log(dataT);
+
+                  console.log(dataT.transaction_amount);
+                  console.log(dataT.payment_type_id);
+                  console.log(dataT.currency_id);
+                  console.log(dataT.date_approved);
+                  console.log(dataT.status);
+
+                  const pedido = await fetch(
+                    `${import.meta.env.VITE_API}/todosroles/pedidos/Crear`,
+                    {
+                      method: "POST",
+                      headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${localStorage.getItem(
+                          "token"
+                        )}`,
+                      },
+                      body: JSON.stringify({
+                        idCliente: id,
+                        direccion: "Ica-Ica",
+                        fechaPedido: dataT.date_approved,
+                        estado: dataT.status,
+                      }),
+                    }
+                  );
+
+                  const pedidoData = await pedido.json();
+
+                  const mpago = await fetch(
+                    `${import.meta.env.VITE_API}/todosroles/Pago/Guardar`,
+                    {
+                      method: "POST",
+                      headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${localStorage.getItem(
+                          "token"
+                        )}`,
+                      },
+                      body: JSON.stringify({
+                        tipo: dataT.payment_type_id,
+                        idTransaccion: data.id,
+                        moneda: dataT.currency_id,
+                        fechaPago: dataT.date_approved,
+                        total: dataT.transaction_amount,
+                        estado: dataT.status,
+                        pedido: pedidoData.id,
+                      }),
+                    }
+                  );
+                    const mpagodata = await mpago.json();
+                    console.log(mpagodata)
+                  AlertaDeExito(
+                    "¡Pago aprobado!",
+                    " Serás redirigido al menú."
+                  );
+                  setTimeout(() => {
+                    navigate("/PagoExitoso");
+                  }, 3000);
+                } else if (data.status === "in_process") {
+                  AlertaDeError(
+                    "¡Tu pago está pendiente!",
+                    "Serás redirigido a más información."
+                  );
+                  setTimeout(() => {
+                    navigate("/PagoPendiente");
+                  }, 3000);
+                } else if (data.status === "rejected") {
+                  AlertaDeError(
+                    "¡Pago rechazado!",
+                    "Por favor, intenta nuevamente."
+                  );
+                  setTimeout(() => {
+                    navigate("/PagoFallido");
+                  }, 3000);
+                }
               } catch (error) {
                 console.error("Error al enviar el formulario:", error);
+              } finally {
+                setIsLoading(false);
               }
             },
             onFetching: (resource) => {
@@ -134,15 +233,17 @@ function FormPago() {
         });
       } catch (error) {
         console.error("Error al inicializar Mercado Pago:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
     initializeMercadoPago();
   }, [id]);
 
-
   return (
     <div className="payment-form-container">
+      {isLoading && <Loading message="Procesando pago, por favor espera..." />}
       <form id="form-checkout" className="form-checkout">
         <h2 style={{ textAlign: "center" }}>Formulario de Pago</h2>
         <div id="form-checkout__cardNumber" className="container"></div>
@@ -153,6 +254,7 @@ function FormPago() {
           id="form-checkout__cardholderName"
           className="input-field"
           placeholder="Titular de la tarjeta"
+          required
         />
         <select
           id="form-checkout__issuer"
@@ -161,11 +263,11 @@ function FormPago() {
         <select
           id="form-checkout__installments"
           className="input-field selector"
-          disabled
         ></select>
         <select
           id="form-checkout__identificationType"
           className="input-field selector"
+          readOnly
         ></select>
         <input
           type="text"
@@ -173,7 +275,7 @@ function FormPago() {
           className="input-field"
           placeholder="Número del documento"
           value={dni}
-          disabled
+          readOnly
         />
         <input
           type="email"
@@ -181,7 +283,7 @@ function FormPago() {
           className="input-field"
           placeholder="E-mail"
           value={email}
-          disabled
+          readOnly
         />
         <button
           type="submit"

@@ -1,7 +1,9 @@
 package com.sirenah.backend.service.impl;
 
 import com.mercadopago.MercadoPagoConfig;
+import com.mercadopago.client.common.AddressRequest;
 import com.mercadopago.client.common.IdentificationRequest;
+import com.mercadopago.client.common.PhoneRequest;
 import com.mercadopago.client.payment.PaymentClient;
 import com.mercadopago.client.payment.PaymentCreateRequest;
 import com.mercadopago.client.payment.PaymentPayerRequest;
@@ -13,8 +15,10 @@ import com.sirenah.backend.dto.PaymentResponseDTO;
 import com.sirenah.backend.exception.MercadoPagoException;
 import com.sirenah.backend.model.Carrito;
 import com.sirenah.backend.model.CarritoDetalle;
+import com.sirenah.backend.model.OurUsers;
 import com.sirenah.backend.model.Producto;
 import com.sirenah.backend.service.CarritoService;
+import com.sirenah.backend.service.OurUserService;
 import com.sirenah.backend.service.ProductoService;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,13 +34,17 @@ public class CardPaymentService {
     private ProductoService productoService;
     @Autowired
     private CarritoService carritoService;
+    @Autowired
+    private OurUserService ourUserService;
+
     Dotenv dotenv = Dotenv.load();
     private String mercadoPagoToken = dotenv.get("MERCADOPAGO_TOKEN");
 
     public PaymentResponseDTO processPayment(Integer idCarrito, CardPaymentDTO cardPaymentDTO) {
         try {
             MercadoPagoConfig.setAccessToken(mercadoPagoToken);
-
+            Optional<OurUsers> cliente = ourUserService.buscarPorId(idCarrito);
+            OurUsers datos = cliente.get();
             PaymentClient paymentClient = new PaymentClient();
             Carrito carrito = carritoService.getCarrito(idCarrito);
             if (carrito == null || carrito.getDetalles().isEmpty()) {
@@ -56,15 +64,27 @@ public class CardPaymentService {
                     // Calcular el monto total del carrito
                     totalAmount = totalAmount.add(BigDecimal.valueOf(detalle.getSubtotal()));
 
-                    // Concatenar el nombre del producto a las descripciones
-                    productDescriptions.append(producto.getNombre())
+                    // Calcular el subtotal por producto
+                    BigDecimal subtotal = BigDecimal.valueOf(detalle.getCantidad()).multiply(BigDecimal.valueOf(detalle.getPrecioUnitario()));
+
+                    // Concatenar el ID del producto, nombre, cantidad, precio unitario y subtotal a las descripciones
+                    productDescriptions.append("ID: ")
+                            .append(detalle.getIdProducto())
+                            .append(", ")
+                            .append(producto.getNombre())
                             .append(" (x")
                             .append(detalle.getCantidad())
+                            .append(", Precio Unitario: S/")
+                            .append(detalle.getPrecioUnitario())
+                            .append(", Subtotal: S/")
+                            .append(subtotal)
                             .append("), ");
                 } else {
                     throw new RuntimeException("Producto con ID " + detalle.getIdProducto() + " no encontrado");
                 }
             }
+
+
 
             // Eliminar la coma final y el espacio
             if (productDescriptions.length() > 0) {
@@ -81,11 +101,13 @@ public class CardPaymentService {
                     .notificationUrl("https://sirenah.onrender.com/public/webhook")
                     .payer(
                             PaymentPayerRequest.builder()
-                                    .email(cardPaymentDTO.getPayer().getEmail())
+                                    .firstName(datos.getNombre())
+                                    .lastName(datos.getApellido())
+                                    .email(datos.getEmail())
                                     .identification(
                                             IdentificationRequest.builder()
                                                     .type(cardPaymentDTO.getPayer().getIdentification().getType())
-                                                    .number(cardPaymentDTO.getPayer().getIdentification().getNumber())
+                                                    .number(datos.getDni())
                                                     .build())
                                     .build())
                     .build();
