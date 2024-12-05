@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -25,9 +26,13 @@ public class DetallePedidoController {
         return ResponseEntity.ok(detallePedidoService.obtenerPorId(idDetallePedido));
     }
 
-    @PostMapping("/Guardar")
-    public ResponseEntity<DetallePedido> crear(@RequestBody DetallePedido detallePedido) {
-        return ResponseEntity.ok(detallePedidoService.crear(detallePedido));
+    @PostMapping("/Guardar/{idPedido}")
+    public ResponseEntity<DetallePedido> crear(@PathVariable Integer idPedido,
+                                               @RequestParam Integer idProducto,
+                                               @RequestParam String nombreProducto,
+                                               @RequestParam Integer cantidad,
+                                               @RequestParam BigDecimal precioUnitario) {
+        return ResponseEntity.ok(detallePedidoService.addProductoToPedido(idPedido,idProducto,nombreProducto,cantidad,precioUnitario));
     }
 
     @PutMapping("/Actualizar/{id}")

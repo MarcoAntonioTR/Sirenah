@@ -78,7 +78,7 @@ public class CardPaymentService {
                             .append(detalle.getPrecioUnitario())
                             .append(", Subtotal: S/")
                             .append(subtotal)
-                            .append("), ");
+                            .append("); ");
                 } else {
                     throw new RuntimeException("Producto con ID " + detalle.getIdProducto() + " no encontrado");
                 }

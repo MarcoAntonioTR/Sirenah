@@ -164,46 +164,64 @@ function FormPago() {
                   const pedidoData = await pedido.json();
                   const datosProducto = dataT.description;
 
-                  const parseDescription = (description) => {
-                    const idProducto = parseInt(description.match(/ID:\s*(\d+)/)[1]);
+                  const parseDescriptions = (description) => {
+                    if (!description || typeof description !== "string") {
+                      console.error("La descripción es inválida o está vacía:", description);
+                      return [];
+                    }
 
-                    const nombreProducto = description.match(/,\s*(.+?)\s*\(/)[1];
+                    try {
+                      const products = description.split(";");
 
-                    const cantidad = parseInt(description.match(/x(\d+)/)[1]);
+                      return products.map((product) => {
+                         const idProducto = parseInt(product.match(/ID:\s*(\d+)/)[1]);
+                        const nombreProducto = product.match(/,\s*(.+?)\s*\(/)[1];
+                        const cantidad = parseInt(product.match(/x(\d+)/)[1]);
+                        const precioUnitario = parseFloat(
+                          product.match(/Precio Unitario:\s*S\/([\d.]+)/)[1]
+                        );
+                        const subtotal = parseFloat(
+                          product.match(/Subtotal:\s*S\/([\d.]+)/)[1]
+                        );
 
-                    const precioUnitario = parseFloat(
-                      description.match(/Precio Unitario:\s*S\/([\d.]+)/)[1]
-                    );
-
-                    const subtotal = parseFloat(description.match(/Subtotal:\s*S\/([\d.]+)/)[1]);
-
-                    return { idProducto, nombreProducto, cantidad, precioUnitario, subtotal };
+                        return { idProducto, nombreProducto, cantidad, precioUnitario, subtotal };
+                      });
+                    } catch (error) {
+                      console.error("Error al parsear la descripción:", error);
+                      return [];
+                    }
                   };
 
-                  const parsedData = parseDescription(datosProducto);
-                  console.log(parsedData)
-                  const detallePedido = await fetch(
-                    `${import.meta.env.VITE_API}/todosroles/DetallePedido/Guardar`,
-                    {
+                  const parsedData = parseDescriptions(datosProducto);
+                  console.log(parsedData);
+
+                  if (parsedData.length === 0) {
+                    console.error("No hay productos válidos para procesar.");
+                    return;
+                  }
+
+                  // Enviar cada producto al backend como parámetros en la URL
+                  const requests = parsedData.map((product) => {
+                    const url = new URL(`${import.meta.env.VITE_API}/todosroles/DetallePedido/Guardar/${pedidoData.idPedido}`);
+                    url.searchParams.append("idProducto", product.idProducto);
+                    url.searchParams.append("nombreProducto", product.nombreProducto);
+                    url.searchParams.append("cantidad", product.cantidad);
+                    url.searchParams.append("precioUnitario", product.precioUnitario);
+
+                    return fetch(url.toString(), {
                       method: "POST",
                       headers: {
-                        "Content-Type": "application/json",
                         Authorization: `Bearer ${localStorage.getItem("token")}`,
                       },
-                      body: JSON.stringify({
-                        pedido: pedidoData,
-                        idProducto: parsedData.idProducto,
-                        nombreProducto: parsedData.nombreProducto,
-                        cantidad: parsedData.cantidad,
-                        precioUnitario: parsedData.precioUnitario,
-                        subtotal: parsedData.subtotal,
-                      }),
-                    }
-                  );
+                    }).then((response) => response.json());
+                  });
 
-                  const detalleP = await detallePedido.json();
-                  console.log(detalleP);
-
+                  try {
+                    const results = await Promise.all(requests);
+                    console.log("Resultados de los productos:", results);
+                  } catch (error) {
+                    console.error("Error al enviar productos:", error);
+                  }
 
                   const mpago = await fetch(
                     `${import.meta.env.VITE_API}/todosroles/Pago/Guardar`,
