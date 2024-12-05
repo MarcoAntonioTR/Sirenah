@@ -29,6 +29,11 @@ public class TodosRolesController {
         Optional<OurUsers> ourUsers = ourUserService.ListarPorEmail(email);
         return ResponseEntity.ok(ourUsers);
     }
+    @GetMapping("/datosPorId/{id}")
+    public ResponseEntity<Object> getUserId(@PathVariable int id) {
+        Optional<OurUsers> ourUsers = ourUserService.buscarPorId(id);
+        return ResponseEntity.ok(ourUsers);
+    }
     @GetMapping("/Productos/Buscar/{id}")
     public ResponseEntity<Producto> buscarPorId(@PathVariable int id) {
         return productoService.buscarPorId(id)

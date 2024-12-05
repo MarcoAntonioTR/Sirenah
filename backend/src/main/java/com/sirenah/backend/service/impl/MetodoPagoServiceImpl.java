@@ -30,4 +30,8 @@ public class MetodoPagoServiceImpl implements MetodoPagoService {
         return metodoPagoRepository.findAll();
     }
 
+    public List<MetodoPago> buscarPorIdCliente(Integer idCliente) {
+        return metodoPagoRepository.findByPedidoIdCliente(idCliente);
+    }
+
 }

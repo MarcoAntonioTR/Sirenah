@@ -9,4 +9,5 @@ public interface MetodoPagoService {
     MetodoPago guardarMetodoPago(MetodoPago metodoPago);
     Optional<MetodoPago> buscarPorId(Integer id);
     List<MetodoPago> listarTodos();
+    List<MetodoPago> buscarPorIdCliente(Integer idCliente);
 }

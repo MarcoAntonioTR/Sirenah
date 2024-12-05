@@ -25,7 +25,6 @@ public class OurUserServiceImpl implements OurUserService {
     public Optional<OurUsers> ListarPorEmail(String email) {
         return ourUserRepository.findByEmail(email);
     }
-
     @Override
     public OurUsers agregar(OurUsers ourUsers) {
         return ourUserRepository.save(ourUsers);

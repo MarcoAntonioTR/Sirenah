@@ -31,6 +31,16 @@ public class MetodoPagoController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/ObtenerPorCliente/{idCliente}")
+    public ResponseEntity<List<MetodoPago>> buscarPorIdCliente(@PathVariable Integer idCliente) {
+        List<MetodoPago> metodosPago = metodoPagoService.buscarPorIdCliente(idCliente);
+
+        if (metodosPago.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.ok(metodosPago); // Devuelve los métodos de pago encontrados
+    }
     // Listar todos los métodos de pago
     @GetMapping("/Obtener")
     public ResponseEntity<List<MetodoPago>> listarTodos() {

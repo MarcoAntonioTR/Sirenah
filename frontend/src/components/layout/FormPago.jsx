@@ -5,6 +5,7 @@ import { obtenerDatos } from "../../services/perfil";
 import { useNavigate } from "react-router-dom";
 import { AlertaDeError, AlertaDeExito } from "../../utils/Alertas";
 import Loading from "../common/Loanding.jsx";
+
 function FormPago() {
   const [email, setEmail] = useState("");
   const [dni, setDni] = useState("");
@@ -33,7 +34,6 @@ function FormPago() {
 
     const initializeMercadoPago = async () => {
       try {
-        setIsLoading(true);
         await loadMercadoPago();
         const mp = new window.MercadoPago(import.meta.env.VITE_TOKEN_MP);
 
@@ -98,7 +98,33 @@ function FormPago() {
                 identificationType,
               } = cardForm.getCardFormData();
 
+              setIsLoading(true);
               try {
+                const carritoResponse = await fetch(
+                  `${import.meta.env.VITE_API}/todosroles/carrito/obtener/${id}`,
+                  {
+                    method: "GET",
+                    headers: {
+                      "Content-Type": "application/json",
+                      Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    },
+                  }
+                );
+              
+                if (!carritoResponse.ok) {
+                  throw new Error("Error al obtener el carrito.");
+                }
+              
+                const carritoData = await carritoResponse.json();
+              
+                
+                if (!carritoData || !carritoData.detalles || carritoData.detalles.length === 0) {
+                  AlertaDeError(
+                    "Carrito vacío o no encontrado",
+                    "Por favor, agrega productos antes de proceder con el pago."
+                  );
+                  return; 
+                }
                 const response = await fetch(
                   `${import.meta.env.VITE_API}/public/PagarConTarjeta/${id}`,
                   {
@@ -126,7 +152,7 @@ function FormPago() {
                 if (!response.ok) throw new Error("Error al procesar el pago");
                 const data = await response.json();
                 setIsLoading(false);
-
+                
                 if (data.status === "approved") {
                   const transaccion = await fetch(
                     `https://api.mercadopago.com/v1/payments/${data.id}`,
@@ -140,7 +166,6 @@ function FormPago() {
                     }
                   );
                   const dataT = await transaccion.json();
-                  console.log(dataT);
 
                   const pedido = await fetch(
                     `${import.meta.env.VITE_API}/todosroles/pedidos/Crear`,
@@ -245,14 +270,14 @@ function FormPago() {
                     }
                   );
                   const mpagodata = await mpago.json();
-                  console.log(mpagodata)
+                  localStorage.setItem("idPago",mpagodata.idPago)
                   AlertaDeExito(
                     "¡Pago aprobado!",
                     " Serás redirigido al menú."
                   );
                   setTimeout(() => {
                     navigate("/PagoExitoso");
-                  }, 3000);
+                  }, 1000);
                 } else if (data.status === "in_process") {
                   AlertaDeError(
                     "¡Tu pago está pendiente!",
@@ -260,7 +285,7 @@ function FormPago() {
                   );
                   setTimeout(() => {
                     navigate("/PagoPendiente");
-                  }, 3000);
+                  }, 1000);
                 } else if (data.status === "rejected") {
                   AlertaDeError(
                     "¡Pago rechazado!",
@@ -268,7 +293,7 @@ function FormPago() {
                   );
                   setTimeout(() => {
                     navigate("/PagoFallido");
-                  }, 3000);
+                  }, 1000);
                 }
               } catch (error) {
                 console.error("Error al enviar el formulario:", error);
