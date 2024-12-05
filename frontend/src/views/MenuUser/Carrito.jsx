@@ -159,9 +159,9 @@ function Carrito() {
                         <h4>{item.nombre}</h4>
                         <p>Cantidad: {item.cantidad}</p>
                         <p>
-                          Precio unitario: ${item.precioUnitario.toFixed(2)}
+                          Precio unitario: S/. {item.precioUnitario.toFixed(2)}
                         </p>
-                        <p>Subtotal: ${item.subtotal.toFixed(2)}</p>
+                        <p>Subtotal: S/. {item.subtotal.toFixed(2)}</p>
                       </div>
                     </div>
                   </li>
