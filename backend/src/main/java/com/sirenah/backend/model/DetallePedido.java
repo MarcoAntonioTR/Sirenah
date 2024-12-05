@@ -1,5 +1,6 @@
 package com.sirenah.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,6 +20,7 @@ public class DetallePedido {
 
     @ManyToOne
     @JoinColumn(name = "idPedido", nullable = false)
+    @JsonIgnore
     private Pedido pedido;
 
     @Column(name = "idProducto", nullable = false)

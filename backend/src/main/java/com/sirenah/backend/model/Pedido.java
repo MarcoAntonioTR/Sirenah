@@ -34,7 +34,5 @@ public class Pedido {
     @OneToMany(mappedBy = "pedido",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DetallePedido> detalles;
 
-    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
-    private List<MetodoPago> pagos;
 
 }

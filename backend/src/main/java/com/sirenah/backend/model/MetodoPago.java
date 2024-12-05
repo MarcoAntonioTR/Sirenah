@@ -1,5 +1,6 @@
 package com.sirenah.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Entity
 @Table(name = "metodo_pago")
@@ -29,7 +31,7 @@ public class MetodoPago {
     private String moneda;
 
     @Column(name = "fechaPago", nullable = false)
-    private LocalDateTime fechaPago;
+    private OffsetDateTime fechaPago;
 
     @Column(name = "total", nullable = false, precision = 10, scale = 2)
     private BigDecimal total;

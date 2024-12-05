@@ -134,20 +134,13 @@ function FormPago() {
                       method: "GET",
                       headers: {
                         "Content-Type": "application/json",
-                        Authorization: `Bearer ${
-                          import.meta.env.VITE_TOKEN_MP_TR
-                        }`,
+                        Authorization: `Bearer ${import.meta.env.VITE_TOKEN_MP_TR
+                          }`,
                       },
                     }
                   );
                   const dataT = await transaccion.json();
                   console.log(dataT);
-
-                  console.log(dataT.transaction_amount);
-                  console.log(dataT.payment_type_id);
-                  console.log(dataT.currency_id);
-                  console.log(dataT.date_approved);
-                  console.log(dataT.status);
 
                   const pedido = await fetch(
                     `${import.meta.env.VITE_API}/todosroles/pedidos/Crear`,
@@ -169,6 +162,48 @@ function FormPago() {
                   );
 
                   const pedidoData = await pedido.json();
+                  const datosProducto = dataT.description;
+
+                  const parseDescription = (description) => {
+                    const idProducto = parseInt(description.match(/ID:\s*(\d+)/)[1]);
+
+                    const nombreProducto = description.match(/,\s*(.+?)\s*\(/)[1];
+
+                    const cantidad = parseInt(description.match(/x(\d+)/)[1]);
+
+                    const precioUnitario = parseFloat(
+                      description.match(/Precio Unitario:\s*S\/([\d.]+)/)[1]
+                    );
+
+                    const subtotal = parseFloat(description.match(/Subtotal:\s*S\/([\d.]+)/)[1]);
+
+                    return { idProducto, nombreProducto, cantidad, precioUnitario, subtotal };
+                  };
+
+                  const parsedData = parseDescription(datosProducto);
+                  console.log(parsedData)
+                  const detallePedido = await fetch(
+                    `${import.meta.env.VITE_API}/todosroles/DetallePedido/Guardar`,
+                    {
+                      method: "POST",
+                      headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${localStorage.getItem("token")}`,
+                      },
+                      body: JSON.stringify({
+                        pedido: pedidoData,
+                        idProducto: parsedData.idProducto,
+                        nombreProducto: parsedData.nombreProducto,
+                        cantidad: parsedData.cantidad,
+                        precioUnitario: parsedData.precioUnitario,
+                        subtotal: parsedData.subtotal,
+                      }),
+                    }
+                  );
+
+                  const detalleP = await detallePedido.json();
+                  console.log(detalleP);
+
 
                   const mpago = await fetch(
                     `${import.meta.env.VITE_API}/todosroles/Pago/Guardar`,
@@ -187,12 +222,12 @@ function FormPago() {
                         fechaPago: dataT.date_approved,
                         total: dataT.transaction_amount,
                         estado: dataT.status,
-                        pedido: pedidoData.id,
+                        pedido: pedidoData,
                       }),
                     }
                   );
-                    const mpagodata = await mpago.json();
-                    console.log(mpagodata)
+                  const mpagodata = await mpago.json();
+                  console.log(mpagodata)
                   AlertaDeExito(
                     "¡Pago aprobado!",
                     " Serás redirigido al menú."
