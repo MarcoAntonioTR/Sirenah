@@ -187,7 +187,7 @@ const Header = () => {
                                         <img src={item.imageUrl} alt={`Imagen de ${item.nombre}`} />
                                         <div className="product-details">
                                             <h4>{item.nombre}</h4>
-                                            <p>Subtotal: ${item.subtotal.toFixed(2)}</p>
+                                            <p>Subtotal: S/. {item.subtotal.toFixed(2)}</p>
                                         </div>
                                         <div className="quantity-controls">
                                             <button onClick={() => disminuirProductoCarrito(item.idProducto, item.idCarritoDetalle, setIsLoading2, setCartItems)}>-</button>
