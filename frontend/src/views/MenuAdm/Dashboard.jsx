@@ -74,8 +74,25 @@ function Dashboard() {
             const pago = await response.json();
 
             const { idPago, tipo, idTransaccion, moneda, fechaPago, estado, pedido } = pago;
-            const { nombre, apellido, email, telefono, dni } = pedido.idCliente;
 
+            const datosC = await fetch(
+                `${
+                  import.meta.env.VITE_API
+                }/todosroles/datosPorId/${pedido.idCliente}`,
+                {
+                  method: "GET",
+                  headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                  },
+                }
+              );
+        
+              if (!datosC.ok) {
+                throw new Error("Error al datos del cliente");
+              }
+        
+              const datos = await datosC.json();
             const empresa = {
                 nombre: "Sirenah",
                 direccion: "Urb. Sol de Huacachina H-4, Ica, Peru 1101",
@@ -134,13 +151,13 @@ function Dashboard() {
             pdf.text("Datos del Cliente:", 20, yPosition);
             yPosition += 10;
             pdf.setFont("helvetica", "normal");
-            pdf.text(`Nombre: ${nombre} ${apellido}`, 20, yPosition);
+            pdf.text(`Nombre: ${datos.nombre} ${datos.apellido}`, 20, yPosition);
             yPosition += 8;
-            pdf.text(`DNI: ${dni}`, 20, yPosition);
+            pdf.text(`DNI: ${datos.dni}`, 20, yPosition);
             yPosition += 8;
-            pdf.text(`Email: ${email}`, 20, yPosition);
+            pdf.text(`Email: ${datos.email}`, 20, yPosition);
             yPosition += 8;
-            pdf.text(`Teléfono: ${telefono}`, 20, yPosition);
+            pdf.text(`Teléfono: ${datos.telefono}`, 20, yPosition);
             yPosition += 12;
 
             // Detalles del Pedido

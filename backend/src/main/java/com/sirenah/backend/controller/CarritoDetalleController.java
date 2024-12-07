@@ -36,6 +36,15 @@ public class CarritoDetalleController {
         carritoDetalleService.removeProductoFromCarrito(idCarrito, idCarritoDetalle);
     }
 
+    @DeleteMapping("/vaciar")
+    public ResponseEntity<?> vaciarCarrito(@PathVariable Integer idCarrito) {
+        try {
+            carritoDetalleService.vaciarCarrito(idCarrito);
+            return ResponseEntity.ok("El carrito ha sido vaciado exitosamente.");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
 
     @PostMapping("/aumentar")
     public ResponseEntity<?> aumentarCantidadProducto(

@@ -47,7 +47,13 @@ public class CarritoDetalleServiceImpl implements CarritoDetalleService {
             return carritoDetalleRepository.save(nuevoDetalle);
         }
     }
-
+    public void vaciarCarrito(Integer idCarrito) {
+        List<CarritoDetalle> detalles = carritoDetalleRepository.findByCarritoIdCarrito(idCarrito);
+        if (detalles.isEmpty()) {
+            throw new RuntimeException("El carrito ya está vacío o no existe.");
+        }
+        carritoDetalleRepository.deleteAll(detalles);
+    }
 
 
     @Override

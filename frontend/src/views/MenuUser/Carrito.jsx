@@ -104,7 +104,7 @@ function Carrito() {
     } catch (error) {
       console.error("Error al obtener el carrito:", error);
     } finally {
-      setIsLoading(false); // Ocultar el modal de carga
+      setIsLoading(false);
     }
   };
   useEffect(() => {

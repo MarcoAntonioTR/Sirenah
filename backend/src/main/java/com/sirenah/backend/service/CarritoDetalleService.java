@@ -11,5 +11,5 @@ public interface CarritoDetalleService {
 
     CarritoDetalle aumentarCantidadProducto(Integer idCarrito, Integer idProducto);
     CarritoDetalle disminuirCantidadProducto(Integer idCarrito, Integer idProducto);
-
+    void vaciarCarrito(Integer idCarrito);
 }

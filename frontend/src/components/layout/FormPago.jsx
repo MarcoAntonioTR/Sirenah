@@ -5,6 +5,7 @@ import { obtenerDatos } from "../../services/perfil";
 import { useNavigate } from "react-router-dom";
 import { AlertaDeError, AlertaDeExito } from "../../utils/Alertas";
 import Loading from "../common/Loanding.jsx";
+import { vaciarCarritoDC } from "../../services/CarritoService/VaciarCarrito.js";
 
 function FormPago() {
   const [email, setEmail] = useState("");
@@ -270,6 +271,7 @@ function FormPago() {
                     }
                   );
                   const mpagodata = await mpago.json();
+                  vaciarCarritoDC();
                   localStorage.setItem("idPago",mpagodata.idPago)
                   AlertaDeExito(
                     "¡Pago aprobado!",
