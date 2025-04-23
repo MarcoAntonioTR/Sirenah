@@ -1,0 +1,333 @@
+/* Estilos generales */
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f5f5f5;
+  color: #333;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+main {
+  margin-top: 60px; /* Ajusta esto según la altura de tu encabezado */
+}
+
+/* Estilos para el carrusel */
+.carousel {
+  position: relative;
+  overflow: hidden;
+}
+
+.carousel-inner {
+  display: flex; /* Permitir el desplazamiento horizontal */
+  transition: transform 0.5s ease; /* Asegurar la transición suave */
+  width: 100%; /* Asegurar que tome el 100% del contenedor */
+}
+
+.carousel-item {
+  flex: 0 0 100%; /* Cada elemento del carrusel ocupa el 100% del ancho */
+  transition: opacity 0.5s ease; /* Transición suave para la opacidad */
+  position: relative; /* Para el overlay */
+}
+
+.carousel-item img {
+  width: 100%;
+  height: 100%;
+}
+
+.carousel-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.carousel-overlay h5 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.carousel-overlay p {
+  font-size: 1rem;
+}
+
+.prev, .next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 100; /* Asegura que los botones estén sobre las imágenes */
+}
+
+.prev {
+  left: 10px; /* Posición del botón anterior */
+}
+
+.next {
+  right: 10px; /* Posición del botón siguiente */
+}
+
+.prev:hover, .next:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+/* Nuevas Colecciones */
+.new-collection {
+  text-align: center;
+  margin: 50px 0;
+  font-size: 2rem;
+}
+
+.collection-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  padding: 0 20px;
+}
+
+.collection-item {
+  flex: 0 0 30%;
+  padding: 10px;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  transition: transform 0.3s ease;
+}
+
+.collection-item:hover {
+  transform: translateY(-5px);
+}
+
+.collection-item img {
+  width: 100%;
+  border-radius: 8px;
+  transition: transform 0.3s ease;
+}
+
+.collection-item img:hover {
+  transform: scale(1.05);
+}
+
+.collection-item h3 {
+  margin-top: 10px;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+/* Sección de Ofertas Especiales */
+.special-offers {
+  text-align: center;
+  margin: 50px 0;
+  font-size: 2rem;
+}
+
+
+/* Productos Más Vendidos */
+.best-sellers {
+  text-align: center;
+  margin: 50px 0;
+  padding: 20px 0px;
+  font-size: 2rem;
+}
+
+.products-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  padding: 0 20px;
+}
+
+.product-item {
+  flex: 0 0 30%;
+  padding: 10px;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  transition: transform 0.3s ease;
+}
+
+.product-item:hover {
+  transform: translateY(-5px);
+}
+
+.product-item img {
+  width: 100%;
+  border-radius: 8px;
+  transition: transform 0.3s ease;
+}
+
+.product-item img:hover {
+  transform: scale(1.05);
+}
+
+.product-item h3 {
+  margin-top: 10px;
+  font-size: 1.5rem;
+}
+
+.product-item p {
+  color: #ff5733;
+  font-weight: bold;
+}
+
+
+/* Reseñas de Clientes */
+.customer-reviews {
+  text-align: center;
+  margin: 50px 0;
+  padding: 20px 0px;
+  font-size: 2rem;
+}
+
+.reviews-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  padding: 0 20px;
+}
+
+.review-item {
+  flex: 0 0 30%;
+  background-color: #f5f5f5; /* Fondo claro */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.review-item:hover {
+  transform: translateY(-5px);
+}
+
+.review-item p {
+  font-size: 16px;
+  font-style: italic;
+}
+
+.review-item h4 {
+  margin-top: 10px;
+  font-weight: bold;
+  color: #333; /* Color del título en modo claro */
+}
+
+/* Newsletter */
+.newsletter {
+  text-align: center;
+  margin: 50px 0px;
+  background-color: #ffecd1; /* Fondo claro */
+  padding: 40px 20px;
+  border-radius: 10px;
+}
+
+.newsletter p {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.newsletter form {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.newsletter input[type="email"] {
+  padding: 10px;
+  width: 300px;
+  border: 1px solid #ccc; /* Borde claro */
+  border-radius: 4px;
+  background-color: #ffffff; /* Fondo del input en modo claro */
+  color: #333; /* Color del texto en modo claro */
+}
+
+.newsletter button {
+  padding: 10px 20px;
+  background-color: #ff5733; /* Fondo del botón */
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.newsletter button:hover {
+  background-color: #e14e2c; /* Color al pasar el mouse */
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+  .collection-grid, .products-grid, .reviews-grid {
+    flex-direction: column;
+    align-items: center; /* Centrando elementos en pantallas pequeñas */
+  }
+
+  .collection-item, .product-item, .review-item {
+    flex: 0 0 90%; /* Ocupa el 90% en pantallas pequeñas */
+  }
+}
+
+/* Modo oscuro */
+.dark-mode {
+  background-color: #121212;
+  color: #ffffff;
+}
+
+/* Estilos de secciones en modo oscuro */
+.dark-mode .about-us,
+.dark-mode .special-offers,
+.dark-mode .promotions,
+.dark-mode .best-sellers,
+.dark-mode .customer-reviews,
+.dark-mode .newsletter {
+  background-color: #1c1c1c; /* Fondo oscuro para secciones */
+  color: #ffffff; /* Color del texto en modo oscuro */
+}
+
+/* Estilos específicos para cada sección en modo oscuro */
+.dark-mode .carousel-overlay {
+  background: rgba(0, 0, 0, 0.7); /* Overlay en modo oscuro */
+}
+
+.dark-mode .collection-item,
+.dark-mode .product-item,
+.dark-mode .review-item {
+  background-color: #2b2b2b; /* Fondo oscuro para elementos */
+}
+
+.dark-mode .collection-item h3,
+.dark-mode .product-item h3,
+.dark-mode .review-item h4 {
+  color: #ffffff; /* Color de título en modo oscuro */
+}
+
+.dark-mode .prev,
+.dark-mode .next {
+  background-color: rgba(255, 255, 255, 0.2); /* Botones en modo oscuro */
+}
+
+.dark-mode .newsletter input[type="email"] {
+  border: 1px solid #555; /* Borde oscuro */
+  background-color: #333; /* Fondo del input en modo oscuro */
+  color: #ffffff; /* Color del texto en modo oscuro */
+}
+
+.dark-mode .newsletter button {
+  background-color: #ff5733; /* Fondo del botón */
+  color: white;
+}

@@ -1,0 +1,94 @@
+/* Contenedor principal */
+.mini-profile {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  background: linear-gradient(145deg, #007bff, #0056b3); 
+  color: white; 
+  padding: 15px 20px; 
+  border-radius: 12px; 
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); 
+  transition: all 0.3s ease-in-out; 
+  gap: 15px; 
+}
+
+/* Efectos al pasar el cursor */
+.mini-profile:hover {
+  transform: translateY(-3px); 
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilo del avatar */
+.profile-avatar {
+  width: 60px; 
+  height: 60px;
+  background-color: rgba(255, 255, 255, 0.3);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px; 
+  font-weight: bold;
+  transition: transform 0.3s ease; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+}
+
+.profile-avatar:hover {
+  transform: rotate(360deg) scale(1.1);
+}
+
+/* Información del perfil */
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.profile-name {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0;
+  text-transform: capitalize; 
+}
+
+.profile-role {
+  font-size: 14px;
+  color: #e0e0e0;
+  margin: 4px 0;
+}
+
+.profile-email {
+  font-size: 13px;
+  color: #cccccc;
+  margin: 0;
+  text-overflow: ellipsis; 
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+/* Responsive para pantallas más pequeñas */
+@media (max-width: 768px) {
+  .mini-profile {
+    padding: 10px 15px;
+    gap: 10px; 
+  }
+
+  .profile-avatar {
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+  }
+
+  .profile-name {
+    font-size: 16px;
+  }
+
+  .profile-role {
+    font-size: 12px;
+  }
+
+  .profile-email {
+    font-size: 11px;
+  }
+}

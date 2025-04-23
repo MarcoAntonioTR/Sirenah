@@ -1,0 +1,179 @@
+/* Contact Section Styles */
+.contact-section {
+    padding: 60px 20px;
+    background: #f0f0f0; /* Fondo claro por defecto */
+    color: #000; /* Texto oscuro por defecto */
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+.contact-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: #fff; /* Fondo blanco por defecto */
+    color: #333; /* Texto oscuro por defecto */
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    padding: 20px;
+}
+
+.contact-header {
+    padding: 30px;
+    background: #11e6db; /* Fondo claro por defecto */
+    text-align: center;
+    border-radius: 20px 20px 0 0;
+}
+
+.contact-title {
+    font-size: 2.2rem;
+    margin-bottom: 10px;
+    font-weight: 900;
+}
+
+.contact-description {
+    font-size: 1.1rem;
+    font-weight: 600;
+    line-height: 1.7;
+    color: #000; /* Texto oscuro por defecto */
+}
+
+/* Modo oscuro */
+.dark-mode .contact-section {
+    background: #1a1a1a; /* Fondo oscuro para la sección */
+    color: #fff; /* Texto claro */
+}
+
+.dark-mode .contact-container {
+    background: #333; /* Fondo oscuro para el contenedor */
+    color: #ddd; /* Texto claro */
+}
+
+.dark-mode .contact-header {
+    background: #0002; /* Mantener el fondo claro en el encabezado */
+}
+
+.dark-mode .contact-title {
+    color: #fff; /* Título blanco en modo oscuro */
+}
+
+.dark-mode .contact-description {
+    color: #ddd; /* Texto gris claro en modo oscuro */
+}
+
+.dark-mode label {
+    color: #bbb; /* Etiquetas claras en modo oscuro */
+}
+
+/* Formulario */
+.contact-form-container {
+    padding: 20px;
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Aumento de espaciado entre los campos */
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px; /* Mejor distribución entre la etiqueta y el campo de entrada */
+}
+
+label {
+    font-size: 1rem;
+    color: #555; /* Mejor contraste para las etiquetas en modo claro */
+}
+
+input,
+textarea {
+    padding: 12px; /* Mayor espacio dentro de los campos */
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    background-color: #fafafa; /* Fondo ligeramente gris */
+}
+
+textarea {
+    padding: 12px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    background-color: #fafafa;
+    min-width: 100%;
+    max-width: 100%;
+    min-height: 50px;
+    max-height: 250px;
+    overflow-x: auto;
+    line-height: 1.5;
+}
+
+input:focus,
+textarea:focus {
+    border-color: #6a11cb;
+    box-shadow: 0 0 5px rgba(106, 17, 203, 0.4); /* Sombra suave al enfocar */
+    outline: none;
+}
+
+/* Modo oscuro - Estilos de input y textarea */
+.dark-mode input,
+.dark-mode textarea {
+    background-color: #444; /* Fondo oscuro para input y textarea */
+    border-color: #666; /* Borde gris oscuro */
+    color: #ddd; /* Texto claro en los campos */
+}
+
+/* Estilo para el botón de envío */
+.submit-button {
+    padding: 12px 25px;
+    font-size: 1.1rem;
+    color: #000;
+    background: #11e6db;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.submit-button:hover {
+    background-color: #e9db1e;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1); /* Sombra al pasar el mouse */
+}
+
+.submit-button:active {
+    transform: translateY(0);
+}
+
+/* Modo oscuro - Estilo para el botón en modo oscuro */
+.dark-mode .submit-button {
+    background: #f0f0f0; /* Fondo oscuro para el botón */
+    color: #000; /* Texto blanco en el botón */
+    font-weight: 700;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .contact-container {
+        margin: 0 15px;
+    }
+
+    .contact-title {
+        font-size: 1.8rem; /* Título más pequeño en móviles */
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}

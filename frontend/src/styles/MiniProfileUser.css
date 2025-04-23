@@ -1,0 +1,85 @@
+/* Contenedor principal */
+.mini-profile-user {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  background: linear-gradient(145deg, #ffcc8f, #ffd6);
+  color: black; 
+  padding: 16px 22px; 
+  border-radius: 12px; 
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1); 
+  transition: all 0.3s ease-in-out; 
+  gap: 16px; 
+}
+
+/* Efectos al pasar el cursor */
+.mini-profile-user:hover {
+  transform: translateY(-5px); 
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* Estilo del avatar */
+.profile-avatar-user {
+  width: 70px; 
+  height: 70px;
+  background-color: rgba(0, 0, 0, 0.8); 
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 28px; 
+  font-weight: bold;
+  transition: transform 0.3s ease, box-shadow 0.3s ease; 
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); 
+}
+
+.profile-avatar:hover {
+  transform: scale(1.15); 
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+}
+
+/* Información del perfil */
+.profile-info-user {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.profile-name-user {
+  font-size: 22px; 
+  font-weight: 600; 
+  margin: 0;
+  text-transform: capitalize; 
+}
+
+.profile-email-user {
+  font-size: 15px;
+  color: #000; 
+  margin: 0;
+  text-overflow: ellipsis; 
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+/* Responsive para pantallas más pequeñas */
+@media (max-width: 768px) {
+  .mini-profile-user {
+    padding: 12px 18px;
+    gap: 12px; 
+  }
+
+  .profile-avatar-user {
+    width: 60px;
+    height: 60px;
+    font-size: 24px;
+  }
+
+  .profile-name-user {
+    font-size: 18px;
+  }
+
+  .profile-email-user {
+    font-size: 13px;
+  }
+}

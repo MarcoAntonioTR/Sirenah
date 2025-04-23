@@ -1,0 +1,145 @@
+/* General */
+.success-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    background: radial-gradient(circle, #eef2f3, #d6dbe0);
+    /* Gradiente original */
+    background-size: cover;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    /* Fuente profesional estándar */
+}
+
+/* Tarjeta */
+.success-card {
+    background: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    padding: 30px;
+    width: 100%;
+    max-width: 500px;
+    animation: slideDown 0.6s ease-in-out;
+    border: 1px solid #e0e0e0;
+}
+
+/* Icono */
+.success-icon {
+    margin-bottom: 20px;
+    color: #1e88e5;
+    animation: popUp 0.5s ease-in-out;
+}
+
+/* Título */
+.success-title {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+/* Mensaje */
+.success-message {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+/* Detalles de la transacción */
+.success-details {
+    text-align: left;
+    background: #f9f9f9;
+    border-radius: 10px;
+    padding: 15px 20px;
+    margin: 20px 0;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    font-size: 0.9rem;
+    color: #333;
+    line-height: 1.5;
+}
+
+/* Acciones */
+.success-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Botón */
+.success-button {
+    display: inline-block;
+    background-color: #1e88e5;
+    color: #ffffff;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.success-button:hover {
+    background-color: #388e3c;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3);
+    transform: translateY(-2px);
+}
+
+/* Animaciones */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes popUp {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    60% {
+        transform: scale(1.2);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .success-card {
+        padding: 20px;
+    }
+
+    .success-title {
+        font-size: 1.5rem;
+    }
+
+    .success-message {
+        font-size: 0.9rem;
+    }
+
+    .success-details {
+        font-size: 0.8rem;
+    }
+
+    .success-button {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+    }
+}
